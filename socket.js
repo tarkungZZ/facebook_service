@@ -6,11 +6,15 @@ const { SOCKET_PORT } = require('./helpers/config')
 
 io.on('connection', (socket) => {
 
-    socket.emit('connect', 'connected.')
+    socket.emit('client-connection', 'Connected.')
 
+    socket.on('farming', (data) => {
+        console.log(`Sending data`, data)
+        io.emit('launching', data)
+    })
 
-    socket.on('disconnected', () => {
-        console.log('Disconnected')
+    socket.on('disconnect', () => {
+        console.log('One client is disconnected.')
     })
 
 })
