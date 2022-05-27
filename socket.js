@@ -1,20 +1,8 @@
-const app = require('express')()
-const http = require('http').createServer(app)
-const io = require('socket.io')(http)
-const { SOCKET_PORT } = require('./helpers/config')
+const io = require('socket.io-client')
+const { SERVER_SOCKET_IP, SERVER_SOCKET_PORT } = require('./helpers/config')
+const socket = io.connect(`http://${SERVER_SOCKET_IP}:${SERVER_SOCKET_PORT}`)
+const main = require('./controllers/main')
 
+socket.on('client-connection', (msg) => { console.log(msg) })
 
-io.on('connection', (socket) => {
-
-    socket.emit('connect', 'connected.')
-
-
-    socket.on('disconnected', () => {
-        console.log('Disconnected')
-    })
-
-})
-
-
-http.listen(SOCKET_PORT, () => { console.log(`Socket server listening on port ${SOCKET_PORT}`) })
-
+socket.on('launching', (data) => { main(data) })
