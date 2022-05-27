@@ -8,7 +8,7 @@ const config = require('../helpers/config')
 
 module.exports = async (data) => {
 
-    console.log(data)
+    //console.log(data)
 
     if (data.type === 'like') { farmLike(puppeteer, data, config) }
 
