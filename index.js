@@ -14,6 +14,7 @@ app.use(bodyParser.json())
 //authorize
 app.use('/facebook', require('./routes/facebook'))
 app.use('/config', require('./routes/config'))
+app.use('/post', require('./routes/post'))
 
 app.post('/launch', require('./controllers/launch_button'))
 
