@@ -16,4 +16,6 @@ module.exports = async (data) => {
 
     if (data.type === 'share') { farmShare(puppeteer, data, config) }
 
+    if (data.type === 'all') { farmAll(puppeteer, data, config) }
+
 }
