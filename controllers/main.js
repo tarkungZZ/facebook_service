@@ -4,6 +4,7 @@ puppeteer.use(stealth())
 const farmLike = require('./components/like')
 const farmPost = require('./components/post')
 const farmShare = require('./components/share')
+const farmStory = require('./components/story')
 const config = require('../helpers/config')
 
 module.exports = async (data) => {
@@ -15,6 +16,8 @@ module.exports = async (data) => {
     if (data.type === 'post') { farmPost(puppeteer, data, config) }
 
     if (data.type === 'share') { farmShare(puppeteer, data, config) }
+
+    if (data.type === 'story') { farmStory(puppeteer, data, config) }
 
     if (data.type === 'all') { farmAll(puppeteer, data, config) }
 
