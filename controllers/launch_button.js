@@ -68,7 +68,11 @@ module.exports = async (req, res) => {
 
         }
 
-        if (type === 'share') {
+        if (type === 'random') {
+
+            const getPost = await pool(`SELECT post FROM facebook_post ORDER BY RAND() LIMIT 1`)
+
+            post.push(Object.values(getPost[0]))
 
             data = {
                 type,
@@ -79,7 +83,7 @@ module.exports = async (req, res) => {
                 execute_path: getData[0].execute_path,
                 delay: getConfig[0].delay * 1000,
                 delay_end: getConfig[0].delay_end * 1000,
-                link
+                post
             }
 
         }
