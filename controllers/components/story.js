@@ -4,8 +4,6 @@ module.exports = async (puppeteer, data, config) => {
 
     try {
 
-        let count = 1
-
         const randomDelay = Math.floor(Math.random() * (data.delay_end - data.delay) + data.delay)
 
         const browser = await puppeteer.launch({
@@ -99,7 +97,7 @@ module.exports = async (puppeteer, data, config) => {
 
                 try {
 
-                    if (i === 5) {
+                    if (i === 4) {
 
                         await browser.close()
 
