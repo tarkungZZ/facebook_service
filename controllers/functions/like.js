@@ -20,7 +20,7 @@ module.exports = async (page, randomDelay, count) => {
 
     } catch (err) {
 
-        console.log(err)
+        //console.log(err)
 
     }
 
