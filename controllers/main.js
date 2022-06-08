@@ -157,14 +157,22 @@ module.exports = async (data) => {
 
             let order = data.order
 
-            for (let i = 0; i < 3; i++) {
+            for (let i = 0; i < 4; i++) {
 
                 let pop = order[Math.floor(Math.random() * order.length)]
 
                 order = order.filter(item => item !== pop)
 
-                console.log(pop)
-                console.log(order.length)
+                //console.log(pop)
+                //console.log(order.length)
+
+                if (i === 3) {
+
+                    console.log(`Finish all process.`)
+                    await delay(randomDelay)
+                    await page.close()
+
+                }
 
                 if (pop === 1) {
 
@@ -226,8 +234,6 @@ module.exports = async (data) => {
                     }
 
                 }
-
-                if (order.length === 0) { await page.close() }
 
                 await delay(120000)
 
