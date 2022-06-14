@@ -2,7 +2,7 @@ const pool = require('../../helpers/mysql')
 
 module.exports = (req, res) => {
 
-    pool(`SELECT delay , delay_end , two_fa_url FROM config WHERE id =?`, [1])
+    pool(`SELECT delay , delay_end FROM config WHERE id =?`, [1])
         .then((result) => {
             res.status(200).json(result)
         })
