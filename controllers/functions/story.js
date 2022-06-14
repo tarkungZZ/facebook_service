@@ -1,41 +1,83 @@
 const delay = require('../../helpers/delay')
 
-module.exports = async (page, randomDelay, count) => {
+module.exports = async (page, randomDelay, pid) => {
 
     try {
 
-        await delay(Math.floor(Math.random() * (10000 - 5000) + 5000))
+        for (let i = 0; i < 10; i++) {
 
-        const emote = ['ถูกใจ', 'รักเลย', 'ห่วงใย', 'ว้าว']
+            //console.log(`check work`)
 
-        const random = Math.floor(Math.random() * emote.length)
+            //await delay(Math.floor(Math.random() * (10000 - 5000) + 5000))
 
-        const randomEmote = `[aria-label="${emote[random]}"]`
+            const emote = ['ถูกใจ', 'รักเลย', 'ห่วงใย', 'ว้าว']
 
-        //console.log(`click story number ${i + 1}`)
+            const random = Math.floor(Math.random() * emote.length)
 
-        await page.evaluate(() => { window.scroll(0, 0) })
-        await delay(randomDelay)
-        await page.click(`div > div:nth-child(1) > div > div.rq0escxv.l9j0dhe7.du4w35lb > div > div > div.j83agx80.cbu4d94t.d6urw2fd.dp1hu0rb.l9j0dhe7.du4w35lb > div.rq0escxv.l9j0dhe7.du4w35lb.j83agx80.pfnyh3mw.taijpn5t.gs1a9yip.owycx6da.btwxx1t3.dp1hu0rb.p01isnhg > div > div.rq0escxv.l9j0dhe7.du4w35lb.j83agx80.buofh1pr.g5gj957u.hpfvmrgz.taijpn5t.gs1a9yip.owycx6da.btwxx1t3.pmt1y7k9.f7vcsfb0.fjf4s8hc.b6rwyo50.oyrvap6t > div > div > div > div:nth-child(3) > div > div > div > div.oh7imozk.abvwweq7.ejjq64ki.d2edcug0 > div > div > div > div.rq0escxv.l9j0dhe7.du4w35lb.obtkqiv7.sv5sfqaa.sj5x9vvc.cxgpxx05 > div > div > div:nth-child(${count + 2})`)
-        await delay(Math.floor(Math.random() * (8000 - 2000) + 3000))
+            const randomEmote = `[aria-label="${emote[random]}"]`
 
-        try {
+            //console.log(`click story number ${i + 1}`)
 
-            //console.log(`check if element appear`)
+            if (i === 5) {
 
-            await page.waitForSelector(`[aria-label="ถูกใจ"]`, { timeout: 3000 })
-            //console.log(`found emote`)
-            await page.click(randomEmote)
-            const logEmote = randomEmote.match(/([ก-ฮ]).*/g)
-            console.log(`sent emote`, logEmote[0].slice(0, -2))
-            await delay(randomDelay)
-            await page.keyboard.press('Escape')
+                await delay(randomDelay)
+                await process.kill(pid)
 
-        } catch (err) {
+            }
 
-            if (err) {
-                //console.log('err in', err)
-                await page.keyboard.press('Escape')
+            if (i === 0) {
+
+                await page.evaluate(() => { window.scroll(0, 0) })
+                await delay(randomDelay)
+
+                try {
+
+                    await page.click(`div > div:nth-child(1) > div > div.rq0escxv.l9j0dhe7.du4w35lb > div > div > div.j83agx80.cbu4d94t.d6urw2fd.dp1hu0rb.l9j0dhe7.du4w35lb > div.rq0escxv.l9j0dhe7.du4w35lb.j83agx80.pfnyh3mw.taijpn5t.gs1a9yip.owycx6da.btwxx1t3.dp1hu0rb.p01isnhg > div > div.rq0escxv.l9j0dhe7.du4w35lb.j83agx80.buofh1pr.g5gj957u.hpfvmrgz.taijpn5t.gs1a9yip.owycx6da.btwxx1t3.pmt1y7k9.f7vcsfb0.fjf4s8hc.b6rwyo50.oyrvap6t > div > div > div > div.d2edcug0.e3xpq0al.ejjq64ki > div > div.d2edcug0.rq0escxv > div > div:nth-child(2)`)
+
+                } catch (err) {
+
+                    if (err) { await page.click(`div > div:nth-child(1) > div > div.rq0escxv.l9j0dhe7.du4w35lb > div > div > div.j83agx80.cbu4d94t.d6urw2fd.dp1hu0rb.l9j0dhe7.du4w35lb > div.rq0escxv.l9j0dhe7.du4w35lb.j83agx80.pfnyh3mw.taijpn5t.gs1a9yip.owycx6da.btwxx1t3.dp1hu0rb.p01isnhg > div > div.rq0escxv.l9j0dhe7.du4w35lb.j83agx80.buofh1pr.g5gj957u.hpfvmrgz.taijpn5t.gs1a9yip.owycx6da.btwxx1t3.pmt1y7k9.f7vcsfb0.fjf4s8hc.b6rwyo50.oyrvap6t > div > div > div > div:nth-child(3) > div > div > div > div.oh7imozk.abvwweq7.ejjq64ki.d2edcug0 > div > div > div > div.rq0escxv.l9j0dhe7.du4w35lb.obtkqiv7.sv5sfqaa.sj5x9vvc.cxgpxx05 > div > div > div:nth-child(3)`) }
+
+                }
+
+                await delay(Math.floor(Math.random() * (5000 - 2000) + 3000))
+
+                try {
+
+                    //console.log(`check if element appear`)
+
+                    await page.waitForSelector(randomEmote, { timeout: 3000 })
+                    //console.log(`found emote`)
+                    await page.click(randomEmote)
+                    const logEmote = randomEmote.match(/([ก-ฮ]).*/g)
+                    console.log(`sent emote`, logEmote[0].slice(0, -2))
+
+                } catch (err) {
+
+                    //if (err) { console.log('err in', err) }
+
+                }
+
+            } else {
+
+                await page.click(`#viewer_dialog > div > div > div > div.o36gj0jk.datstx6m.hybvsw6c > div > div > div > div > div > div.sxpk6l6v > div > div > div:nth-child(2) > div:nth-child(${i + 1}) > div > div > div`)
+                await delay(Math.floor(Math.random() * (5000 - 2000) + 3000))
+
+                try {
+
+                    //console.log(`check if element appear`)
+
+                    await page.waitForSelector(randomEmote, { timeout: 3000 })
+                    //console.log(`found emote`)
+                    await page.click(randomEmote)
+                    const logEmote = randomEmote.match(/([ก-ฮ]).*/g)
+                    console.log(`sent emote`, logEmote[0].slice(0, -2))
+
+                } catch (err) {
+
+                    //if (err) { console.log('err in', err) }
+
+                }
 
             }
 

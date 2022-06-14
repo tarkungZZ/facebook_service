@@ -1,66 +1,240 @@
 const delay = require('../../helpers/delay')
 
-module.exports = async (page, randomDelay, data) => {
+module.exports = async (page, randomDelay, pid) => {
 
     try {
 
+        let count = 2
 
-        async function randomFarm(page) {
+        const rand = Math.round(Math.random() * 1)
 
-            for (let i = 0; i < 5; i++) {
+        if (rand === 0) {
+
+            for (let i = 0; i < 10; i++) {
 
                 try {
 
-                    if (i === 4) {
+                    for (let v = 0; v < 22; v++) {
+                        await page.keyboard.press('ArrowDown', { delay: 50 })
+                    }
 
-                        await browser.close()
+                    //console.log(count)
+                    const likeButton = await page.waitForSelector(`div > div:nth-child(1) > div > div.rq0escxv.l9j0dhe7.du4w35lb > div > div > div.j83agx80.cbu4d94t.d6urw2fd.dp1hu0rb.l9j0dhe7.du4w35lb > div.rq0escxv.l9j0dhe7.du4w35lb.j83agx80.pfnyh3mw.taijpn5t.gs1a9yip.owycx6da.btwxx1t3.dp1hu0rb.p01isnhg > div > div.rq0escxv.l9j0dhe7.du4w35lb.j83agx80.buofh1pr.g5gj957u.hpfvmrgz.taijpn5t.gs1a9yip.owycx6da.btwxx1t3.pmt1y7k9.f7vcsfb0.fjf4s8hc.b6rwyo50.oyrvap6t > div > div > div > div.j83agx80.btwxx1t3.taijpn5t > div > div.pedkr2u6.tn0ko95a.pnx7fd3z > div > div:nth-child(${count}) > div > div > div > div > div > div > div > div > div > div > div:nth-child(2) > div > div:nth-child(4) > div > div > div > div > div.tvfksri0.ozuftl9m > div > div:nth-child(1) > div.oajrlxb2.gs1a9yip.g5ia77u1.mtkw9kbi.tlpljxtp.qensuy8j.ppp5ayq2.goun2846.ccm00jje.s44p3ltw.mk2mc5f4.rt8b4zig.n8ej3o3l.agehan2d.sk4xxmp2.rq0escxv.nhd2j8a9.mg4g778l.pfnyh3mw.p7hjln8o.kvgmc6g5.cxmmr5t8.oygrvhab.hcukyx3x.tgvbjcpo.hpfvmrgz.jb3vyjys.rz4wbd8a.qt6c0cv9.a8nywdso.l9j0dhe7.i1ao9s8h.esuyzwwr.du4w35lb.n00je7tq.arfg74bv.qs9ysxi8.k77z8yql.pq6dq46d.btwxx1t3.abiwlrkh.p8dawk7l.lzcic4wl.gokke00a`, { visible: true, timeout: 3000 })
+                    //console.log(`found like`)
 
-                        break
+                    if ((Math.random() < 0.5) === true) {
+                        await delay(randomDelay)
+                        console.log(`Like.`)
+                        await likeButton.click()
+                    }
+
+                    count++
+
+                    await delay(5000)
+
+                } catch (err) { console.log(err) }
+
+            }
+
+            await delay(3000)
+
+            for (let i = 0; i < 10; i++) {
+
+                //console.log(`check work`)
+
+                //await delay(Math.floor(Math.random() * (10000 - 5000) + 5000))
+
+                const emote = ['ถูกใจ', 'รักเลย', 'ห่วงใย', 'ว้าว']
+
+                const random = Math.floor(Math.random() * emote.length)
+
+                const randomEmote = `[aria-label="${emote[random]}"]`
+
+                //console.log(`click story number ${i + 1}`)
+
+                if (i === 5) {
+
+                    await delay(randomDelay)
+                    await process.kill(pid)
+                    break
+
+                }
+
+                if (i === 0) {
+
+                    await page.evaluate(() => { window.scroll(0, 0) })
+                    await delay(randomDelay)
+
+                    try {
+
+                        await page.click(`div > div:nth-child(1) > div > div.rq0escxv.l9j0dhe7.du4w35lb > div > div > div.j83agx80.cbu4d94t.d6urw2fd.dp1hu0rb.l9j0dhe7.du4w35lb > div.rq0escxv.l9j0dhe7.du4w35lb.j83agx80.pfnyh3mw.taijpn5t.gs1a9yip.owycx6da.btwxx1t3.dp1hu0rb.p01isnhg > div > div.rq0escxv.l9j0dhe7.du4w35lb.j83agx80.buofh1pr.g5gj957u.hpfvmrgz.taijpn5t.gs1a9yip.owycx6da.btwxx1t3.pmt1y7k9.f7vcsfb0.fjf4s8hc.b6rwyo50.oyrvap6t > div > div > div > div.d2edcug0.e3xpq0al.ejjq64ki > div > div.d2edcug0.rq0escxv > div > div:nth-child(2)`)
+
+                    } catch (err) {
+
+                        if (err) { await page.click(`div > div:nth-child(1) > div > div.rq0escxv.l9j0dhe7.du4w35lb > div > div > div.j83agx80.cbu4d94t.d6urw2fd.dp1hu0rb.l9j0dhe7.du4w35lb > div.rq0escxv.l9j0dhe7.du4w35lb.j83agx80.pfnyh3mw.taijpn5t.gs1a9yip.owycx6da.btwxx1t3.dp1hu0rb.p01isnhg > div > div.rq0escxv.l9j0dhe7.du4w35lb.j83agx80.buofh1pr.g5gj957u.hpfvmrgz.taijpn5t.gs1a9yip.owycx6da.btwxx1t3.pmt1y7k9.f7vcsfb0.fjf4s8hc.b6rwyo50.oyrvap6t > div > div > div > div:nth-child(3) > div > div > div > div.oh7imozk.abvwweq7.ejjq64ki.d2edcug0 > div > div > div > div.rq0escxv.l9j0dhe7.du4w35lb.obtkqiv7.sv5sfqaa.sj5x9vvc.cxgpxx05 > div > div > div:nth-child(3)`) }
 
                     }
 
-                    await delay(Math.floor(Math.random() * (15000 - 5000) + 5000))
-
-                    const emote = ['ถูกใจ', 'รักเลย', 'ห่วงใย', 'ว้าว']
-
-                    const random = Math.floor(Math.random() * emote.length)
-
-                    const randomEmote = `[aria-label="${emote[random]}"]`
-
-                    //console.log(`click story number ${i + 1}`)
-
-                    await page.click(`div > div:nth-child(1) > div > div.rq0escxv.l9j0dhe7.du4w35lb > div > div > div.j83agx80.cbu4d94t.d6urw2fd.dp1hu0rb.l9j0dhe7.du4w35lb > div.rq0escxv.l9j0dhe7.du4w35lb.j83agx80.pfnyh3mw.taijpn5t.gs1a9yip.owycx6da.btwxx1t3.dp1hu0rb.p01isnhg > div > div.rq0escxv.l9j0dhe7.du4w35lb.j83agx80.buofh1pr.g5gj957u.hpfvmrgz.taijpn5t.gs1a9yip.owycx6da.btwxx1t3.pmt1y7k9.f7vcsfb0.fjf4s8hc.b6rwyo50.oyrvap6t > div > div > div > div:nth-child(3) > div > div > div > div.oh7imozk.abvwweq7.ejjq64ki.d2edcug0 > div > div > div > div.rq0escxv.l9j0dhe7.du4w35lb.obtkqiv7.sv5sfqaa.sj5x9vvc.cxgpxx05 > div > div > div:nth-child(${i + 3})`)
-                    await delay(Math.floor(Math.random() * (8000 - 1000) + 3000))
+                    await delay(Math.floor(Math.random() * (5000 - 2000) + 3000))
 
                     try {
 
                         //console.log(`check if element appear`)
 
-                        await page.waitForSelector(`[aria-label="ถูกใจ"]`, { timeout: 3000 })
+                        await page.waitForSelector(randomEmote, { timeout: 3000 })
                         //console.log(`found emote`)
                         await page.click(randomEmote)
-                        //console.log(`sent emote`)
-                        await delay(randomDelay)
-                        await page.keyboard.press('Escape')
+                        const logEmote = randomEmote.match(/([ก-ฮ]).*/g)
+                        console.log(`sent emote`, logEmote[0].slice(0, -2))
 
                     } catch (err) {
 
-                        if (err) {
-                            //console.log('err in', err)
-                            await page.keyboard.press('Escape')
-                            continue
-                        }
+                        //if (err) { console.log('err in', err) }
 
                     }
 
-                } catch (err) {
+                } else {
 
-                    if (err) {
-                        //console.log('err out', err)
-                        break
+                    await page.click(`#viewer_dialog > div > div > div > div.o36gj0jk.datstx6m.hybvsw6c > div > div > div > div > div > div.sxpk6l6v > div > div > div:nth-child(2) > div:nth-child(${i + 1}) > div > div > div`)
+                    await delay(Math.floor(Math.random() * (5000 - 2000) + 3000))
+
+                    try {
+
+                        //console.log(`check if element appear`)
+
+                        await page.waitForSelector(randomEmote, { timeout: 3000 })
+                        //console.log(`found emote`)
+                        await page.click(randomEmote)
+                        const logEmote = randomEmote.match(/([ก-ฮ]).*/g)
+                        console.log(`sent emote`, logEmote[0].slice(0, -2))
+
+                    } catch (err) {
+
+                        //if (err) { console.log('err in', err) }
+
                     }
 
                 }
+
+            }
+
+        }
+
+        if (rand === 1) {
+
+            for (let i = 0; i < 10; i++) {
+
+                //console.log(`check work`)
+
+                //await delay(Math.floor(Math.random() * (10000 - 5000) + 5000))
+
+                const emote = ['ถูกใจ', 'รักเลย', 'ห่วงใย', 'ว้าว']
+
+                const random = Math.floor(Math.random() * emote.length)
+
+                const randomEmote = `[aria-label="${emote[random]}"]`
+
+                //console.log(`click story number ${i + 1}`)
+
+                if (i === 5) {
+
+                    await delay(randomDelay)
+                    await page.keyboard.press(`Escape`)
+                    break
+
+                }
+
+                if (i === 0) {
+
+                    await page.evaluate(() => { window.scroll(0, 0) })
+                    await delay(randomDelay)
+
+                    try {
+
+                        await page.click(`div > div:nth-child(1) > div > div.rq0escxv.l9j0dhe7.du4w35lb > div > div > div.j83agx80.cbu4d94t.d6urw2fd.dp1hu0rb.l9j0dhe7.du4w35lb > div.rq0escxv.l9j0dhe7.du4w35lb.j83agx80.pfnyh3mw.taijpn5t.gs1a9yip.owycx6da.btwxx1t3.dp1hu0rb.p01isnhg > div > div.rq0escxv.l9j0dhe7.du4w35lb.j83agx80.buofh1pr.g5gj957u.hpfvmrgz.taijpn5t.gs1a9yip.owycx6da.btwxx1t3.pmt1y7k9.f7vcsfb0.fjf4s8hc.b6rwyo50.oyrvap6t > div > div > div > div.d2edcug0.e3xpq0al.ejjq64ki > div > div.d2edcug0.rq0escxv > div > div:nth-child(2)`)
+
+                    } catch (err) {
+
+                        if (err) { await page.click(`div > div:nth-child(1) > div > div.rq0escxv.l9j0dhe7.du4w35lb > div > div > div.j83agx80.cbu4d94t.d6urw2fd.dp1hu0rb.l9j0dhe7.du4w35lb > div.rq0escxv.l9j0dhe7.du4w35lb.j83agx80.pfnyh3mw.taijpn5t.gs1a9yip.owycx6da.btwxx1t3.dp1hu0rb.p01isnhg > div > div.rq0escxv.l9j0dhe7.du4w35lb.j83agx80.buofh1pr.g5gj957u.hpfvmrgz.taijpn5t.gs1a9yip.owycx6da.btwxx1t3.pmt1y7k9.f7vcsfb0.fjf4s8hc.b6rwyo50.oyrvap6t > div > div > div > div:nth-child(3) > div > div > div > div.oh7imozk.abvwweq7.ejjq64ki.d2edcug0 > div > div > div > div.rq0escxv.l9j0dhe7.du4w35lb.obtkqiv7.sv5sfqaa.sj5x9vvc.cxgpxx05 > div > div > div:nth-child(3)`) }
+
+                    }
+
+                    await delay(Math.floor(Math.random() * (5000 - 2000) + 3000))
+
+                    try {
+
+                        //console.log(`check if element appear`)
+
+                        await page.waitForSelector(randomEmote, { timeout: 3000 })
+                        //console.log(`found emote`)
+                        await page.click(randomEmote)
+                        const logEmote = randomEmote.match(/([ก-ฮ]).*/g)
+                        console.log(`sent emote`, logEmote[0].slice(0, -2))
+
+                    } catch (err) {
+
+                        //if (err) { console.log('err in', err) }
+
+                    }
+
+                } else {
+
+                    await page.click(`#viewer_dialog > div > div > div > div.o36gj0jk.datstx6m.hybvsw6c > div > div > div > div > div > div.sxpk6l6v > div > div > div:nth-child(2) > div:nth-child(${i + 1}) > div > div > div`)
+                    await delay(Math.floor(Math.random() * (5000 - 2000) + 3000))
+
+                    try {
+
+                        //console.log(`check if element appear`)
+
+                        await page.waitForSelector(randomEmote, { timeout: 3000 })
+                        //console.log(`found emote`)
+                        await page.click(randomEmote)
+                        const logEmote = randomEmote.match(/([ก-ฮ]).*/g)
+                        console.log(`sent emote`, logEmote[0].slice(0, -2))
+
+                    } catch (err) {
+
+                        //if (err) { console.log('err in', err) }
+
+                    }
+
+                }
+
+            }
+
+            await delay(3000)
+
+            for (let i = 0; i < 11; i++) {
+
+                try {
+
+                    if (i === 10) {
+
+                        await delay(randomDelay)
+                        await process.kill(pid)
+                        break
+
+                    }
+
+                    for (let v = 0; v < 22; v++) {
+                        await page.keyboard.press('ArrowDown', { delay: 50 })
+                    }
+
+                    //console.log(count)
+                    const likeButton = await page.waitForSelector(`div > div:nth-child(1) > div > div.rq0escxv.l9j0dhe7.du4w35lb > div > div > div.j83agx80.cbu4d94t.d6urw2fd.dp1hu0rb.l9j0dhe7.du4w35lb > div.rq0escxv.l9j0dhe7.du4w35lb.j83agx80.pfnyh3mw.taijpn5t.gs1a9yip.owycx6da.btwxx1t3.dp1hu0rb.p01isnhg > div > div.rq0escxv.l9j0dhe7.du4w35lb.j83agx80.buofh1pr.g5gj957u.hpfvmrgz.taijpn5t.gs1a9yip.owycx6da.btwxx1t3.pmt1y7k9.f7vcsfb0.fjf4s8hc.b6rwyo50.oyrvap6t > div > div > div > div.j83agx80.btwxx1t3.taijpn5t > div > div.pedkr2u6.tn0ko95a.pnx7fd3z > div > div:nth-child(${count}) > div > div > div > div > div > div > div > div > div > div > div:nth-child(2) > div > div:nth-child(4) > div > div > div > div > div.tvfksri0.ozuftl9m > div > div:nth-child(1) > div.oajrlxb2.gs1a9yip.g5ia77u1.mtkw9kbi.tlpljxtp.qensuy8j.ppp5ayq2.goun2846.ccm00jje.s44p3ltw.mk2mc5f4.rt8b4zig.n8ej3o3l.agehan2d.sk4xxmp2.rq0escxv.nhd2j8a9.mg4g778l.pfnyh3mw.p7hjln8o.kvgmc6g5.cxmmr5t8.oygrvhab.hcukyx3x.tgvbjcpo.hpfvmrgz.jb3vyjys.rz4wbd8a.qt6c0cv9.a8nywdso.l9j0dhe7.i1ao9s8h.esuyzwwr.du4w35lb.n00je7tq.arfg74bv.qs9ysxi8.k77z8yql.pq6dq46d.btwxx1t3.abiwlrkh.p8dawk7l.lzcic4wl.gokke00a`, { visible: true, timeout: 3000 })
+                    //console.log(`found like`)
+
+                    if ((Math.random() < 0.5) === true) {
+                        await delay(randomDelay)
+                        console.log(`Like.`)
+                        await likeButton.click()
+                    }
+
+                    await delay(5000)
+
+                    count++
+
+                } catch (err) { console.log(err) }
 
             }
 
