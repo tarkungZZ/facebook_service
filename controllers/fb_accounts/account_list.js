@@ -3,6 +3,8 @@ const pool = require('../../helpers/mysql')
 module.exports = async (req, res) => {
 
     let { limit = 10, page = 0 } = req.query
+    page = +page
+    page = limit * page
 
     let condition = ``
 
