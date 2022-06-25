@@ -9,12 +9,12 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 //no authorize
-// app.use('/login', require('./routes/user'))
+app.use('/login', require('./controllers/login'))
 
 //authorize
-app.use('/facebook', require('./routes/facebook'))
-app.use('/config', require('./routes/config'))
-app.use('/post', require('./routes/post'))
+app.use('/facebook', authorize, require('./routes/facebook'))
+app.use('/config', authorize, require('./routes/config'))
+app.use('/post', authorize, require('./routes/post'))
 
 app.post('/launch', require('./controllers/launch_button'))
 
