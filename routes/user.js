@@ -4,7 +4,7 @@ app
 
     .get('/list', require('../controllers/list'))
 
-    .post('/register', require('../controllers/register'))
+    .post('/create', require('../controllers/create'))
     .post('/edit', require('../controllers/edit'))
     .post('/delete', require('../controllers/delete'))
 

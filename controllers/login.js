@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
     try {
 
         let { username, password } = req.body
-        password = encode(password)
+        //password = encode(password)
 
         const checkExistUser = await pool(`SELECT id FROM users`)
 
@@ -17,41 +17,36 @@ module.exports = async (req, res) => {
 
             const body = {
                 username,
-                password
+                password,
+                role: 'admin'
             }
 
             await pool(`INSERT INTO users SET ?`, [body])
 
             const token = jwt.sign({
                 user_id: 1,
-                username
+                username,
+                role: 'admin'
             }, JWT_SECRET, { expiresIn: JWT_EXPIRE })
 
             return res.status(201).json({ token, user: verify(token) })
 
         } else {
 
-            const checkLogin = await pool('SELECT * FROM users WHERE username =? AND password =? LIMIT 1', [username, password])
+            const checkLogin = await pool('SELECT * FROM users WHERE username =? AND password =? AND role = "admin" LIMIT 1', [username, password])
 
             if (!checkLogin[0]) {
 
-                return res.status(400).json({ message: 'Invalid username or password.' })
+                return res.status(400).json({ message: 'Username or password is invalid or user role is not admin.' })
 
             }
 
-            if (checkLogin[0]) {
-
-                // let body = req.body
-                // body.phone = checkLogin[0].phone
-
-                // delete body.username
-                // delete body.password
-
-                //await pool("INSERT INTO login_logs SET ? ", body)
+            if (checkLogin[0].role === 'admin') {
 
                 const token = jwt.sign({
                     user_id: checkLogin[0].id,
-                    username
+                    username,
+                    role: checkLogin[0].role
                 }, JWT_SECRET, { expiresIn: JWT_EXPIRE })
 
                 return res.status(201).json({ token, user: verify(token) })
