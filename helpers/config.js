@@ -2,7 +2,7 @@ module.exports = {
 
     LOCAL_SOCKET_IP: 'localhost',
     LOCAL_SOCKET_PORT: 3000,
-    SERVER_SOCKET_IP: 'localhost',
+    SERVER_SOCKET_IP: '159.223.53.175',
     SERVER_SOCKET_PORT: 5002,
     mfb_url: 'https://m.facebook.com/',
     fb_url: 'https://www.facebook.com',
