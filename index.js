@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 //no authorize
-app.use('/login', require('./controllers/login'))
+app.post('/login', require('./controllers/login'))
 
 //authorize
 app.use('/facebook', authorize, require('./routes/facebook'))
