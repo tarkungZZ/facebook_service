@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
 
         if (!checkLogin[0]) {
 
-            return res.status(401).json({ message: 'Invalid username or password.' })
+            return res.status(400).json({ message: 'Invalid username or password.' })
 
         }
 
@@ -32,7 +32,7 @@ module.exports = async (req, res) => {
 
         console.log(err)
 
-        res.status(401).json({ message: 'Unauthorized' })
+        res.status(400).json(err)
 
     }
 
