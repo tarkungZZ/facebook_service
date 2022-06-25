@@ -21,7 +21,8 @@ module.exports = async (req, res) => {
 
             const token = jwt.sign({
                 user_id: checkLogin[0].id,
-                username
+                username,
+                role: checkLogin[0].role
             }, JWT_SECRET, { expiresIn: JWT_EXPIRE })
 
             return res.status(201).json({ token, user: verify(token) })
