@@ -5,7 +5,7 @@ module.exports = async (req, res) => {
 
     try {
 
-        let { username, password } = req.body
+        let { username, password, role } = req.body
         //password = encode(password)
 
         const checkUser = await pool(`SELECT id FROM users WHERE username =? AND password =?`, [username, password])
@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
 
         if (!checkUser[0]) {
 
-            const body = { username, password }
+            const body = { username, password, role }
 
             await pool(`INSERT INTO users SET ?`, [body])
 
