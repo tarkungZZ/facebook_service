@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
     try {
 
         let { username, password } = req.body
-        password = encode(password)
+        //password = encode(password)
 
         const checkUser = await pool(`SELECT id FROM users WHERE username =? AND password =?`, [username, password])
 
