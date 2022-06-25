@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
 
         const { id, type, post = '', link = '', limit = 5 } = req.body
 
-        const getConfig = await pool(`SELECT delay , delay_end FROM config WHERE id =?`, [1])
+        const getConfig = await pool(`SELECT delay_min , delay_max FROM config WHERE id =?`, [1])
 
         let data = {}
         let postContent = []
@@ -24,8 +24,8 @@ module.exports = async (req, res) => {
                     type,
                     id: null,
                     getData,
-                    delay: getConfig[0].delay * 1000,
-                    delay_end: getConfig[0].delay_end * 1000,
+                    delay_min: getConfig[0].delay_min * 1000,
+                    delay_max: getConfig[0].delay_max * 1000,
                 }
 
             }
@@ -36,8 +36,8 @@ module.exports = async (req, res) => {
                     type,
                     id: null,
                     getData,
-                    delay: getConfig[0].delay * 1000,
-                    delay_end: getConfig[0].delay_end * 1000,
+                    delay_min: getConfig[0].delay_min * 1000,
+                    delay_max: getConfig[0].delay_max * 1000,
                     link
                 }
 
@@ -66,8 +66,8 @@ module.exports = async (req, res) => {
                         fb_password: getData[0].fb_password,
                         two_fa: getData[0].two_fa,
                         execute_path: getData[0].execute_path,
-                        delay: getConfig[0].delay * 1000,
-                        delay_end: getConfig[0].delay_end * 1000,
+                        delay_min: getConfig[0].delay_min * 1000,
+                        delay_max: getConfig[0].delay_max * 1000,
                     }
 
                 }
@@ -91,8 +91,8 @@ module.exports = async (req, res) => {
                         fb_password: getData[0].fb_password,
                         two_fa: getData[0].two_fa,
                         execute_path: getData[0].execute_path,
-                        delay: getConfig[0].delay * 1000,
-                        delay_end: getConfig[0].delay_end * 1000,
+                        delay_min: getConfig[0].delay_min * 1000,
+                        delay_max: getConfig[0].delay_max * 1000,
                         postContent
                     }
 
@@ -107,8 +107,8 @@ module.exports = async (req, res) => {
                         fb_password: getData[0].fb_password,
                         two_fa: getData[0].two_fa,
                         execute_path: getData[0].execute_path,
-                        delay: getConfig[0].delay * 1000,
-                        delay_end: getConfig[0].delay_end * 1000,
+                        delay_min: getConfig[0].delay_min * 1000,
+                        delay_max: getConfig[0].delay_max * 1000,
                         link
                     }
 
@@ -135,8 +135,8 @@ module.exports = async (req, res) => {
                         fb_password: getData[0].fb_password,
                         two_fa: getData[0].two_fa,
                         execute_path: getData[0].execute_path,
-                        delay: getConfig[0].delay * 1000,
-                        delay_end: getConfig[0].delay_end * 1000,
+                        delay_min: getConfig[0].delay_min * 1000,
+                        delay_max: getConfig[0].delay_max * 1000,
                         postContent,
                         order
                     }
