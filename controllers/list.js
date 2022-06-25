@@ -1,4 +1,4 @@
-const pool = require('../../helpers/mysql')
+const pool = require('../helpers/mysql')
 
 module.exports = async (req, res) => {
 
@@ -8,13 +8,13 @@ module.exports = async (req, res) => {
 
     let condition = ``
 
-    const limitPage = `ORDER BY created_at ASC LIMIT ${limit} OFFSET ${page}`
+    const limitPage = `ORDER BY created_at DESC LIMIT ${limit} OFFSET ${page}`
 
-    const query = 'SELECT id , email FROM facebook_account'
+    const query = 'SELECT id , username , password FROM users'
 
     await pool(query + ' ' + condition + ' ' + limitPage)
         .then(async (result) => {
-            const total = await pool(`SELECT COUNT(id) AS total FROM facebook_account ${condition}`)
+            const total = await pool(`SELECT COUNT(id) AS total FROM users ${condition}`)
             res.status(200).json({ total: total[0].total, result })
         })
         .catch((err) => {

@@ -11,7 +11,5 @@ module.exports = {
     JWT_SECRET: process.env.JWT_SECRET,
     JWT_EXPIRE: process.env.JWT_EXPIRE,
     MD5_SECRET: process.env.MD5_SECRET,
-    SOCKET_IP: process.env.SOCKET_IP,
-    SOCKET_PORT: process.env.SOCKET_PORT
 
 }
