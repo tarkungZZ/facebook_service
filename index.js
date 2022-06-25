@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const authorize = require('./middlewares/authorize')
-const { PORT } = require('./helpers/config')
+const { MANAGER_PORT } = require('./helpers/config')
 
 app.use(require('cors')())
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -14,4 +14,4 @@ app.use('/login', require('./controllers/login'))
 //authorize
 app.use('/user', authorize, require('./routes/user'))
 
-app.listen(PORT, () => { console.log(`Server listening on port ${PORT}`) })
+app.listen(MANAGER_PORT, () => { console.log(`Server listening on port ${MANAGER_PORT}`) })
