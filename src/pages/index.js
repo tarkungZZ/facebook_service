@@ -24,6 +24,7 @@ import { Google as GoogleIcon } from "../icons/google";
 // const [isLogin, setIsLogin] = React.useState(true);
 
 export const Login = () => {
+  const [isLogin, setIsLogin] = useState(true);
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
@@ -35,82 +36,131 @@ export const Login = () => {
       password: Yup.string().max(255).required("Password is required"),
     }),
     onSubmit: () => {
-      router.push("/");
+      // router.push("/");
+      setIsLogin(!isLogin);
     },
   });
 
   return (
     <>
-      <Head>
-        <title>Login | Material Kit</title>
-      </Head>
-      <Box
-        component="main"
-        sx={{
-          alignItems: "center",
-          display: "flex",
-          flexGrow: 1,
-          minHeight: "100%",
-        }}
-      >
-        <Container maxWidth="sm">
-          {/* <NextLink href="/" passHref>
+      {isLogin ? (
+        <>
+          <Head>
+            <title>Login | Material Kit</title>
+          </Head>
+          <Box
+            component="main"
+            sx={{
+              alignItems: "center",
+              display: "flex",
+              flexGrow: 1,
+              minHeight: "100%",
+            }}
+          >
+            <Container maxWidth="sm">
+              {/* <NextLink href="/" passHref>
             <Button component="a" startIcon={<ArrowBackIcon fontSize="small" />}>
               Dashboard
             </Button>
           </NextLink> */}
-          <form onSubmit={formik.handleSubmit}>
-            <Box sx={{ my: 3 }}>
-              <Typography color="textPrimary" variant="h4">
-                Back Office
-              </Typography>
-              <Typography color="textSecondary" gutterBottom variant="body2">
-                Sign in on the internal platform
-              </Typography>
-            </Box>
-            <Grid container spacing={3}></Grid>
+              <form onSubmit={formik.handleSubmit}>
+                <Box sx={{ my: 3 }}>
+                  <Typography color="textPrimary" variant="h4">
+                    Back Office
+                  </Typography>
+                  <Typography color="textSecondary" gutterBottom variant="body2">
+                    Sign in on the internal platform
+                  </Typography>
+                </Box>
+                <Grid container spacing={3}></Grid>
 
-            <TextField
-              error={Boolean(formik.touched.email && formik.errors.email)}
-              fullWidth
-              helperText={formik.touched.email && formik.errors.email}
-              label="Username"
-              margin="normal"
-              name="email"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              type="text"
-              value={formik.values.email}
-              variant="outlined"
-            />
-            <TextField
-              error={Boolean(formik.touched.password && formik.errors.password)}
-              fullWidth
-              helperText={formik.touched.password && formik.errors.password}
-              label="Password"
-              margin="normal"
-              name="password"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              type="password"
-              value={formik.values.password}
-              variant="outlined"
-            />
-            <Box sx={{ py: 2 }}>
-              <Button
-                color="primary"
-                disabled={formik.isSubmitting}
-                fullWidth
-                size="large"
-                type="submit"
-                variant="contained"
-              >
-                Confirm
-              </Button>
+                <TextField
+                  error={Boolean(formik.touched.email && formik.errors.email)}
+                  fullWidth
+                  helperText={formik.touched.email && formik.errors.email}
+                  label="Username"
+                  margin="normal"
+                  name="email"
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  type="text"
+                  value={formik.values.email}
+                  variant="outlined"
+                />
+                <TextField
+                  error={Boolean(formik.touched.password && formik.errors.password)}
+                  fullWidth
+                  helperText={formik.touched.password && formik.errors.password}
+                  label="Password"
+                  margin="normal"
+                  name="password"
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  type="password"
+                  value={formik.values.password}
+                  variant="outlined"
+                />
+                <Box sx={{ py: 2 }}>
+                  <Button
+                    color="primary"
+                    disabled={formik.isSubmitting}
+                    fullWidth
+                    size="large"
+                    type="submit"
+                    variant="contained"
+                  >
+                    Confirm
+                  </Button>
+                </Box>
+              </form>
+            </Container>
+          </Box>
+        </>
+      ) : (
+        <>
+          <DashboardLayout>
+            <Head>
+              <title>Dashboard | Material Kit</title>
+            </Head>
+            <Box
+              component="main"
+              sx={{
+                flexGrow: 1,
+                py: 8,
+              }}
+            >
+              <Container maxWidth={false}>
+                <Grid container spacing={3}>
+                  <Grid item lg={3} sm={6} xl={3} xs={12}>
+                    <Budget />
+                  </Grid>
+                  <Grid item xl={3} lg={3} sm={6} xs={12}>
+                    <TotalCustomers />
+                  </Grid>
+                  <Grid item xl={3} lg={3} sm={6} xs={12}>
+                    <TasksProgress />
+                  </Grid>
+                  <Grid item xl={3} lg={3} sm={6} xs={12}>
+                    <TotalProfit sx={{ height: "100%" }} />
+                  </Grid>
+                  <Grid item lg={8} md={12} xl={9} xs={12}>
+                    <Sales />
+                  </Grid>
+                  <Grid item lg={4} md={6} xl={3} xs={12}>
+                    <TrafficByDevice sx={{ height: "100%" }} />
+                  </Grid>
+                  <Grid item lg={4} md={6} xl={3} xs={12}>
+                    <LatestProducts sx={{ height: "100%" }} />
+                  </Grid>
+                  <Grid item lg={8} md={12} xl={9} xs={12}>
+                    <LatestOrders />
+                  </Grid>
+                </Grid>
+              </Container>
             </Box>
-          </form>
-        </Container>
-      </Box>
+          </DashboardLayout>
+        </>
+      )}
     </>
   );
 };
@@ -161,4 +211,4 @@ export const Dashboard = () => (
 
 Dashboard.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
-export default Dashboard;
+export default Login;
