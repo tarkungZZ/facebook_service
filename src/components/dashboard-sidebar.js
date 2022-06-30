@@ -47,11 +47,11 @@ const items = [
     icon: <CogIcon fontSize="small" />,
     title: "Settings",
   },
-  // {
-  //   href: "/login",
-  //   icon: <LockIcon fontSize="small" />,
-  //   title: "Login",
-  // },
+  {
+    href: "/login",
+    icon: <LockIcon fontSize="small" />,
+    title: "Login",
+  },
   // {
   //   href: "/register",
   //   icon: <UserAddIcon fontSize="small" />,
@@ -126,7 +126,7 @@ export const DashboardSidebar = (props) => {
                   FarmFace
                 </Typography>
                 <Typography color="neutral.400" variant="body2">
-                  tier : God
+                  user : ????
                 </Typography>
               </div>
               <SelectorIcon
