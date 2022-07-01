@@ -15,7 +15,7 @@ const DashboardLayoutRoot = styled('div')(({ theme }) => ({
 }));
 
 export const DashboardLayout = (props) => {
-  const { children } = props;
+  const { children, logout } = props;
   const [isSidebarOpen, setSidebarOpen] = useState(true);
 
   return (
@@ -36,6 +36,7 @@ export const DashboardLayout = (props) => {
       <DashboardSidebar
         onClose={() => setSidebarOpen(false)}
         open={isSidebarOpen}
+        logout={logout}
       />
     </>
   );

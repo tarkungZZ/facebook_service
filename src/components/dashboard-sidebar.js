@@ -65,7 +65,7 @@ const items = [
 ];
 
 export const DashboardSidebar = (props) => {
-  const { open, onClose } = props;
+  const { open, onClose, logout } = props;
   const router = useRouter();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"), {
     defaultMatches: true,
@@ -157,18 +157,21 @@ export const DashboardSidebar = (props) => {
             py: 3,
           }}
         >
-          <NextLink href="https://material-kit-pro-react.devias.io/" passHref>
+          {/* <NextLink href="https://material-kit-pro-react.devias.io/" passHref> */}
             <Button
+              type='button'
+              onClick={() => logout()}
               color="error"
               component="a"
               // endIcon={<OpenInNewIcon />}
               fullWidth
               sx={{ mt: 2 }}
               variant="contained"
+              href="/"
             >
               Logout
             </Button>
-          </NextLink>
+          {/* </NextLink> */}
         </Box>
       </Box>
     </>

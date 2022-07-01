@@ -45,10 +45,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/customers.js"
     ],
-    "/settings": [
+    "/products": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/settings.js"
+      "static/chunks/pages/products.js"
     ]
   },
   "ampFirstPages": []
