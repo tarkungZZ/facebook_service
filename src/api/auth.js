@@ -11,27 +11,28 @@ export default {
       username,
       password,
     };
-    console.log("data, ", data);
+    // console.log("data, ", data);
     return await api.BACKEND_ENDPOINT.post(`${config.api}/login`, data)
       // return await api.BACKEND_ENDPOINT.post("/login", data)
       .then(async (res) => {
+        location.href = "/";
         await localStorage.setItem("token", res.data.token);
         await localStorage.setItem("user", res.data.user.username);
         return res;
       })
       .catch((err) => {
         console.log("err, ", err);
+        alert("Invalid username or password");
         return err;
       });
   },
 
   editUser: async (id, password, role) => {
-    const data = JSON.stringify({
-      id,
-      password,
-      role,
-    });
-    console.log("dataEditUser, ", data);
+    const data = {
+      id: id,
+      password: password,
+      role: role,
+    };
     return await api.BACKEND_ENDPOINT.post(`${config.api}/user/edit`, data)
       // return await api.BACKEND_ENDPOINT.post("/login", data)
       .then(async (res) => {
@@ -44,14 +45,30 @@ export default {
   },
 
   deleteUser: async (id) => {
-    const data = JSON.stringify({
-      id,
-    });
-    console.log("dataEditUser, ", data);
+    const data = {
+      id: id,
+    };
     return await api.BACKEND_ENDPOINT.post(`${config.api}/user/delete`, data)
       // return await api.BACKEND_ENDPOINT.post("/login", data)
       .then(async (res) => {
-        console.log("res, ", res);
+        return res;
+      })
+      .catch((err) => {
+        console.log("err, ", err);
+        return err;
+      });
+  },
+
+  createUser: async (username, password, role) => {
+    const data = {
+      username: username,
+      password: password,
+      role: role,
+    };
+    console.log("dataCreate, ", data);
+    return await api.BACKEND_ENDPOINT.post(`${config.api}/user/create`, data)
+      // return await api.BACKEND_ENDPOINT.post("/login", data)
+      .then(async (res) => {
         return res;
       })
       .catch((err) => {
@@ -61,8 +78,6 @@ export default {
   },
   //GET
   getUser: async (limit, page) => {
-    console.log("limit, ", limit);
-    console.log("page", page);
     return await api.BACKEND_ENDPOINT.get(`${config.api}/user/list?${limit}&${page}`)
       // return await api.BACKEND_ENDPOINT.post("/login", data)
       .then(async (res) => {

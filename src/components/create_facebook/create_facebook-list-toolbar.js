@@ -27,44 +27,17 @@ export const CreateFacebookListToolbar = (props) => (
         Create Accounts
       </Typography>
       <Box sx={{ m: 1 }}>
-        {/* <Button
-          startIcon={(<UploadIcon fontSize="small" />)}
-          sx={{ mr: 1 }}
-        >
-          Import
-        </Button>
         <Button
-          startIcon={(<DownloadIcon fontSize="small" />)}
-          sx={{ mr: 1 }}
+          startIcon={<DownloadIcon fontSize="small" />}
+          color="primary"
+          variant="contained"
+          onClick={() => {
+            localStorage.setItem("create", "click"), console.log("localStorage", localStorage.getItem("create"));
+          }}
         >
-          Export
-        </Button> */}
-        <Button startIcon={<DownloadIcon fontSize="small" />} color="primary" variant="contained">
           Add Account
         </Button>
       </Box>
     </Box>
-    {/* <Box sx={{ mt: 3 }}>
-      <Card>
-        <CardContent>
-          <Box sx={{ maxWidth: 500 }}>
-            <TextField
-              fullWidth
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SvgIcon color="action" fontSize="small">
-                      <SearchIcon />
-                    </SvgIcon>
-                  </InputAdornment>
-                ),
-              }}
-              placeholder="Search Facebook"
-              variant="outlined"
-            />
-          </Box>
-        </CardContent>
-      </Card>
-    </Box> */}
   </Box>
 );

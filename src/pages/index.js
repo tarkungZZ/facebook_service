@@ -44,7 +44,6 @@ export default function App() {
   const verifyAccessToken = async () => {
     const token = await localStorage.getItem("token");
     setAccessToken(token);
-    console.log("loading", isLoading);
     setIsLoading(false);
   };
 
@@ -53,9 +52,7 @@ export default function App() {
     await localStorage.removeItem("token");
     setIsLoading(true);
   };
-
-  console.log(accessToken);
-  if (isLoading) return <div>.... loading</div>;
+  if (isLoading) return <div></div>;
 
   return (
     <div>

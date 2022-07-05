@@ -7,7 +7,6 @@ import { Box, Button, Container, Grid, Link, TextField, Typography } from "@mui/
 import { useState } from "react";
 
 export default function Dashboard({ logout }) {
-  const [modal, setModal] = useState(false);
   return (
     <div>
       <DashboardLayout logout={logout}>
@@ -23,7 +22,7 @@ export default function Dashboard({ logout }) {
           }}
         >
           <Container maxWidth={false}>
-            <CreateFacebookListToolbar />
+            {/* <CreateFacebookListToolbar /> */}
             <Box sx={{ mt: 3 }}>
               <CreateFacebookListResults customers={customers} />
             </Box>

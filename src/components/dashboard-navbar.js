@@ -52,12 +52,13 @@ export const DashboardNavbar = (props) => {
             </IconButton>
           </Tooltip>
           <Box sx={{ flexGrow: 1 }} />
-          <Tooltip title="Contacts">
+          <Tooltip title="Username">
             <IconButton sx={{ ml: 1 }}>
-              <UsersIcon fontSize="small" />
+              {/* <UsersIcon fontSize="small" /> */}
+              <div>{localStorage?.getItem("user")}</div>
             </IconButton>
           </Tooltip>
-          <Tooltip title="Notifications">
+          {/* <Tooltip title="Notifications">
             <IconButton sx={{ ml: 1 }}>
               <Badge
                 badgeContent={4}
@@ -67,7 +68,7 @@ export const DashboardNavbar = (props) => {
                 <BellIcon fontSize="small" />
               </Badge>
             </IconButton>
-          </Tooltip>
+          </Tooltip> */}
           <Avatar
             sx={{
               height: 40,

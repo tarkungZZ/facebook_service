@@ -189,8 +189,7 @@ export default function Login({ setIsLoading }) {
 
   const handleLogin = async () => {
     const { data } = await auth.login(username, password);
-    console.log("log response +++", data);
-    location.href = "/";
+    // location.href = "/";
     // setIsLoading(true);
     return data;
   };

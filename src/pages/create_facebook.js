@@ -8,7 +8,7 @@ import { customers } from "../__mocks__/customers";
 const Customers = () => (
   <>
     <Head>
-      <title>Create Accounts | Material Kit</title>
+      <title>Create Account | Material Kit</title>
     </Head>
     <Box
       component="main"
@@ -20,7 +20,7 @@ const Customers = () => (
       <Container maxWidth={false}>
         <CreateFacebookListToolbar />
         <Box sx={{ mt: 3 }}>
-          <CreateFacebookListResults customers={customers} />
+          <CreateFacebookListResults />
         </Box>
       </Container>
     </Box>

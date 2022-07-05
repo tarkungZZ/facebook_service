@@ -64,7 +64,6 @@ export const DashboardSidebar = (props) => {
 
   useEffect(
     () => {
-      console.log("user -->", localStorage.getItem("user"));
       if (!router.isReady) {
         return;
       }
@@ -117,7 +116,7 @@ export const DashboardSidebar = (props) => {
                   FarmFace
                 </Typography>
                 <Typography color="neutral.400" variant="body2">
-                  {/* user : {localStorage?.getItem("user")} */}
+                  user : {localStorage?.getItem("user")}
                 </Typography>
               </div>
               <SelectorIcon
