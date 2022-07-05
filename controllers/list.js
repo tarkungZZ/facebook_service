@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
 
     const limitPage = `ORDER BY created_at DESC LIMIT ${limit} OFFSET ${page}`
 
-    const query = 'SELECT id , username , password FROM users'
+    const query = 'SELECT id , username , password , role FROM users'
 
     await pool(query + ' ' + condition + ' ' + limitPage)
         .then(async (result) => {
