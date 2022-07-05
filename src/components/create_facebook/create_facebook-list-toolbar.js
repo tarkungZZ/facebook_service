@@ -24,7 +24,7 @@ export const CreateFacebookListToolbar = (props) => (
       }}
     >
       <Typography sx={{ m: 1 }} variant="h4">
-        Create Facebook
+        Create Accounts
       </Typography>
       <Box sx={{ m: 1 }}>
         {/* <Button
@@ -40,11 +40,11 @@ export const CreateFacebookListToolbar = (props) => (
           Export
         </Button> */}
         <Button startIcon={<DownloadIcon fontSize="small" />} color="primary" variant="contained">
-          Add Facebook
+          Add Account
         </Button>
       </Box>
     </Box>
-    <Box sx={{ mt: 3 }}>
+    {/* <Box sx={{ mt: 3 }}>
       <Card>
         <CardContent>
           <Box sx={{ maxWidth: 500 }}>
@@ -65,6 +65,6 @@ export const CreateFacebookListToolbar = (props) => (
           </Box>
         </CardContent>
       </Card>
-    </Box>
+    </Box> */}
   </Box>
 );

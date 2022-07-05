@@ -156,7 +156,7 @@
 
 import Head from "next/head";
 import NextLink from "next/link";
-import { useRouter } from "next/router";
+import router, { useRouter } from "next/router";
 // import { useFormik } from "formik";
 import { useState } from "react";
 import * as Yup from "yup";
@@ -190,7 +190,8 @@ export default function Login({ setIsLoading }) {
   const handleLogin = async () => {
     const { data } = await auth.login(username, password);
     console.log("log response +++", data);
-    setIsLoading(true);
+    location.href = "/";
+    // setIsLoading(true);
     return data;
   };
 

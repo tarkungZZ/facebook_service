@@ -8,7 +8,7 @@ import { customers } from "../__mocks__/customers";
 const Customers = () => (
   <>
     <Head>
-      <title>Create Facebook | Material Kit</title>
+      <title>Create Accounts | Material Kit</title>
     </Head>
     <Box
       component="main"

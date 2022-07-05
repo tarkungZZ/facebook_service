@@ -17,50 +17,40 @@ import { Logo } from "./logo";
 import { NavItem } from "./nav-item";
 
 const items = [
+  // {
+  //   href: "/",
+  //   icon: <ChartBarIcon fontSize="small" />,
+  //   title: "Dashboard",
+  // },
   {
     href: "/",
-    icon: <ChartBarIcon fontSize="small" />,
-    title: "Dashboard",
-  },
-  {
-    href: "/customers",
     icon: <UserAddIcon fontSize="small" />,
-    title: "Manage Bot",
-  },
-  {
-    href: "/create_facebook",
-    icon: <UsersIcon fontSize="small" />,
-    title: "Manage Facebook",
-  },
-  {
-    href: "/products",
-    icon: <ShoppingBagIcon fontSize="small" />,
-    title: "Edit Config",
-  },
-  {
-    href: "/account",
-    icon: <UserIcon fontSize="small" />,
-    title: "Manage Post",
-  },
-  {
-    href: "/settings",
-    icon: <CogIcon fontSize="small" />,
-    title: "Settings",
-  },
-  {
-    href: "/login",
-    icon: <LockIcon fontSize="small" />,
-    title: "Login",
+    title: "Manage Admin",
   },
   // {
-  //   href: "/register",
-  //   icon: <UserAddIcon fontSize="small" />,
-  //   title: "Register",
+  //   href: "/create_facebook",
+  //   icon: <UsersIcon fontSize="small" />,
+  //   title: "Manage Facebook",
   // },
   // {
-  //   href: "/404",
-  //   icon: <XCircleIcon fontSize="small" />,
-  //   title: "Error",
+  //   href: "/products",
+  //   icon: <ShoppingBagIcon fontSize="small" />,
+  //   title: "Edit Config",
+  // },
+  // {
+  //   href: "/account",
+  //   icon: <UserIcon fontSize="small" />,
+  //   title: "Manage Post",
+  // },
+  // {
+  //   href: "/settings",
+  //   icon: <CogIcon fontSize="small" />,
+  //   title: "Settings",
+  // },
+  // {
+  //   href: "/login",
+  //   icon: <LockIcon fontSize="small" />,
+  //   title: "Login",
   // },
 ];
 
@@ -74,6 +64,7 @@ export const DashboardSidebar = (props) => {
 
   useEffect(
     () => {
+      console.log("user -->", localStorage.getItem("user"));
       if (!router.isReady) {
         return;
       }
@@ -126,7 +117,7 @@ export const DashboardSidebar = (props) => {
                   FarmFace
                 </Typography>
                 <Typography color="neutral.400" variant="body2">
-                  user : ????
+                  {/* user : {localStorage?.getItem("user")} */}
                 </Typography>
               </div>
               <SelectorIcon
@@ -158,19 +149,19 @@ export const DashboardSidebar = (props) => {
           }}
         >
           {/* <NextLink href="https://material-kit-pro-react.devias.io/" passHref> */}
-            <Button
-              type='button'
-              onClick={() => logout()}
-              color="error"
-              component="a"
-              // endIcon={<OpenInNewIcon />}
-              fullWidth
-              sx={{ mt: 2 }}
-              variant="contained"
-              href="/"
-            >
-              Logout
-            </Button>
+          <Button
+            type="button"
+            onClick={() => logout()}
+            color="error"
+            component="a"
+            // endIcon={<OpenInNewIcon />}
+            fullWidth
+            sx={{ mt: 2 }}
+            variant="contained"
+            href="/"
+          >
+            Logout
+          </Button>
           {/* </NextLink> */}
         </Box>
       </Box>
