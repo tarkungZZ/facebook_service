@@ -15,6 +15,11 @@
     "static/development/_middlewareManifest.js"
   ],
   "pages": {
+    "/": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/index.js"
+    ],
     "/_app": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -25,15 +30,15 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/create_facebook": [
+    "/config": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/create_facebook.js"
+      "static/chunks/pages/config.js"
     ],
-    "/customers": [
+    "/post": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/customers.js"
+      "static/chunks/pages/post.js"
     ]
   },
   "ampFirstPages": []

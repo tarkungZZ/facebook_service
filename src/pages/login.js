@@ -168,8 +168,8 @@ import auth from "../../src/api/auth.js";
 // import { DashboardLayout } from "../components/dashboard-layout";
 
 export default function Login({ setIsLoading }) {
-  const [username, setUsername] = useState("admin3");
-  const [password, setPassword] = useState("admin3");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   // const formik = useFormik({
   //   initialValues: {
@@ -189,7 +189,7 @@ export default function Login({ setIsLoading }) {
 
   const handleLogin = async () => {
     const { data } = await auth.login(username, password);
-    console.log("log response +++", data);
+    // console.log("log response +++", data);
     setIsLoading(true);
     return data;
   };

@@ -27,10 +27,11 @@ export default {
       });
   },
 
-  editUser: async (id, fb_password) => {
+  editUser: async (id, fb_password, execute_path) => {
     const data = {
       id: id,
       fb_password: fb_password,
+      execute_path: execute_path,
     };
     return await api.BACKEND_ENDPOINT.post(`${config.api}/facebook/edit`, data)
       // return await api.BACKEND_ENDPOINT.post("/login", data)
@@ -47,7 +48,7 @@ export default {
     const data = {
       id: id,
     };
-    return await api.BACKEND_ENDPOINT.post(`${config.api}/user/delete`, data)
+    return await api.BACKEND_ENDPOINT.post(`${config.api}/facebook/delete`, data)
       // return await api.BACKEND_ENDPOINT.post("/login", data)
       .then(async (res) => {
         return res;
@@ -82,7 +83,90 @@ export default {
     return await api.BACKEND_ENDPOINT.get(`${config.api}/facebook/list?${limit}&${page}`)
       // return await api.BACKEND_ENDPOINT.post("/login", data)
       .then(async (res) => {
-        console.log("facebook ----> ", res);
+        return res;
+      })
+      .catch((err) => {
+        console.log("err, ", err);
+        return err;
+      });
+  },
+  //CONFIG_DELAY
+  getDelay: async () => {
+    return await api.BACKEND_ENDPOINT.get(`${config.api}/config/list`)
+      .then(async (res) => {
+        // console.log("getDelay ----> ", res);
+        return res;
+      })
+      .catch((err) => {
+        console.log("err, ", err);
+        return err;
+      });
+  },
+  editDelay: async (delay_min, delay_max) => {
+    const data = {
+      delay_min: delay_min,
+      delay_max: delay_max,
+    };
+    return await api.BACKEND_ENDPOINT.post(`${config.api}/config/edit`, data)
+      // return await api.BACKEND_ENDPOINT.post("/login", data)
+      .then(async (res) => {
+        return res;
+      })
+      .catch((err) => {
+        console.log("err, ", err);
+        return err;
+      });
+  },
+  //POST
+  getPost: async (limit, page) => {
+    return await api.BACKEND_ENDPOINT.get(`${config.api}/post/list?${limit}&${page}`)
+      // return await api.BACKEND_ENDPOINT.post("/login", data)
+      .then(async (res) => {
+        return res;
+      })
+      .catch((err) => {
+        console.log("err, ", err);
+        return err;
+      });
+  },
+  deletePost: async (id) => {
+    const data = {
+      id: id,
+    };
+    return await api.BACKEND_ENDPOINT.post(`${config.api}/post/delete`, data)
+      // return await api.BACKEND_ENDPOINT.post("/login", data)
+      .then(async (res) => {
+        return res;
+      })
+      .catch((err) => {
+        console.log("err, ", err);
+        return err;
+      });
+  },
+  createPost: async (post) => {
+    const data = {
+      post: post,
+    };
+    return await api.BACKEND_ENDPOINT.post(`${config.api}/post/add`, data)
+      // return await api.BACKEND_ENDPOINT.post("/login", data)
+      .then(async (res) => {
+        return res;
+      })
+      .catch((err) => {
+        console.log("err, ", err);
+        return err;
+      });
+  },
+  //BOT
+  launchBot: async (id, type, like, post) => {
+    const data = {
+      id: id,
+      type: type,
+      like: like,
+      post: post,
+    };
+    return await api.BACKEND_ENDPOINT.post(`${config.api}/launch`, data)
+      .then(async (res) => {
         return res;
       })
       .catch((err) => {

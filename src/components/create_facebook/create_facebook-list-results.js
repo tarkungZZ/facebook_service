@@ -30,7 +30,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   const [modal, setModal] = useState(false);
   const [customerEdit, setCustomerEdit] = useState(undefined);
   //Edit
-  const [role, setRole] = useState(undefined);
+  const [type, setType] = useState(undefined);
   const [password, setPassword] = useState(undefined);
   const [confirm_password, setConfirmPassword] = useState(undefined);
   const [error, setError] = useState(undefined);
@@ -46,15 +46,32 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   const [execute_path, setExecutePath] = useState(undefined);
   const [checkfbpassword, setCheckFbPassword] = useState(false);
   const [checkexeecute_path, setCheckExecutePath] = useState(false);
+  const [width, setWidth] = useState(0);
+  //Bot
+  const [isbot, setIsBot] = useState(false);
+  const [customerBot, setCustomerBot] = useState(undefined);
+  const [link, setLink] = useState(undefined);
+  const [post, setPost] = useState(undefined);
 
   useEffect(() => {
     getData();
+    // console.log("window.innerWidth", window.innerWidth);
+    window.addEventListener("resize", () => {
+      // console.log("window.innerWidth", window.innerWidth);
+      setWidth(window.innerWidth);
+    });
+    return () => {
+      window.removeEventListener("resize", () => {
+        // console.log("window.innerWidth", window.innerWidth);
+        setWidth(window.innerWidth);
+      });
+    };
   }, []);
 
   // localStorage.getItem("create")
 
   const optionsState = {
-    options: role,
+    options: type,
   };
 
   const handleSelectFbPass = (event) => {
@@ -106,10 +123,21 @@ export const CreateFacebookListResults = ({ ...rest }) => {
     setModal(true);
   };
 
+  const handleBot = (customer) => {
+    setCustomerBot(customer);
+    // console.log("customer ===>>>", customer);
+    setIsBot(true);
+  };
+
   const handleConfirm = async () => {
-    const data = await auth.editUser(customerEdit.id, fb_password);
+    if (execute_path === undefined && fb_password === undefined) {
+      alert("Please Select Checkbox");
+      return;
+    }
+    const data = await auth.editUser(customerEdit.id, fb_password, execute_path);
     setModal(false);
     setFbPassword(undefined);
+    setExecutePath(undefined);
     setTimeout(() => {
       alert("Edit Success");
     }, 400);
@@ -119,25 +147,34 @@ export const CreateFacebookListResults = ({ ...rest }) => {
 
   const handleClose = () => {
     setModal(false);
-    setRole(undefined);
-    setPassword(undefined);
-    setConfirmPassword(undefined);
+    setFbPassword(undefined);
+    setExecutePath(undefined);
   };
 
   const handleCloseCreate = () => {
     setIsCreate(false);
-    setRole(undefined);
-    setPassword(undefined);
-    setConfirmPassword(undefined);
+    setEmail(undefined);
+    setFbPassword(undefined);
+    setEmailPassword(undefined);
+    setTwoFa(undefined);
+    setExecutePath(undefined);
+  };
+
+  const handleCloseBot = () => {
+    setIsBot(false);
+    setType(undefined);
+    setLink(undefined);
+    setPost(undefined);
   };
 
   const handleDelete = (customer) => {
+    console.log("customercustomercustomercustomer", customer);
     setCustomerDelete(customer);
     setIsDelete(true);
   };
 
   const handleConfirmDelete = async () => {
-    const data = await auth.deleteUser(customerDelete.id);
+    const data = await auth.deleteUser(customerDelete?.id);
     setIsDelete(false);
     setTimeout(() => {
       alert("Delete Success");
@@ -147,20 +184,24 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   };
 
   const handleCreate = async () => {
-    if (!role) {
-      alert("Please select role");
+    if (!email) {
+      alert("Please Enter Email");
       return;
     }
-    if (!username) {
-      alert("Please input Username");
+    if (!fb_password) {
+      alert("Please Enter Facebook Password");
       return;
     }
-    if (!password) {
-      alert("Please input Password");
+    if (!email_password) {
+      alert("Please Enter Email Password");
       return;
     }
-    if (password !== confirm_password) {
-      alert("Password not match");
+    if (!two_fa) {
+      alert("Please Enter Two Factor");
+      return;
+    }
+    if (!execute_path) {
+      alert("Please Enter Execute Path");
       return;
     }
     const data = await auth.createUser(email, fb_password, email_password, two_fa, execute_path);
@@ -171,7 +212,26 @@ export const CreateFacebookListResults = ({ ...rest }) => {
     setExecutePath(undefined);
     setIsCreate(false);
     setTimeout(() => {
-      alert("Create Account Success");
+      alert("Create Success");
+    }, 400);
+    getData();
+    return data;
+  };
+
+  const handleLaunchBot = async () => {
+    if (type === "share") {
+      if (!link) {
+        alert("Please Enter Link");
+        return;
+      }
+    }
+    const data = await auth.launchBot(customerBot?.id, type, link, post);
+    setIsBot(false);
+    setType(undefined);
+    setLink(undefined);
+    setPost(undefined);
+    setTimeout(() => {
+      alert("Launch Bot Success");
     }, 400);
     getData();
     return data;
@@ -180,6 +240,137 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   return (
     <div>
       <Box>
+        {isbot && (
+          <Box
+            maxWidth="sm"
+            component="main"
+            sx={{
+              height: "100%",
+              position: "absolute",
+              flex: 1,
+              zIndex: 99,
+              marginLeft: "auto",
+              marginRight: "auto",
+              left: 0,
+              right: 0,
+              top: "40%",
+            }}
+          >
+            <Box>
+              <Container>
+                <Box
+                  sx={{
+                    mt: 3,
+                    backgroundColor: "#fff",
+                    borderRadius: 1,
+                    borderColor: "rgba(0,0,0,0.4)",
+                    borderStyle: "solid",
+                    borderWidth: 1,
+                    paddingBottom: "10%",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      mt: 3,
+                      paddingLeft: 3,
+                      flexDirection: "row",
+                      justifyContent: "space-around",
+                      paddingRight: 3,
+                    }}
+                  >
+                    <ul style={{ display: "flex", justifyContent: "space-between" }}>
+                      <div>Manage Bot</div>
+                      <Box
+                        sx={{
+                          color: "error.main",
+                          fontSize: "1.7rem",
+                        }}
+                      >
+                        <i className="fa fa-times" onClick={() => handleCloseBot()} />
+                      </Box>
+                    </ul>
+                  </Box>
+
+                  <Box
+                    sx={{
+                      mt: 3,
+                      backgroundColor: "#fff",
+                      borderLeftWidth: 2,
+                      borderTopLeftRadius: 10,
+                      borderRightWidth: 2,
+                      borderTopRightRadius: 10,
+                      width: "90%",
+                      paddingLeft: 5.5,
+                    }}
+                  >
+                    <select
+                      value={type}
+                      onChange={(e) => setType(e.target.value)}
+                      style={{
+                        width: "100%",
+                        height: 40,
+                        borderRadius: 5,
+                        borderColor: "rgba(0,0,0,0.2)",
+                      }}
+                    >
+                      <option value="">Select Type</option>
+                      <option value="like">Like</option>
+                      <option value="story">Story</option>
+                      <option value="post">Post</option>
+                      <option value="share">Share</option>
+                      {/* <option value={option.value} selected={optionsState == option.value}>
+                      {option.label}
+                    </option> */}
+                    </select>
+
+                    {type === "share" && (
+                      <TextField
+                        fullWidth
+                        label="Link"
+                        name="link"
+                        onChange={(e) => setLink(e.target.value)}
+                        type="text"
+                        value={link}
+                        variant="outlined"
+                        size="small"
+                        margin="dense"
+                      />
+                    )}
+
+                    {type === "post" && (
+                      <TextField
+                        fullWidth
+                        label="Post"
+                        name="post"
+                        onChange={(e) => setPost(e.target.value)}
+                        type="text"
+                        value={post}
+                        variant="outlined"
+                        size="small"
+                        margin="dense"
+                      />
+                    )}
+
+                    <h6 style={{ color: "#D14343" }}>{type === "share" ? "**Required" : ""}</h6>
+
+                    {/* <h6 style={{ color: "#D14343" }}>
+                      {type === "post" ? "**Not Require, the bot will automatically post randomly from the database." : ""}
+                    </h6> */}
+
+                    <Button
+                      style={{ backgroundColor: "#121828", color: "#fff", marginTop: "5%" }}
+                      fullWidth
+                      size="large"
+                      onClick={handleLaunchBot}
+                    >
+                      Confirm
+                    </Button>
+                  </Box>
+                </Box>
+              </Container>
+            </Box>
+          </Box>
+        )}
         {iscreate && (
           <Box
             maxWidth="sm"
@@ -362,7 +553,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                     }}
                   >
                     <ul style={{ display: "flex", justifyContent: "space-between" }}>
-                      <div>Delete Account [ {customerDelete?.username} ]</div>
+                      <div>Delete Account [ {customerDelete?.id} ]</div>
                       {/* <Box
                       sx={{
                         color: "error.main",
@@ -479,6 +670,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                           <i className="fa fa-times" onClick={handleClose} />
                         </Box>
                       </ul>
+                      <div style={{ fontSize: "0.3rem" }}>{customerEdit?.email}</div>
                     </Box>
 
                     <Box
@@ -608,7 +800,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                       onChange={handleSelectAll}
                     />
                   </TableCell> */}
-                  {/* <TableCell>Role</TableCell> */}
+                  {/* <TableCell>type</TableCell> */}
                   <TableCell>ID</TableCell>
                   <TableCell>Email</TableCell>
                   <TableCell align="center">MANAGE</TableCell>
@@ -629,7 +821,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                         value="true"
                       />
                     </TableCell> */}
-                    {/* <TableCell>{customer.role}</TableCell> */}
+                    {/* <TableCell>{customer.type}</TableCell> */}
                     <TableCell>
                       {customer.id}
                       {/* {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`} */}
@@ -644,14 +836,23 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                         {/* <Avatar src={customer.avatarUrl} sx={{ mr: 2 }}>
                         {getInitials(customer.name)}
                       </Avatar> */}
+                        {/* {window.innerWidth > 500 && ( */}
                         <Typography color="textPrimary" variant="body1">
-                          {customer.email}
+                          {customer.email.substring(0, window.innerWidth < 500 ? 15 : 250)}
                         </Typography>
+                        {/* )} */}
                       </Box>
                     </TableCell>
                     {/* <TableCell>{customer.email}</TableCell> */}
 
                     <TableCell align="center">
+                      <Button
+                        style={{ background: "#10B981", marginRight: "1rem" }}
+                        variant="contained"
+                        onClick={() => handleBot(customer)}
+                      >
+                        Bot
+                      </Button>
                       <Button
                         style={{ background: "#121828" }}
                         variant="contained"
