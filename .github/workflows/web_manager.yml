@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: pull code and build
-        uses: appleboy/ssh-action@v0.0.7
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_IP }}
           username: ${{ secrets.SSH_USER }}
@@ -24,6 +24,8 @@ jobs:
             git checkout web_manager
             git checkout -- .
             git pull
+            npm i
+            npm audit fix
             npm run build
             pm2 restart web_manager
             pm2 save
