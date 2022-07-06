@@ -14,9 +14,9 @@ jobs:
       - name: pull code and build
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SSH_IP_DEV }}
-          username: ${{ secrets.SSH_USER_DEV }}
-          password: ${{ secrets.SSH_PASS_DEV }}
+          host: ${{ secrets.SSH_IP }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASS }}
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd web_manager
