@@ -18,12 +18,15 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASS }}
           port: ${{ secrets.SSH_PORT }}
-          script: |
+          run: |
             cd web_manager
             git fetch
             git checkout web_manager
             git checkout -- .
             git pull
-            npm run build
-            pm2 restart web_manager
-            pm2 save
+      - name: build
+        run: npm run build
+      - name: restart pm2
+        run: |
+          pm2 restart web_manager
+          pm2 save
