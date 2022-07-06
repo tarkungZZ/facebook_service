@@ -298,7 +298,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                       name="password"
                       // onBlur={formik.handleBlur}
                       onChange={(e) => setPassword(e.target.value)}
-                      type="password"
+                      type="text"
                       value={password}
                       variant="outlined"
                       size="small"
@@ -314,7 +314,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                       name="confirm_password"
                       // onBlur={formik.handleBlur}
                       onChange={(e) => setConfirmPassword(e.target.value)}
-                      type="password"
+                      type="text"
                       value={confirm_password}
                       variant="outlined"
                       size="small"
@@ -630,9 +630,10 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                       onChange={handleSelectAll}
                     />
                   </TableCell> */}
-                  <TableCell>Role</TableCell>
+
                   <TableCell>ID</TableCell>
                   <TableCell>Username</TableCell>
+                  <TableCell>Role</TableCell>
                   <TableCell align="center">MANAGE</TableCell>
                   {/* <TableCell>Registration date</TableCell> */}
                 </TableRow>
@@ -651,7 +652,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                         value="true"
                       />
                     </TableCell> */}
-                    <TableCell>{customer.role}</TableCell>
+
                     <TableCell>
                       {customer.id}
                       {/* {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`} */}
@@ -672,6 +673,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                       </Box>
                     </TableCell>
                     {/* <TableCell>{customer.email}</TableCell> */}
+                    <TableCell>{customer.role}</TableCell>
 
                     <TableCell align="center">
                       <Button
