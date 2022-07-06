@@ -18,7 +18,7 @@ const Customers = () => (
       }}
     >
       <Container maxWidth={false}>
-        <CreateFacebookListToolbar />
+        {/* <CreateFacebookListToolbar /> */}
         <Box sx={{ mt: 3 }}>
           <CreateFacebookListResults customers={customers} />
         </Box>

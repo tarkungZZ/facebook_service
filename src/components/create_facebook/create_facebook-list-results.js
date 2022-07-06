@@ -38,11 +38,14 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   const [customerDelete, setCustomerDelete] = useState(undefined);
   const [iscreate, setIsCreate] = useState(false);
   const [username, setUsername] = useState(undefined);
-  //Role
-  const option = [
-    { value: "admin", label: "Admin" },
-    { value: "user", label: "User" },
-  ];
+  //Create_Facebook email, fb_password, email_password, two_fa, execute_path
+  const [email, setEmail] = useState(undefined);
+  const [fb_password, setFbPassword] = useState(undefined);
+  const [email_password, setEmailPassword] = useState(undefined);
+  const [two_fa, setTwoFa] = useState(undefined);
+  const [execute_path, setExecutePath] = useState(undefined);
+  const [checkfbpassword, setCheckFbPassword] = useState(false);
+  const [checkexeecute_path, setCheckExecutePath] = useState(false);
 
   useEffect(() => {
     getData();
@@ -54,16 +57,14 @@ export const CreateFacebookListResults = ({ ...rest }) => {
     options: role,
   };
 
-  const handleSelectAll = (event) => {
-    let newSelectedCustomerIds;
+  const handleSelectFbPass = (event) => {
+    console.log("event", event.target.checked);
+    setCheckFbPassword(event.target.checked);
+  };
 
-    if (event.target.checked) {
-      newSelectedCustomerIds = customers.map((customer) => customer.id);
-    } else {
-      newSelectedCustomerIds = [];
-    }
-
-    setSelectedCustomerIds(newSelectedCustomerIds);
+  const handleSeletExecutePath = (event) => {
+    console.log("event", event.target.checked);
+    setCheckExecutePath(event.target.checked);
   };
 
   const handleSelectOne = (event, id) => {
@@ -101,33 +102,19 @@ export const CreateFacebookListResults = ({ ...rest }) => {
 
   const handleEdit = (customer) => {
     setCustomerEdit(customer);
+    // console.log("customer ===>>>", customer);
     setModal(true);
   };
 
   const handleConfirm = async () => {
-    if (password !== confirm_password) {
-      alert("Password not match");
-      return;
-    }
-
-    if (role === "") {
-      setRole(customerEdit.role);
-    }
-    if (role || password !== "undefined") {
-      if (password && confirm_password !== 1) {
-        setPassword(customerEdit.password);
-      }
-      const data = await auth.editUser(customerEdit.id, password, role);
-      setModal(false);
-      setPassword(undefined);
-      setConfirmPassword(undefined);
-      setRole(undefined);
-      setTimeout(() => {
-        alert("Edit Success");
-      }, 400);
-      getData();
-      return data;
-    }
+    const data = await auth.editUser(customerEdit.id, fb_password);
+    setModal(false);
+    setFbPassword(undefined);
+    setTimeout(() => {
+      alert("Edit Success");
+    }, 400);
+    getData();
+    return data;
   };
 
   const handleClose = () => {
@@ -176,14 +163,15 @@ export const CreateFacebookListResults = ({ ...rest }) => {
       alert("Password not match");
       return;
     }
-    const data = await auth.createUser(username, password, role);
+    const data = await auth.createUser(email, fb_password, email_password, two_fa, execute_path);
+    setEmail(undefined);
+    setFbPassword(undefined);
+    setEmailPassword(undefined);
+    setTwoFa(undefined);
+    setExecutePath(undefined);
     setIsCreate(false);
-    setUsername(undefined);
-    setPassword(undefined);
-    setConfirmPassword(undefined);
-    setRole(undefined);
     setTimeout(() => {
-      alert("Create Success");
+      alert("Create Account Success");
     }, 400);
     getData();
     return data;
@@ -231,7 +219,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                     }}
                   >
                     <ul style={{ display: "flex", justifyContent: "space-between" }}>
-                      <div>Create Account</div>
+                      <div>Create Facebook Account</div>
                       <Box
                         sx={{
                           color: "error.main",
@@ -255,77 +243,71 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                       paddingLeft: 5.5,
                     }}
                   >
-                    <select
-                      value={role}
-                      onChange={(e) => setRole(e.target.value)}
-                      style={{
-                        width: "100%",
-                        height: 40,
-                        borderRadius: 5,
-                        borderColor: "rgba(0,0,0,0.2)",
-                      }}
-                    >
-                      <option value="">Select Role</option>
-                      <option value="admin">Admin</option>
-                      <option value="staff">Staff</option>
-                      {/* <option value={option.value} selected={optionsState == option.value}>
-                      {option.label}
-                    </option> */}
-                    </select>
+                    <TextField
+                      fullWidth
+                      label="Email"
+                      name="email"
+                      onChange={(e) => setEmail(e.target.value)}
+                      type="email"
+                      value={email}
+                      variant="outlined"
+                      size="small"
+                      margin="dense"
+                    />
 
                     <TextField
-                      // error={Boolean(formik.touched.username && formik.errors.username)}
                       fullWidth
-                      // helperText={formik.touched.username && formik.errors.username}
-                      label="Username"
-                      // margin="normal"
-                      name="username"
-                      // onBlur={formik.handleBlur}
-                      onChange={(e) => setUsername(e.target.value)}
+                      label="FacebookPasswod"
+                      name="facebookpassword"
+                      onChange={(e) => setFbPassword(e.target.value)}
                       type="text"
-                      value={username}
+                      value={fb_password}
                       variant="outlined"
                       size="small"
                       margin="dense"
                     />
 
                     <TextField
-                      // error={Boolean(formik.touched.username && formik.errors.username)}
                       fullWidth
-                      // helperText={formik.touched.username && formik.errors.username}
-
-                      label="Password"
-                      name="password"
-                      // onBlur={formik.handleBlur}
-                      onChange={(e) => setPassword(e.target.value)}
-                      type="password"
-                      value={password}
+                      label="Email Password"
+                      name="email_password"
+                      onChange={(e) => setEmailPassword(e.target.value)}
+                      type="text"
+                      value={email_password}
                       variant="outlined"
                       size="small"
                       margin="dense"
                     />
 
                     <TextField
-                      // error={Boolean(formik.touched.username && formik.errors.username)}
                       fullWidth
-                      // helperText={formik.touched.username && formik.errors.username}
-                      label="Confirm Password"
-                      // margin="normal"
-                      name="confirm_password"
-                      // onBlur={formik.handleBlur}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      type="password"
-                      value={confirm_password}
+                      label="TwoFactor"
+                      name="two_fa"
+                      onChange={(e) => setTwoFa(e.target.value)}
+                      type="text"
+                      value={two_fa}
                       variant="outlined"
                       size="small"
                       margin="dense"
                     />
 
-                    <h6 style={{ color: "#D14343" }}>
+                    <TextField
+                      fullWidth
+                      label="Execute Path"
+                      name="execute_path"
+                      onChange={(e) => setExecutePath(e.target.value)}
+                      type="text"
+                      value={execute_path}
+                      variant="outlined"
+                      size="small"
+                      margin="dense"
+                    />
+
+                    {/* <h6 style={{ color: "#D14343" }}>
                       {(password !== confirm_password) & (password != 0) & (confirm_password != 0)
                         ? "Password not match"
                         : ""}
-                    </h6>
+                    </h6> */}
 
                     <Button
                       style={{ backgroundColor: "#121828", color: "#fff", marginTop: "5%" }}
@@ -487,7 +469,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                       }}
                     >
                       <ul style={{ display: "flex", justifyContent: "space-between" }}>
-                        <div>Edit Account [ {customerEdit?.username} ]</div>
+                        <div>Edit Account [ {customerEdit?.id} ]</div>
                         <Box
                           sx={{
                             color: "error.main",
@@ -511,60 +493,56 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                         paddingLeft: 5.5,
                       }}
                     >
-                      <select
-                        value={role}
-                        onChange={(e) => setRole(e.target.value)}
-                        style={{
-                          width: "100%",
-                          height: 40,
-                          borderRadius: 5,
-                          borderColor: "rgba(0,0,0,0.2)",
-                        }}
-                      >
-                        <option value="">Select Role</option>
-                        <option value="admin">Admin</option>
-                        <option value="staff">Staff</option>
-                        {/* <option value={option.value} selected={optionsState == option.value}>
-                      {option.label}
-                    </option> */}
-                      </select>
+                      <ul style={{ display: "flex", justifyContent: "space-between" }}>
+                        <Checkbox
+                          checked={checkfbpassword === true ? true : false}
+                          color="primary"
+                          // indeterminate={
+                          //   selectedCustomerIds.length > 0 &&
+                          //   selectedCustomerIds.length < customers.length
+                          // }
+                          onChange={handleSelectFbPass}
+                        />
+                        <TextField
+                          fullWidth
+                          label="Facebook Password"
+                          name="facebook_password"
+                          onChange={(e) => setFbPassword(e.target.value)}
+                          type="text"
+                          value={fb_password}
+                          variant="outlined"
+                          size="small"
+                          margin="dense"
+                        />
+                      </ul>
+                      <ul style={{ display: "flex", justifyContent: "space-between" }}>
+                        <Checkbox
+                          checked={checkexeecute_path === true ? true : false}
+                          color="primary"
+                          // indeterminate={
+                          //   selectedCustomerIds.length > 0 &&
+                          //   selectedCustomerIds.length < customers.length
+                          // }
+                          onChange={handleSeletExecutePath}
+                        />
+                        <TextField
+                          fullWidth
+                          label="Execute Path"
+                          name="execute_path"
+                          onChange={(e) => setExecutePath(e.target.value)}
+                          type="text"
+                          value={execute_path}
+                          variant="outlined"
+                          size="small"
+                          margin="dense"
+                        />
+                      </ul>
 
-                      <TextField
-                        // error={Boolean(formik.touched.username && formik.errors.username)}
-                        fullWidth
-                        // helperText={formik.touched.username && formik.errors.username}
-
-                        label="Password"
-                        margin="normal"
-                        name="password"
-                        // onBlur={formik.handleBlur}
-                        onChange={(e) => setPassword(e.target.value)}
-                        type="text"
-                        value={password}
-                        variant="outlined"
-                        size="small"
-                      />
-
-                      <TextField
-                        // error={Boolean(formik.touched.username && formik.errors.username)}
-                        fullWidth
-                        // helperText={formik.touched.username && formik.errors.username}
-                        label="Confirm Password"
-                        // margin="normal"
-                        name="confirm_password"
-                        // onBlur={formik.handleBlur}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        type="text"
-                        value={confirm_password}
-                        variant="outlined"
-                        size="small"
-                      />
-
-                      <h6 style={{ color: "#D14343" }}>
+                      {/* <h6 style={{ color: "#D14343" }}>
                         {(password !== confirm_password) & (password != 0) & (confirm_password != 0)
                           ? "Password not match"
                           : ""}
-                      </h6>
+                      </h6> */}
 
                       <Button
                         style={{ backgroundColor: "#121828", color: "#fff", marginTop: "5%" }}
@@ -598,7 +576,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
             }}
           >
             <Typography sx={{ m: 1 }} variant="h4">
-              Create Accounts
+              Create Facebook
             </Typography>
             <Box sx={{ m: 1 }}>
               <Button
@@ -609,7 +587,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                   setIsCreate(true);
                 }}
               >
-                Add Account
+                Add Facebook
               </Button>
             </Box>
           </Box>
@@ -630,9 +608,9 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                       onChange={handleSelectAll}
                     />
                   </TableCell> */}
-                  <TableCell>Role</TableCell>
+                  {/* <TableCell>Role</TableCell> */}
                   <TableCell>ID</TableCell>
-                  <TableCell>Username</TableCell>
+                  <TableCell>Email</TableCell>
                   <TableCell align="center">MANAGE</TableCell>
                   {/* <TableCell>Registration date</TableCell> */}
                 </TableRow>
@@ -651,7 +629,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                         value="true"
                       />
                     </TableCell> */}
-                    <TableCell>{customer.role}</TableCell>
+                    {/* <TableCell>{customer.role}</TableCell> */}
                     <TableCell>
                       {customer.id}
                       {/* {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`} */}
@@ -667,7 +645,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                         {getInitials(customer.name)}
                       </Avatar> */}
                         <Typography color="textPrimary" variant="body1">
-                          {customer.username}
+                          {customer.email}
                         </Typography>
                       </Box>
                     </TableCell>

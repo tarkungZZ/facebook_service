@@ -27,13 +27,12 @@ export default {
       });
   },
 
-  editUser: async (id, password, role) => {
+  editUser: async (id, fb_password) => {
     const data = {
       id: id,
-      password: password,
-      role: role,
+      fb_password: fb_password,
     };
-    return await api.BACKEND_ENDPOINT.post(`${config.api}/user/edit`, data)
+    return await api.BACKEND_ENDPOINT.post(`${config.api}/facebook/edit`, data)
       // return await api.BACKEND_ENDPOINT.post("/login", data)
       .then(async (res) => {
         return res;
@@ -59,11 +58,13 @@ export default {
       });
   },
 
-  createUser: async (username, password, role) => {
+  createUser: async (email, fb_password, email_password, two_fa, execute_path) => {
     const data = {
-      username: username,
-      password: password,
-      role: role,
+      email: email,
+      fb_password: fb_password,
+      email_password: email_password,
+      two_fa: two_fa,
+      execute_path: execute_path,
     };
     console.log("dataCreate, ", data);
     return await api.BACKEND_ENDPOINT.post(`${config.api}/user/create`, data)
@@ -78,9 +79,10 @@ export default {
   },
   //GET
   getUser: async (limit, page) => {
-    return await api.BACKEND_ENDPOINT.get(`${config.api}/user/list?${limit}&${page}`)
+    return await api.BACKEND_ENDPOINT.get(`${config.api}/facebook/list?${limit}&${page}`)
       // return await api.BACKEND_ENDPOINT.post("/login", data)
       .then(async (res) => {
+        console.log("facebook ----> ", res);
         return res;
       })
       .catch((err) => {

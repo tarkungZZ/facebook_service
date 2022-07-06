@@ -1,6 +1,5 @@
 {
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
-  "/_error": "pages/_error.js",
-  "/create_facebook": "pages/create_facebook.js"
+  "/_error": "pages/_error.js"
 }
