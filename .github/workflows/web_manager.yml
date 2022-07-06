@@ -1,32 +1,30 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
-name: Build web_manager
+name: Deploy
 
 on:
   push:
-    branches: [web_manager]
+    branches:
+      - web_manager
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: pull code and build
-        uses: appleboy/ssh-action@master
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2-beta
         with:
+          node-version: "12"
+          check-latest: true
           host: ${{ secrets.SSH_IP }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASS }}
           port: ${{ secrets.SSH_PORT }}
-          run: |
-            cd web_manager
-            git fetch
-            git checkout web_manager
-            git checkout -- .
-            git pull
-      - name: build
-        run: npm run build
-      - name: restart pm2
-        run: |
+      - run: |
+          cd web_manager
+          git fetch
+          git checkout web_manager
+          git pull
+      - run: npm run build
+      - run: |
           pm2 restart web_manager
           pm2 save
