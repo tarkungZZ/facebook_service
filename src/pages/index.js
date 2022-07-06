@@ -21,24 +21,20 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Facebook as FacebookIcon } from "../icons/facebook";
 import { Google as GoogleIcon } from "../icons/google";
 
-import Login from './login'
-import Dashboard from './dashboard'
+import Login from "./login";
+import Dashboard from "./dashboard";
 
 // const [isLogin, setIsLogin] = React.useState(true);
 
-export default function App(){
-
-
+export default function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [accessToken, setAccessToken] = useState(undefined)
+  const [accessToken, setAccessToken] = useState(undefined);
 
   useEffect(() => {
-    if(isLoading) {
-      verifyAccessToken()
+    if (isLoading) {
+      verifyAccessToken();
     }
-  },[isLoading])
-
-  
+  }, [isLoading]);
 
   // useEffect(() => {
   //   setIsLoading(true)
@@ -46,47 +42,21 @@ export default function App(){
   // },[accessToken])
 
   const verifyAccessToken = async () => {
-    const token = await localStorage.getItem("token")
-    setAccessToken(token)
-    setIsLoading(false)
-  }
+    const token = await localStorage.getItem("token");
+    setAccessToken(token);
+    setIsLoading(false);
+  };
 
   const logout = async () => {
-    setAccessToken(undefined)
-    await localStorage.removeItem("token")
-    setIsLoading(true)
-  }
-  // const router = useRouter();
-  // const formik = useFormik({
-  //   initialValues: {
-  //     username: "admin3",
-  //     password: "admin3",
-  //   },
-  //   validationSchema: Yup.object({
-  //     username: Yup.string().max(255),
-  //     password: Yup.string().max(255).required("Password is required"),
-  //   }),
-  //   onSubmit: () => {
-  //     handleLogin();
-  //     console.log("test");
-  //   },
-  // });
+    setAccessToken(undefined);
+    await localStorage.removeItem("token");
+    setIsLoading(true);
+  };
+  if (isLoading) return <div></div>;
 
-  // console.log("validationSchema", formik.values.username);
-
-  // useEffect(async () => {
-  //   
-  //   if (await localStorage.getItem("token")) {
-  //     setIsLogin(false);
-  //   } else {
-  //     setIsLogin(false);
-  //   }
-  // });
-
-
-console.log(accessToken)
-  if(isLoading) return <div>.... loading</div>
-
-  return <div>{accessToken ?  <Dashboard logout={() => logout()}/> : <Login setIsLoading={setIsLoading}/>}</div>
+  return (
+    <div>
+      {accessToken ? <Dashboard logout={() => logout()} /> : <Login setIsLoading={setIsLoading} />}
+    </div>
+  );
 }
-
