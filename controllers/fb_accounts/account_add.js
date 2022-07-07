@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
             email_password: req.body.email_password,
             fb_password: req.body.fb_password,
             two_fa: req.body.two_fa,
-            execute_path:req.body.execute_path
+            execute_path: 'C:\Program Files\Google\Chrome\Application\chrome.exe'
         }
 
         console.log(body)
