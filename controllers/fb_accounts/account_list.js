@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
 
     const limitPage = `ORDER BY created_at ASC LIMIT ${limit} OFFSET ${page}`
 
-    const query = 'SELECT id , email FROM facebook_account'
+    const query = 'SELECT id , email , email_password , fb_password FROM facebook_account'
 
     await pool(query + ' ' + condition + ' ' + limitPage)
         .then(async (result) => {
