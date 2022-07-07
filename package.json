@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "node-clipboardy": "^1.0.3",
+    "pm2": "^5.2.0",
     "puppeteer": "^14.1.1",
     "puppeteer-autoscroll-down": "^1.1.1",
     "puppeteer-extra": "^3.2.3",
