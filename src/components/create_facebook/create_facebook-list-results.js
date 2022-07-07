@@ -108,7 +108,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   };
 
   const handleLimitChange = (event) => {
-    setLimit(event.target.value);
+    setLimit(event?.target?.value);
   };
 
   const handlePageChange = (event, newPage) => {
@@ -124,12 +124,12 @@ export const CreateFacebookListResults = ({ ...rest }) => {
     setPage(0);
   };
 
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, user?.length - page * rowsPerPage);
+
   const getData = async () => {
     const data = await auth.getUser(limit, page).then((res) => setUser(res?.data?.result));
     return data;
   };
-
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, user?.length - page * rowsPerPage);
 
   const handleEdit = (customer) => {
     setCustomerEdit(customer);
@@ -896,11 +896,11 @@ export const CreateFacebookListResults = ({ ...rest }) => {
           rowsPerPageOptions={[5, 10, 25, 50, 100]}
           component="div"
           count={user?.length}
-          onRowsPerPageChange={handleLimitChange}
           page={page}
           rowsPerPage={limit}
           onPageChange={handlePageChange}
           onChangeRowsPerPage={handleChangeRowsPerPage}
+          onRowsPerPageChange={handleLimitChange}
         />
       </Card>
     </div>
