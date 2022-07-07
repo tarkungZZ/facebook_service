@@ -1,6 +1,6 @@
 const delay = require('../../helpers/delay')
 
-module.exports = async (page, randomDelay, pid) => {
+module.exports = async (page, randomDelay, pid, timeout) => {
 
     try {
 
@@ -22,6 +22,7 @@ module.exports = async (page, randomDelay, pid) => {
 
                 await delay(randomDelay)
                 await process.kill(pid)
+                await clearTimeout(timeout)
 
             }
 

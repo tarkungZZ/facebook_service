@@ -1,6 +1,6 @@
 const delay = require('../../helpers/delay')
 
-module.exports = async (page, randomDelay, link) => {
+module.exports = async (page, randomDelay, link, timeout) => {
 
     for (let i = 0; i < 6; i++) {
 
@@ -19,6 +19,8 @@ module.exports = async (page, randomDelay, link) => {
             await delay(randomDelay)
             await page.close()
 
+            await clearTimeout(timeout)
+
             break
 
         } catch (err) {
@@ -29,6 +31,8 @@ module.exports = async (page, randomDelay, link) => {
 
                 await delay(randomDelay)
                 await page.close()
+
+                await clearTimeout(timeout)
 
                 break
 

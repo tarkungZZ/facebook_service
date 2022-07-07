@@ -80,11 +80,12 @@ module.exports = async (data) => {
             //     deviceScaleFactor: 1
             // })
 
-            setTimeout(async () => {
-                //console.log(`Timeout exceeded.`)
-                await page.close()
-                await process.kill(pid)
-            }, 600000)
+            const timeout = setTimeout(async () => {
+                try {
+                    await page.close()
+                    await process.kill(pid)
+                } catch (err) { console.log(err) }
+            }, 60000)
 
             let day = getDay()
             day = Number(day) - 1
@@ -240,7 +241,7 @@ module.exports = async (data) => {
 
                 //console.log(`Start farming story for ${obj.email}.`)
 
-                farmStory(page, randomDelay, pid)
+                farmStory(page, randomDelay, pid, timeout)
 
             }
 
@@ -248,7 +249,7 @@ module.exports = async (data) => {
 
                 //console.log(`Start farming post for ${obj.email}.`)
 
-                farmPost(page, randomDelay, data.postContent)
+                farmPost(page, randomDelay, data.postContent, timeout)
 
             }
 
@@ -256,7 +257,7 @@ module.exports = async (data) => {
 
                 //console.log(`Start farming share for ${obj.email}.`)
 
-                farmShare(page, randomDelay, data.link)
+                farmShare(page, randomDelay, data.link, timeout)
 
             }
 
