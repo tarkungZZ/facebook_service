@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2019
     steps:
       - name: pull code and build
         uses: appleboy/ssh-action@master
@@ -20,7 +20,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd Desktop
-            cd facebook_service
+            cd facebook
             git fetch
             git checkout bot
             git checkout -- .
