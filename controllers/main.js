@@ -17,7 +17,7 @@ module.exports = async (data) => {
     let count = 1
     let obj = {}
 
-    const randomDelay = Math.floor(Math.random() * (data.delay_end - data.delay) + data.delay)
+    const randomDelay = Math.floor(Math.random() * (data.delay_max - data.delay_min) + data.delay_min)
 
     if (data.id === null) {
 
