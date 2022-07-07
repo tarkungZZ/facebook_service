@@ -555,7 +555,7 @@ export const CreatePostListResults = ({ ...rest }) => {
           </Box>
         </Box>
         <PerfectScrollbar>
-          <Box>
+          <Box style={{ overflow: "scroll" }}>
             <Table>
               <TableHead>
                 <TableRow>

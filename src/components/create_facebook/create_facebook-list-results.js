@@ -794,27 +794,19 @@ export const CreateFacebookListResults = ({ ...rest }) => {
             </Box>
           </Box>
         </Box>
-        <PerfectScrollbar>
-          <Box>
+        <PerfectScrollbar
+          options={{ suppressScrollY: true, displayScrollToTop: true }}
+          onScrollY={(container) => console.log(`scrolled to: ${container.scrollTop}.`)}
+        >
+          <Box style={{ overflow: "scroll" }}>
             <Table>
               <TableHead>
                 <TableRow>
-                  {/* <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selectedCustomerIds.length === customers.length}
-                      color="primary"
-                      indeterminate={
-                        selectedCustomerIds.length > 0 &&
-                        selectedCustomerIds.length < customers.length
-                      }
-                      onChange={handleSelectAll}
-                    />
-                  </TableCell> */}
-                  {/* <TableCell>type</TableCell> */}
                   <TableCell>ID</TableCell>
                   <TableCell>Email</TableCell>
+                  <TableCell>Email Password</TableCell>
+                  <TableCell>Facebook Password</TableCell>
                   <TableCell align="center">MANAGE</TableCell>
-                  {/* <TableCell>Registration date</TableCell> */}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -847,24 +839,31 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                         {getInitials(customer.name)}
                       </Avatar> */}
                         {/* {window.innerWidth > 500 && ( */}
-                        <Typography color="textPrimary" variant="body1">
+                        <Typography color="textPrimary">
                           {customer.email.substring(0, window.innerWidth < 500 ? 15 : 250)}
                         </Typography>
+
                         {/* )} */}
                       </Box>
                     </TableCell>
                     {/* <TableCell>{customer.email}</TableCell> */}
+                    <TableCell>
+                      {customer.email_password.substring(0, window.innerWidth < 500 ? 15 : 250)}
+                    </TableCell>
+                    <TableCell>
+                      {customer.fb_password.substring(0, window.innerWidth < 500 ? 15 : 250)}
+                    </TableCell>
 
                     <TableCell align="center">
                       <Button
-                        style={{ background: "#10B981", marginRight: "1rem" }}
+                        style={{ background: "#10B981"}}
                         variant="contained"
                         onClick={() => handleBot(customer)}
                       >
                         Bot
                       </Button>
                       <Button
-                        style={{ background: "#121828" }}
+                        style={{ background: "#121828", marginLeft: "0.1rem", marginRight: "0.1rem" }}
                         variant="contained"
                         onClick={() => handleEdit(customer)}
                       >
@@ -872,6 +871,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                       </Button>
                       <Button
                         color="error"
+                        style={{ background: "rgba(255,0,0,0.02)"}}
                         // variant="contained"
                         onClick={() => {
                           handleDelete(customer);
