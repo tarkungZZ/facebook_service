@@ -80,7 +80,7 @@ module.exports = async (data) => {
             //     deviceScaleFactor: 1
             // })
 
-            const timeout = setTimeout(async () => { await page.close() }, 60000)
+            const timeout = setTimeout(async () => { await page.close() }, 120000)
 
             let day = getDay()
             day = Number(day) - 1
@@ -221,7 +221,7 @@ module.exports = async (data) => {
                 } catch (err) {
                     if (err) {
                         console.log(`Not in the feed yet , wait for 15s.`)
-                        await delay(15000)
+                        await delay(10000)
                     }
                 }
 
