@@ -88,7 +88,8 @@ module.exports = async (data) => {
 
             let day = getDay()
             day = Number(day) - 1
-            console.log(day)
+            day += ''
+            day = '0' + day
 
             if (fs.existsSync(`./cookies_${obj.email}_${day}.json`)) {
 

@@ -2,6 +2,10 @@ module.exports = () => {
 
     const date = new Date()
 
-    return date.getDate()
+    let getDay = date.getDate()
+
+    if (getDay < 10) { getDay = '0' + String(getDay) }
+
+    return getDay
 
 }
