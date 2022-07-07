@@ -78,12 +78,12 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   };
 
   const handleSelectFbPass = (event) => {
-    console.log("event", event.target.checked);
+    // console.log("event", event.target.checked);
     setCheckFbPassword(event.target.checked);
   };
 
   const handleSeletExecutePath = (event) => {
-    console.log("event", event.target.checked);
+    // console.log("event", event.target.checked);
     setCheckExecutePath(event.target.checked);
   };
 
@@ -112,11 +112,15 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   };
 
   const handlePageChange = (event, newPage) => {
+    // console.log("event", event);
+    // console.log("newPage", newPage);
+    // setRowsPerPage(parseInt(event.target.value, 5));
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+    console.log("event -> handleChangeRowsPerPaget", event);
+    setLimit(parseInt(event.target.value, 10));
     setPage(0);
   };
 
@@ -178,7 +182,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   };
 
   const handleDelete = (customer) => {
-    console.log("customercustomercustomercustomer", customer);
+    // console.log("customercustomercustomercustomer", customer);
     setCustomerDelete(customer);
     setIsDelete(true);
   };
@@ -818,80 +822,72 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {user
-                  ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .slice(0, limit)
-                  .map((customer, index) => (
-                    <TableRow
-                      hover
-                      key={customer.id}
-                      selected={selectedCustomerIds.indexOf(customer.id) !== -1}
-                    >
-                      {/* <TableCell padding="checkbox">
+                {user?.slice(page * limit, page * limit + limit).map((customer, index) => (
+                  <TableRow
+                    hover
+                    key={customer.id}
+                    selected={selectedCustomerIds.indexOf(customer.id) !== -1}
+                  >
+                    {/* <TableCell padding="checkbox">
                       <Checkbox
                         checked={selectedCustomerIds.indexOf(customer.id) !== -1}
                         onChange={(event) => handleSelectOne(event, customer.id)}
                         value="true"
                       />
                     </TableCell> */}
-                      {/* <TableCell>{customer.type}</TableCell> */}
-                      <TableCell>
-                        {customer.id}
-                        {/* {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`} */}
-                      </TableCell>
-                      <TableCell>
-                        <Box
-                          sx={{
-                            alignItems: "center",
-                            display: "flex",
-                          }}
-                        >
-                          {/* <Avatar src={customer.avatarUrl} sx={{ mr: 2 }}>
+                    {/* <TableCell>{customer.type}</TableCell> */}
+                    <TableCell>
+                      {customer.id}
+                      {/* {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`} */}
+                    </TableCell>
+                    <TableCell>
+                      <Box
+                        sx={{
+                          alignItems: "center",
+                          display: "flex",
+                        }}
+                      >
+                        {/* <Avatar src={customer.avatarUrl} sx={{ mr: 2 }}>
                         {getInitials(customer.name)}
                       </Avatar> */}
-                          {/* {window.innerWidth > 500 && ( */}
-                          <Typography color="textPrimary" variant="body1">
-                            {customer.email.substring(0, window.innerWidth < 500 ? 15 : 250)}
-                          </Typography>
-                          {/* )} */}
-                        </Box>
-                      </TableCell>
-                      {/* <TableCell>{customer.email}</TableCell> */}
+                        {/* {window.innerWidth > 500 && ( */}
+                        <Typography color="textPrimary" variant="body1">
+                          {customer.email.substring(0, window.innerWidth < 500 ? 15 : 250)}
+                        </Typography>
+                        {/* )} */}
+                      </Box>
+                    </TableCell>
+                    {/* <TableCell>{customer.email}</TableCell> */}
 
-                      <TableCell align="center">
-                        <Button
-                          style={{ background: "#10B981", marginRight: "1rem" }}
-                          variant="contained"
-                          onClick={() => handleBot(customer)}
-                        >
-                          Bot
-                        </Button>
-                        <Button
-                          style={{ background: "#121828" }}
-                          variant="contained"
-                          onClick={() => handleEdit(customer)}
-                        >
-                          Edit
-                        </Button>
-                        <Button
-                          color="error"
-                          // variant="contained"
-                          onClick={() => {
-                            handleDelete(customer);
-                          }}
-                        >
-                          Delete
-                        </Button>
-                      </TableCell>
+                    <TableCell align="center">
+                      <Button
+                        style={{ background: "#10B981", marginRight: "1rem" }}
+                        variant="contained"
+                        onClick={() => handleBot(customer)}
+                      >
+                        Bot
+                      </Button>
+                      <Button
+                        style={{ background: "#121828" }}
+                        variant="contained"
+                        onClick={() => handleEdit(customer)}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        color="error"
+                        // variant="contained"
+                        onClick={() => {
+                          handleDelete(customer);
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </TableCell>
 
-                      {/* <TableCell>{format(customer.createdAt, "dd/MM/yyyy")}</TableCell> */}
-                    </TableRow>
-                  ))}
-                {emptyRows > 0 && (
-                  <TableRow style={{ height: 53 * emptyRows }}>
-                    <TableCell colSpan={6} />
+                    {/* <TableCell>{format(customer.createdAt, "dd/MM/yyyy")}</TableCell> */}
                   </TableRow>
-                )}
+                ))}
               </TableBody>
             </Table>
           </Box>
