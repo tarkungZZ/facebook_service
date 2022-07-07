@@ -108,7 +108,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   };
 
   const handleLimitChange = (event) => {
-    setLimit(event.target.value);
+    setLimit(event?.target?.value);
   };
 
   const handlePageChange = (event, newPage) => {
@@ -120,12 +120,12 @@ export const CreateFacebookListResults = ({ ...rest }) => {
     setPage(0);
   };
 
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, user?.length - page * rowsPerPage);
+
   const getData = async () => {
     const data = await auth.getUser(limit, page).then((res) => setUser(res?.data?.result));
     return data;
   };
-
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, user?.length - page * rowsPerPage);
 
   const handleEdit = (customer) => {
     setCustomerEdit(customer);
@@ -819,13 +819,13 @@ export const CreateFacebookListResults = ({ ...rest }) => {
               </TableHead>
               <TableBody>
                 {user
+                  ?.slice(0, limit)
                   ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .slice(0, limit)
                   .map((customer, index) => (
                     <TableRow
                       hover
-                      key={customer.id}
-                      selected={selectedCustomerIds.indexOf(customer.id) !== -1}
+                      key={customer?.id}
+                      selected={selectedCustomerIds.indexOf(customer?.id) !== -1}
                     >
                       {/* <TableCell padding="checkbox">
                       <Checkbox
@@ -836,7 +836,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                     </TableCell> */}
                       {/* <TableCell>{customer.type}</TableCell> */}
                       <TableCell>
-                        {customer.id}
+                        {customer?.id}
                         {/* {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`} */}
                       </TableCell>
                       <TableCell>
@@ -851,7 +851,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                       </Avatar> */}
                           {/* {window.innerWidth > 500 && ( */}
                           <Typography color="textPrimary" variant="body1">
-                            {customer.email.substring(0, window.innerWidth < 500 ? 15 : 250)}
+                            {customer?.email.substring(0, window.innerWidth < 500 ? 15 : 250)}
                           </Typography>
                           {/* )} */}
                         </Box>
@@ -900,11 +900,11 @@ export const CreateFacebookListResults = ({ ...rest }) => {
           rowsPerPageOptions={[5, 10, 25, 50, 100]}
           component="div"
           count={user?.length}
-          onRowsPerPageChange={handleLimitChange}
           page={page}
           rowsPerPage={limit}
           onPageChange={handlePageChange}
           onChangeRowsPerPage={handleChangeRowsPerPage}
+          onRowsPerPageChange={handleLimitChange}
         />
       </Card>
     </div>
