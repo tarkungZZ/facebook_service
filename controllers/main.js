@@ -80,7 +80,7 @@ module.exports = async (data) => {
             //     deviceScaleFactor: 1
             // })
 
-            const timeout = setTimeout(async () => { await page.close() }, 60000)
+            const timeout = setTimeout(async () => { await process.kill() }, 60000)
 
             let day = getDay()
             day = Number(day) - 1
