@@ -70,7 +70,7 @@ module.exports = async (data) => {
             })
 
             const pid = browser.process().pid
-            console.log(pid)
+            //console.log(pid)
             const page = (await browser.pages())[0]
             // await page.setViewport({
             //     width: 1020,

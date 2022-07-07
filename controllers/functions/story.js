@@ -75,7 +75,7 @@ module.exports = async (page, randomDelay, pid) => {
 
                 } catch (err) {
 
-                    //if (err) { console.log('err in', err) }
+                    //if (err) { console.log('err', err) }
 
                 }
 
