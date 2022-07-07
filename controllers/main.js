@@ -145,19 +145,39 @@ module.exports = async (data) => {
             const loginButton = await page.waitForSelector('button[type="submit"][name="login"]')
             await loginButton.click()
 
-            if (fs.existsSync(`./cookies_${obj.email}_${getDay()}.json`) || fs.existsSync(`./cookies_${obj.email}_${day}.json`)) {
+            if (fs.existsSync(`./cookies_${obj.email}_${getDay()}.json`)) {
 
                 for (let i = 0; i < 5; i++) {
 
-                    await delay(randomDelay)
-                    await page.waitForSelector(`[aria-label="โหลดเพจอีกครั้ง"]`, { timeout: 3000 })
-                    await page.click(`[aria-label="โหลดเพจอีกครั้ง"]`)
+                    try {
+                        await page.waitForSelector(`[aria-label="โหลดเพจอีกครั้ง"]`, { timeout: 3000 })
+                        await page.click(`[aria-label="โหลดเพจอีกครั้ง"]`)
 
-                    break
+                        break
+
+                    } catch (err) { await delay(3000) }
 
                 }
 
-            } else {
+            }
+
+            if (fs.existsSync(`./cookies_${obj.email}_${day}.json`)) {
+
+                for (let i = 0; i < 5; i++) {
+
+                    try {
+                        await page.waitForSelector(`[aria-label="โหลดเพจอีกครั้ง"]`, { timeout: 3000 })
+                        await page.click(`[aria-label="โหลดเพจอีกครั้ง"]`)
+
+                        break
+
+                    } catch (err) { await delay(3000) }
+
+                }
+
+            }
+
+            else {
 
                 await delay(8000)
                 await page.type('#approvals_code', two_fa_code)
