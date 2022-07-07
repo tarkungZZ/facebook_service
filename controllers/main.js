@@ -102,7 +102,7 @@ module.exports = async (data) => {
             await delay(randomDelay)
             const loginButton = await page.waitForSelector('button[type="submit"][name="login"]')
             await loginButton.click()
-            await delay(randomDelay)
+            await delay(5000)
             await page.type('#approvals_code', two_fa_code)
 
             for (let i = 0; i < 5; i++) {
