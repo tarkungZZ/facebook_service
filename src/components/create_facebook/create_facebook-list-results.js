@@ -38,6 +38,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   const [customerDelete, setCustomerDelete] = useState(undefined);
   const [iscreate, setIsCreate] = useState(false);
   const [username, setUsername] = useState(undefined);
+  const [total, setTotal] = useState(0);
   //Role
   const option = [
     { value: "admin", label: "Admin" },
@@ -46,7 +47,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [limit, page]);
 
   // localStorage.getItem("create")
 
@@ -95,7 +96,9 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   };
 
   const getData = async () => {
-    const data = await auth.getUser(limit, page).then((res) => setUser(res?.data?.result));
+    const data = await auth.getUser(limit, page);
+    setTotal(data?.data?.total);
+    setUser(data?.data?.result);
     return data;
   };
 
@@ -639,7 +642,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {user?.slice(page * limit, page * limit + limit).map((customer, index) => (
+                {user?.map((customer, index) => (
                   <TableRow
                     hover
                     key={customer.id}
@@ -703,7 +706,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
         </PerfectScrollbar>
         <TablePagination
           component="div"
-          count={user?.length}
+          count={total}
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleLimitChange}
           page={page}

@@ -78,7 +78,8 @@ export default {
   },
   //GET
   getUser: async (limit, page) => {
-    return await api.BACKEND_ENDPOINT.get(`${config.api}/user/list?${limit}&${page}`)
+    console.log("limit, ", limit, page);
+    return await api.BACKEND_ENDPOINT.get(`${config.api}/user/list?limit=${limit}&page=${page}`)
       // return await api.BACKEND_ENDPOINT.post("/login", data)
       .then(async (res) => {
         return res;
