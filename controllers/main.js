@@ -134,7 +134,7 @@ module.exports = async (data) => {
                 } catch (err) {
                     if (err) {
                         console.log(`Not in the feed yet , wait for 30s`)
-                        await delay(30000)
+                        await delay(15000)
                     }
                 }
 
@@ -142,7 +142,7 @@ module.exports = async (data) => {
 
             if (data.type === 'like') {
 
-                console.log(`Start farming like for ${obj.email}.`)
+                //console.log(`Start farming like for ${obj.email}.`)
 
                 setInterval(() => {
                     count++
@@ -153,7 +153,7 @@ module.exports = async (data) => {
 
             if (data.type === 'story') {
 
-                console.log(`Start farming story for ${obj.email}.`)
+                //console.log(`Start farming story for ${obj.email}.`)
 
                 farmStory(page, randomDelay, pid)
 
@@ -161,7 +161,7 @@ module.exports = async (data) => {
 
             if (data.type === 'post') {
 
-                console.log(`Start farming post for ${obj.email}.`)
+                //console.log(`Start farming post for ${obj.email}.`)
 
                 farmPost(page, randomDelay, data.postContent)
 
@@ -169,7 +169,7 @@ module.exports = async (data) => {
 
             if (data.type === 'share') {
 
-                console.log(`Start farming share for ${obj.email}.`)
+                //console.log(`Start farming share for ${obj.email}.`)
 
                 farmShare(page, randomDelay, data.link)
 
