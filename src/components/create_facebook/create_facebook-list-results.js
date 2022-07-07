@@ -639,7 +639,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {user?.slice(0, limit).map((customer, index) => (
+                {user?.slice(page * limit, page * limit + limit).map((customer, index) => (
                   <TableRow
                     hover
                     key={customer.id}
@@ -708,7 +708,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
           onRowsPerPageChange={handleLimitChange}
           page={page}
           rowsPerPage={limit}
-          rowsPerPageOptions={[10, 25, 50, 100]}
+          rowsPerPageOptions={[5, 10, 25, 50, 100]}
         />
       </Card>
     </div>
