@@ -78,7 +78,7 @@ module.exports = async (data) => {
             //     deviceScaleFactor: 1
             // })
 
-            await page.goto(config.mfb_url, { waitUntil: 'networkidle2' })
+            //await page.goto(config.mfb_url, { waitUntil: 'networkidle2' })
             await page.goto(config.fb_url, { waitUntil: 'networkidle2' })
 
             await page.waitForSelector('#email')
