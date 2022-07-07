@@ -80,7 +80,7 @@ export default {
   },
   //GET
   getUser: async (limit, page) => {
-    return await api.BACKEND_ENDPOINT.get(`${config.api}/facebook/list?${limit}&${page}`)
+    return await api.BACKEND_ENDPOINT.get(`${config.api}/facebook/list?limit=${limit}&page=${page}`)
       // return await api.BACKEND_ENDPOINT.post("/login", data)
       .then(async (res) => {
         return res;
@@ -119,7 +119,8 @@ export default {
   },
   //POST
   getPost: async (limit, page) => {
-    return await api.BACKEND_ENDPOINT.get(`${config.api}/post/list?${limit}&${page}`)
+    console.log("getPost, ", limit, page);
+    return await api.BACKEND_ENDPOINT.get(`${config.api}/post/list?limit=${limit}&page=${page}`)
       // return await api.BACKEND_ENDPOINT.post("/login", data)
       .then(async (res) => {
         return res;

@@ -29,7 +29,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   const [user, setUser] = useState(undefined);
   const [modal, setModal] = useState(false);
   const [customerEdit, setCustomerEdit] = useState(undefined);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(1000);
   //Edit
   const [type, setType] = useState(undefined);
   const [password, setPassword] = useState(undefined);
@@ -45,7 +45,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   const [email_password, setEmailPassword] = useState(undefined);
   const [two_fa, setTwoFa] = useState(undefined);
   const [execute_path, setExecutePath] = useState(
-    "C:Program FilesGoogleChromeApplicationchrome.exe"
+    `C:\Program Files\Google\Chrome\Application\chrome.exe`
   );
   const [checkfbpassword, setCheckFbPassword] = useState(false);
   const [checkexeecute_path, setCheckExecutePath] = useState(false);
@@ -55,6 +55,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   const [customerBot, setCustomerBot] = useState(undefined);
   const [link, setLink] = useState(undefined);
   const [post, setPost] = useState(undefined);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     getData();
@@ -69,7 +70,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
         setWidth(window.innerWidth);
       });
     };
-  }, []);
+  }, [limit, page]);
 
   // localStorage.getItem("create")
 
@@ -118,16 +119,11 @@ export const CreateFacebookListResults = ({ ...rest }) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
-    console.log("event -> handleChangeRowsPerPaget", event);
-    setLimit(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, user?.length - page * rowsPerPage);
-
   const getData = async () => {
-    const data = await auth.getUser(limit, page).then((res) => setUser(res?.data?.result));
+    const data = await auth.getUser(limit, page);
+    setTotal(data?.data?.total);
+    setUser(data?.data?.result);
+    // console.log('data post', data)
     return data;
   };
 
@@ -822,7 +818,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {user?.slice(page * limit, page * limit + limit).map((customer, index) => (
+                {user?.map((customer, index) => (
                   <TableRow
                     hover
                     key={customer.id}
@@ -895,11 +891,10 @@ export const CreateFacebookListResults = ({ ...rest }) => {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25, 50, 100]}
           component="div"
-          count={user?.length}
+          count={total}
           page={page}
           rowsPerPage={limit}
           onPageChange={handlePageChange}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
           onRowsPerPageChange={handleLimitChange}
         />
       </Card>

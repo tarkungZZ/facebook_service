@@ -48,21 +48,20 @@ export const CreatePostListResults = ({ ...rest }) => {
   const [checkexeecute_path, setCheckExecutePath] = useState(false);
   const [width, setWidth] = useState(0);
   const [post, setPost] = useState(undefined);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     getData();
     // console.log("window.innerWidth", window.innerWidth);
     window.addEventListener("resize", () => {
-      console.log("window.innerWidth", window.innerWidth);
       setWidth(window.innerWidth);
     });
     return () => {
       window.removeEventListener("resize", () => {
-        console.log("window.innerWidth", window.innerWidth);
         setWidth(window.innerWidth);
       });
     };
-  }, []);
+  }, [limit, page]);
 
   // localStorage.getItem("create")
 
@@ -71,12 +70,10 @@ export const CreatePostListResults = ({ ...rest }) => {
   };
 
   const handleSelectFbPass = (event) => {
-    console.log("event", event.target.checked);
     setCheckFbPassword(event.target.checked);
   };
 
   const handleSeletExecutePath = (event) => {
-    console.log("event", event.target.checked);
     setCheckExecutePath(event.target.checked);
   };
 
@@ -101,15 +98,18 @@ export const CreatePostListResults = ({ ...rest }) => {
   };
 
   const handleLimitChange = (event) => {
-    setLimit(event.target.value);
+    setLimit(event?.target?.value);
   };
 
   const handlePageChange = (event, newPage) => {
+    // console.log("handlePageChange", event);
     setPage(newPage);
   };
 
   const getData = async () => {
-    const data = await auth.getPost(limit, page).then((res) => setUser(res?.data?.result));
+    const data = await auth.getPost(limit, page);
+    setTotal(data?.data?.total);
+    setUser(data?.data?.result);
     return data;
   };
 
@@ -135,6 +135,11 @@ export const CreatePostListResults = ({ ...rest }) => {
     return data;
   };
 
+  const handleChangeRowsPerPage = (event) => {
+    setLimit(parseInt(event.target.value));
+    setPage(0);
+  };
+
   const handleClose = () => {
     setModal(false);
     setFbPassword(undefined);
@@ -151,7 +156,6 @@ export const CreatePostListResults = ({ ...rest }) => {
   };
 
   const handleDelete = (customer) => {
-    console.log("customercustomercustomercustomer", customer);
     setCustomerDelete(customer);
     setIsDelete(true);
   };
@@ -574,7 +578,7 @@ export const CreatePostListResults = ({ ...rest }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {user?.slice(page * limit, page * limit + limit).map((customer, index) => (
+                {user?.map((customer, index) => (
                   <TableRow
                     hover
                     key={customer.id}
@@ -632,7 +636,7 @@ export const CreatePostListResults = ({ ...rest }) => {
         </PerfectScrollbar>
         <TablePagination
           component="div"
-          count={user?.length}
+          count={total}
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleLimitChange}
           page={page}
