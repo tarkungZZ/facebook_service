@@ -233,7 +233,7 @@ module.exports = async (data) => {
                 setInterval(() => {
                     count++
                     farmLike(page, randomDelay, count)
-                }, 30000)
+                }, 15000)
 
             }
 
@@ -249,7 +249,7 @@ module.exports = async (data) => {
 
                 //console.log(`Start farming post for ${obj.email}.`)
 
-                farmPost(page, randomDelay, data.postContent, timeout)
+                farmPost(page, randomDelay, data.postContent, timeout, pid)
 
             }
 
@@ -257,7 +257,7 @@ module.exports = async (data) => {
 
                 //console.log(`Start farming share for ${obj.email}.`)
 
-                farmShare(page, randomDelay, data.link, timeout)
+                farmShare(page, randomDelay, data.link, timeout, pid)
 
             }
 

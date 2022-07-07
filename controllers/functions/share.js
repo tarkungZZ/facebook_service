@@ -17,7 +17,7 @@ module.exports = async (page, randomDelay, link, timeout) => {
             console.log(`Share`, link, `successful.\n`)
 
             await delay(randomDelay)
-            await page.close()
+            await process.kill(pid)
 
             await clearTimeout(timeout)
 
@@ -30,7 +30,7 @@ module.exports = async (page, randomDelay, link, timeout) => {
             if (i === 5) {
 
                 await delay(randomDelay)
-                await page.close()
+                await process.kill(pid)
 
                 await clearTimeout(timeout)
 
