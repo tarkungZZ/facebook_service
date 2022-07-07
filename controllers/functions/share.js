@@ -16,6 +16,11 @@ module.exports = async (page, randomDelay, link, timeout) => {
 
             console.log(`Share`, link, `successful.\n`)
 
+            await delay(randomDelay)
+            await process.kill(pid)
+
+            await clearTimeout(timeout)
+
             break
 
         } catch (err) {

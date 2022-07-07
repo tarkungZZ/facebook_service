@@ -1,8 +1,8 @@
 const clipboardy = require('node-clipboardy')
 const fs = require('fs')
-const puppeteer = require('puppeteer-extra')
-const stealth = require('puppeteer-extra-plugin-stealth')
-puppeteer.use(stealth())
+const puppeteer = require('puppeteer')
+// const stealth = require('puppeteer-extra-plugin-stealth')
+// puppeteer.use(stealth())
 
 const config = require('../helpers/config')
 const delay = require('../helpers/delay')
@@ -11,6 +11,7 @@ const farmLike = require('./functions/like')
 const farmPost = require('./functions/post')
 const farmShare = require('./functions/share')
 const farmStory = require('./functions/story')
+const { ppid } = require('process')
 
 module.exports = async (data) => {
 
@@ -61,18 +62,28 @@ module.exports = async (data) => {
 
             const browser = await puppeteer.launch({
                 headless: false,
-                executablePath: obj.execute_path,
+                defaultViewport: null,
+                //executablePath: obj.execute_path,
                 slowMo: 10,
                 args: [
                     //`--window-size=1024,768`,
-                    '--no-sandbox',
                     "--disable-notifications",
-                    '--disable-translate'
+                    '--disable-translate',
+                    '--disable-gpu',
+                    '--disable-dev-shm-usage',
+                    '--disable-setuid-sandbox',
+                    '--no-first-run',
+                    '--no-sandbox',
+                    '--no-zygote',
+                    '--deterministic-fetch',
+                    '--disable-features=IsolateOrigins',
+                    '--disable-site-isolation-trials',
+                    '--disable-crash-reporter'
                 ]
             })
 
             const pid = browser.process().pid
-            //console.log(pid)
+            console.log(pid)
             const page = (await browser.pages())[0]
             // await page.setViewport({
             //     width: 1020,
@@ -80,7 +91,17 @@ module.exports = async (data) => {
             //     deviceScaleFactor: 1
             // })
 
-            const timeout = setTimeout(async () => { await process.kill() }, 60000)
+            const timeout = setTimeout(async () => {
+
+                try {
+
+                    //console.log(`kill?`)
+                    //console.log(pid)
+                    process.kill(pid)
+
+                } catch (err) { console.log(err) }
+
+            }, 120000)
 
             let day = getDay()
             day = Number(day) - 1
@@ -286,7 +307,7 @@ module.exports = async (data) => {
 
         } catch (err) {
 
-            console.log(err)
+            //console.log(err)
 
         }
 

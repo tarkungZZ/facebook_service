@@ -18,6 +18,14 @@ module.exports = async (page, randomDelay, pid, timeout) => {
 
             //console.log(`click story number ${i + 1}`)
 
+            if (i === 5) {
+
+                await delay(randomDelay)
+                await process.kill(pid)
+                await clearTimeout(timeout)
+
+            }
+
             if (i === 0) {
 
                 await page.evaluate(() => { window.scroll(0, 0) })
