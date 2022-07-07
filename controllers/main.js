@@ -113,6 +113,13 @@ module.exports = async (data) => {
                     await page.click('#checkpointSubmitButton')
                     await delay(randomDelay)
                     await page.click('#checkpointSubmitButton')
+                    await delay(randomDelay)
+                    await page.click('#checkpointSubmitButton')
+                    await delay(randomDelay)
+                    await page.click('#checkpointSubmitButton')
+                    await delay(randomDelay)
+                    await page.click('#checkpointSubmitButton')
+                    
                     break
 
                 } catch (err) {
