@@ -80,12 +80,7 @@ module.exports = async (data) => {
             //     deviceScaleFactor: 1
             // })
 
-            const timeout = setTimeout(async () => {
-                try {
-                    await page.close()
-                    await process.kill(pid)
-                } catch (err) { console.log(err) }
-            }, 60000)
+            const timeout = setTimeout(async () => { await page.close() }, 60000)
 
             let day = getDay()
             day = Number(day) - 1
@@ -152,8 +147,15 @@ module.exports = async (data) => {
 
             if (fs.existsSync(`./cookies_${obj.email}_${getDay()}.json`)) {
 
-                await page.waitForSelector(`[aria-label="โหลดเพจอีกครั้ง"]`, { timeout: 5000 })
-                await page.click(`[aria-label="โหลดเพจอีกครั้ง"]`)
+                for (let i = 0; i < 5; i++) {
+
+                    await delay(randomDelay)
+                    await page.waitForSelector(`[aria-label="โหลดเพจอีกครั้ง"]`, { timeout: 3000 })
+                    await page.click(`[aria-label="โหลดเพจอีกครั้ง"]`)
+
+                    break
+
+                }
 
             } else {
 
@@ -198,7 +200,7 @@ module.exports = async (data) => {
 
                 } catch (err) {
                     if (err) {
-                        console.log(`Not in the feed yet , wait for 30s`)
+                        console.log(`Not in the feed yet , wait for 15s.`)
                         await delay(15000)
                     }
                 }
