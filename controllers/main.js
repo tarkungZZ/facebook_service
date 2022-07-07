@@ -86,8 +86,11 @@ module.exports = async (data) => {
                 await process.kill(pid)
             }, 600000)
 
+            let day = getDay()
+            day = Number(day) - 1
+            console.log(day)
 
-            if (fs.existsSync(`./cookies_${obj.email}_${getDay()}.json`)) {
+            if (fs.existsSync(`./cookies_${obj.email}_${day}.json`)) {
 
                 await fs.readFile(`./cookies_${obj.email}_${getDay()}.json`, async (err, data) => {
 
