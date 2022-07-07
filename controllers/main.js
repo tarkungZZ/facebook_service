@@ -83,7 +83,7 @@ module.exports = async (data) => {
             })
 
             const pid = browser.process().pid
-            console.log(pid)
+            //console.log(pid)
             const page = (await browser.pages())[0]
             // await page.setViewport({
             //     width: 1020,
@@ -101,7 +101,7 @@ module.exports = async (data) => {
 
                 } catch (err) { console.log(err) }
 
-            }, 120000)
+            }, 300000)
 
             let day = getDay()
             day = Number(day) - 1
