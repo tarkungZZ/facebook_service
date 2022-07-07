@@ -29,6 +29,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   const [user, setUser] = useState(undefined);
   const [modal, setModal] = useState(false);
   const [customerEdit, setCustomerEdit] = useState(undefined);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   //Edit
   const [type, setType] = useState(undefined);
   const [password, setPassword] = useState(undefined);
@@ -114,10 +115,17 @@ export const CreateFacebookListResults = ({ ...rest }) => {
     setPage(newPage);
   };
 
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   const getData = async () => {
     const data = await auth.getUser(limit, page).then((res) => setUser(res?.data?.result));
     return data;
   };
+
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, user?.length - page * rowsPerPage);
 
   const handleEdit = (customer) => {
     setCustomerEdit(customer);
@@ -810,84 +818,93 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {user?.slice(0, limit).map((customer, index) => (
-                  <TableRow
-                    hover
-                    key={customer.id}
-                    selected={selectedCustomerIds.indexOf(customer.id) !== -1}
-                  >
-                    {/* <TableCell padding="checkbox">
+                {user
+                  ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .slice(0, limit)
+                  .map((customer, index) => (
+                    <TableRow
+                      hover
+                      key={customer.id}
+                      selected={selectedCustomerIds.indexOf(customer.id) !== -1}
+                    >
+                      {/* <TableCell padding="checkbox">
                       <Checkbox
                         checked={selectedCustomerIds.indexOf(customer.id) !== -1}
                         onChange={(event) => handleSelectOne(event, customer.id)}
                         value="true"
                       />
                     </TableCell> */}
-                    {/* <TableCell>{customer.type}</TableCell> */}
-                    <TableCell>
-                      {customer.id}
-                      {/* {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`} */}
-                    </TableCell>
-                    <TableCell>
-                      <Box
-                        sx={{
-                          alignItems: "center",
-                          display: "flex",
-                        }}
-                      >
-                        {/* <Avatar src={customer.avatarUrl} sx={{ mr: 2 }}>
+                      {/* <TableCell>{customer.type}</TableCell> */}
+                      <TableCell>
+                        {customer.id}
+                        {/* {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`} */}
+                      </TableCell>
+                      <TableCell>
+                        <Box
+                          sx={{
+                            alignItems: "center",
+                            display: "flex",
+                          }}
+                        >
+                          {/* <Avatar src={customer.avatarUrl} sx={{ mr: 2 }}>
                         {getInitials(customer.name)}
                       </Avatar> */}
-                        {/* {window.innerWidth > 500 && ( */}
-                        <Typography color="textPrimary" variant="body1">
-                          {customer.email.substring(0, window.innerWidth < 500 ? 15 : 250)}
-                        </Typography>
-                        {/* )} */}
-                      </Box>
-                    </TableCell>
-                    {/* <TableCell>{customer.email}</TableCell> */}
+                          {/* {window.innerWidth > 500 && ( */}
+                          <Typography color="textPrimary" variant="body1">
+                            {customer.email.substring(0, window.innerWidth < 500 ? 15 : 250)}
+                          </Typography>
+                          {/* )} */}
+                        </Box>
+                      </TableCell>
+                      {/* <TableCell>{customer.email}</TableCell> */}
 
-                    <TableCell align="center">
-                      <Button
-                        style={{ background: "#10B981", marginRight: "1rem" }}
-                        variant="contained"
-                        onClick={() => handleBot(customer)}
-                      >
-                        Bot
-                      </Button>
-                      <Button
-                        style={{ background: "#121828" }}
-                        variant="contained"
-                        onClick={() => handleEdit(customer)}
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        color="error"
-                        // variant="contained"
-                        onClick={() => {
-                          handleDelete(customer);
-                        }}
-                      >
-                        Delete
-                      </Button>
-                    </TableCell>
+                      <TableCell align="center">
+                        <Button
+                          style={{ background: "#10B981", marginRight: "1rem" }}
+                          variant="contained"
+                          onClick={() => handleBot(customer)}
+                        >
+                          Bot
+                        </Button>
+                        <Button
+                          style={{ background: "#121828" }}
+                          variant="contained"
+                          onClick={() => handleEdit(customer)}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          color="error"
+                          // variant="contained"
+                          onClick={() => {
+                            handleDelete(customer);
+                          }}
+                        >
+                          Delete
+                        </Button>
+                      </TableCell>
 
-                    {/* <TableCell>{format(customer.createdAt, "dd/MM/yyyy")}</TableCell> */}
+                      {/* <TableCell>{format(customer.createdAt, "dd/MM/yyyy")}</TableCell> */}
+                    </TableRow>
+                  ))}
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: 53 * emptyRows }}>
+                    <TableCell colSpan={6} />
                   </TableRow>
-                ))}
+                )}
               </TableBody>
             </Table>
           </Box>
         </PerfectScrollbar>
         <TablePagination
+          rowsPerPageOptions={[5, 10, 25, 50, 100]}
           component="div"
           count={user?.length}
-          onPageChange={handlePageChange}
           onRowsPerPageChange={handleLimitChange}
           page={page}
           rowsPerPage={limit}
-          rowsPerPageOptions={[10, 25, 50, 100]}
+          onPageChange={handlePageChange}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </Card>
     </div>

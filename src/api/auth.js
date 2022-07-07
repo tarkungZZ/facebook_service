@@ -158,11 +158,11 @@ export default {
       });
   },
   //BOT
-  launchBot: async (id, type, like, post) => {
+  launchBot: async (id, type, Link, post) => {
     const data = {
       id: id,
       type: type,
-      like: like,
+      link: Link,
       post: post,
     };
     return await api.BACKEND_ENDPOINT.post(`${config.api}/launch`, data)
