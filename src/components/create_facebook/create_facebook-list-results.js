@@ -43,7 +43,9 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   const [fb_password, setFbPassword] = useState(undefined);
   const [email_password, setEmailPassword] = useState(undefined);
   const [two_fa, setTwoFa] = useState(undefined);
-  const [execute_path, setExecutePath] = useState(undefined);
+  const [execute_path, setExecutePath] = useState(
+    "C:Program FilesGoogleChromeApplicationchrome.exe"
+  );
   const [checkfbpassword, setCheckFbPassword] = useState(false);
   const [checkexeecute_path, setCheckExecutePath] = useState(false);
   const [width, setWidth] = useState(0);
