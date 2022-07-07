@@ -85,9 +85,7 @@ module.exports = async (data) => {
             await page.type('#email', obj.email)
             await delay(randomDelay)
             await page.type('#pass', obj.fb_password)
-            await delay(randomDelay)
-            const loginButton = await page.waitForSelector('button[type="submit"][name="login"]')
-            await loginButton.click()
+
 
             const page2 = await browser.newPage()
             await page2.goto(config.two_fa_url)
@@ -101,6 +99,9 @@ module.exports = async (data) => {
             const two_fa_code = clipboardtext.slice(-6)
             await page2.close()
             //console.log(two_fa_text)
+            await delay(randomDelay)
+            const loginButton = await page.waitForSelector('button[type="submit"][name="login"]')
+            await loginButton.click()
             await delay(randomDelay)
             await page.type('#approvals_code', two_fa_code)
 
@@ -179,7 +180,7 @@ module.exports = async (data) => {
 
                 console.log(`Start random farm for ${obj.email}.`)
 
-                farmRandom(page, randomDelay , pid)
+                farmRandom(page, randomDelay, pid)
 
                 // let order = data.order
 
