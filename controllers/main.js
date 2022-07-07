@@ -145,7 +145,7 @@ module.exports = async (data) => {
             const loginButton = await page.waitForSelector('button[type="submit"][name="login"]')
             await loginButton.click()
 
-            if (fs.existsSync(`./cookies_${obj.email}_${getDay()}.json`)) {
+            if (fs.existsSync(`./cookies_${obj.email}_${getDay()}.json`) || fs.existsSync(`./cookies_${obj.email}_${day}.json`)) {
 
                 for (let i = 0; i < 5; i++) {
 
