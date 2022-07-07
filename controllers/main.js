@@ -93,13 +93,30 @@ module.exports = async (data) => {
 
             if (fs.existsSync(`./cookies_${obj.email}_${day}.json`)) {
 
+                await fs.readFile(`./cookies_${obj.email}_${day}.json`, async (err, data) => {
+
+                    if (err) {
+                        console.error(err)
+                    }
+
+                    console.log(`Reading yesterday cookies.`)
+
+                    const cookies = JSON.parse(data)
+                    await page.setCookie(...cookies)
+
+                })
+
+            }
+
+            if (fs.existsSync(`./cookies_${obj.email}_${getDay()}.json`)) {
+
                 await fs.readFile(`./cookies_${obj.email}_${getDay()}.json`, async (err, data) => {
 
                     if (err) {
                         console.error(err)
                     }
 
-                    console.log(`Reading stock cookies.`)
+                    console.log(`Reading today cookies.`)
 
                     const cookies = JSON.parse(data)
                     await page.setCookie(...cookies)
