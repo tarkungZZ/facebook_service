@@ -26,7 +26,7 @@ module.exports = async (page, randomDelay, post, timeout , pid) => {
 
         } catch (err) {
 
-            //console.log(err)
+            console.log(err)
 
         }
 
