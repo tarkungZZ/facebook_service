@@ -29,7 +29,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   const [user, setUser] = useState(undefined);
   const [modal, setModal] = useState(false);
   const [customerEdit, setCustomerEdit] = useState(undefined);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(1000);
   //Edit
   const [type, setType] = useState(undefined);
   const [password, setPassword] = useState(undefined);
@@ -44,17 +44,18 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   const [fb_password, setFbPassword] = useState(undefined);
   const [email_password, setEmailPassword] = useState(undefined);
   const [two_fa, setTwoFa] = useState(undefined);
-  const [execute_path, setExecutePath] = useState(
-    "C:Program FilesGoogleChromeApplicationchrome.exe"
-  );
+  const [execute_path, setExecutePath] = useState(undefined);
+  const [fb_name, setFbName] = useState(undefined);
   const [checkfbpassword, setCheckFbPassword] = useState(false);
   const [checkexeecute_path, setCheckExecutePath] = useState(false);
+  const [checkfbname, setCheckFbName] = useState(false);
   const [width, setWidth] = useState(0);
   //Bot
   const [isbot, setIsBot] = useState(false);
   const [customerBot, setCustomerBot] = useState(undefined);
   const [link, setLink] = useState(undefined);
   const [post, setPost] = useState(undefined);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     getData();
@@ -69,7 +70,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
         setWidth(window.innerWidth);
       });
     };
-  }, []);
+  }, [limit, page]);
 
   // localStorage.getItem("create")
 
@@ -85,6 +86,11 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   const handleSeletExecutePath = (event) => {
     // console.log("event", event.target.checked);
     setCheckExecutePath(event.target.checked);
+  };
+
+  const handleSelectFbName = (event) => {
+    // console.log("event", event.target.checked);
+    setCheckFbName(event.target.checked);
   };
 
   const handleSelectOne = (event, id) => {
@@ -118,16 +124,11 @@ export const CreateFacebookListResults = ({ ...rest }) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
-    console.log("event -> handleChangeRowsPerPaget", event);
-    setLimit(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, user?.length - page * rowsPerPage);
-
   const getData = async () => {
-    const data = await auth.getUser(limit, page).then((res) => setUser(res?.data?.result));
+    const data = await auth.getUser(limit, page);
+    setTotal(data?.data?.total);
+    setUser(data?.data?.result);
+    // console.log('data post', data)
     return data;
   };
 
@@ -701,6 +702,28 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                     >
                       <ul style={{ display: "flex", justifyContent: "space-between" }}>
                         <Checkbox
+                          checked={checkfbname === true ? true : false}
+                          color="primary"
+                          // indeterminate={
+                          //   selectedCustomerIds.length > 0 &&
+                          //   selectedCustomerIds.length < customers.length
+                          // }
+                          onChange={handleSelectFbName}
+                        />
+                        <TextField
+                          fullWidth
+                          label="Facebook Name"
+                          name="facebook_name"
+                          onChange={(e) => setFbName(e.target.value)}
+                          type="text"
+                          value={fb_name}
+                          variant="outlined"
+                          size="small"
+                          margin="dense"
+                        />
+                      </ul>
+                      <ul style={{ display: "flex", justifyContent: "space-between" }}>
+                        <Checkbox
                           checked={checkfbpassword === true ? true : false}
                           color="primary"
                           // indeterminate={
@@ -798,31 +821,24 @@ export const CreateFacebookListResults = ({ ...rest }) => {
             </Box>
           </Box>
         </Box>
-        <PerfectScrollbar>
-          <Box>
+        <PerfectScrollbar
+          options={{ suppressScrollY: true, displayScrollToTop: true }}
+          onScrollY={(container) => console.log(`scrolled to: ${container.scrollTop}.`)}
+        >
+          <Box style={{ overflow: "scroll" }}>
             <Table>
               <TableHead>
                 <TableRow>
-                  {/* <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selectedCustomerIds.length === customers.length}
-                      color="primary"
-                      indeterminate={
-                        selectedCustomerIds.length > 0 &&
-                        selectedCustomerIds.length < customers.length
-                      }
-                      onChange={handleSelectAll}
-                    />
-                  </TableCell> */}
-                  {/* <TableCell>type</TableCell> */}
                   <TableCell>ID</TableCell>
                   <TableCell>Email</TableCell>
+                  <TableCell>Facebook Name</TableCell>
+                  <TableCell>Email Password</TableCell>
+                  <TableCell>Facebook Password</TableCell>
                   <TableCell align="center">MANAGE</TableCell>
-                  {/* <TableCell>Registration date</TableCell> */}
                 </TableRow>
               </TableHead>
               <TableBody>
-                {user?.slice(page * limit, page * limit + limit).map((customer, index) => (
+                {user?.map((customer, index) => (
                   <TableRow
                     hover
                     key={customer.id}
@@ -851,24 +867,38 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                         {getInitials(customer.name)}
                       </Avatar> */}
                         {/* {window.innerWidth > 500 && ( */}
-                        <Typography color="textPrimary" variant="body1">
+                        <Typography color="textPrimary">
                           {customer.email.substring(0, window.innerWidth < 500 ? 15 : 250)}
                         </Typography>
+
                         {/* )} */}
                       </Box>
                     </TableCell>
+                    <TableCell>
+                      {customer?.fb_name?.substring(0, window.innerWidth < 500 ? 15 : 250)}
+                    </TableCell>
                     {/* <TableCell>{customer.email}</TableCell> */}
+                    <TableCell>
+                      {customer.email_password.substring(0, window.innerWidth < 500 ? 15 : 250)}
+                    </TableCell>
+                    <TableCell>
+                      {customer.fb_password.substring(0, window.innerWidth < 500 ? 15 : 250)}
+                    </TableCell>
 
                     <TableCell align="center">
                       <Button
-                        style={{ background: "#10B981", marginRight: "1rem" }}
+                        style={{ background: "#10B981" }}
                         variant="contained"
                         onClick={() => handleBot(customer)}
                       >
                         Bot
                       </Button>
                       <Button
-                        style={{ background: "#121828" }}
+                        style={{
+                          background: "#121828",
+                          marginLeft: "0.1rem",
+                          marginRight: "0.1rem",
+                        }}
                         variant="contained"
                         onClick={() => handleEdit(customer)}
                       >
@@ -876,6 +906,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                       </Button>
                       <Button
                         color="error"
+                        style={{ background: "rgba(255,0,0,0.02)" }}
                         // variant="contained"
                         onClick={() => {
                           handleDelete(customer);
@@ -895,11 +926,10 @@ export const CreateFacebookListResults = ({ ...rest }) => {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25, 50, 100]}
           component="div"
-          count={user?.length}
+          count={total}
           page={page}
           rowsPerPage={limit}
           onPageChange={handlePageChange}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
           onRowsPerPageChange={handleLimitChange}
         />
       </Card>

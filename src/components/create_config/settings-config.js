@@ -31,7 +31,7 @@ export const SettingConfig = (props) => {
     return data;
   };
 
-  console.log("all data --->", all);
+  // console.log("all data --->", all);
 
   const handleDelay = async () => {
     const data = await auth.editDelay(delay_min, delay_max);
