@@ -44,11 +44,11 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   const [fb_password, setFbPassword] = useState(undefined);
   const [email_password, setEmailPassword] = useState(undefined);
   const [two_fa, setTwoFa] = useState(undefined);
-  const [execute_path, setExecutePath] = useState(
-    `C:\Program Files\Google\Chrome\Application\chrome.exe`
-  );
+  const [execute_path, setExecutePath] = useState(undefined);
+  const [fb_name, setFbName] = useState(undefined);
   const [checkfbpassword, setCheckFbPassword] = useState(false);
   const [checkexeecute_path, setCheckExecutePath] = useState(false);
+  const [checkfbname, setCheckFbName] = useState(false);
   const [width, setWidth] = useState(0);
   //Bot
   const [isbot, setIsBot] = useState(false);
@@ -86,6 +86,11 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   const handleSeletExecutePath = (event) => {
     // console.log("event", event.target.checked);
     setCheckExecutePath(event.target.checked);
+  };
+
+  const handleSelectFbName = (event) => {
+    // console.log("event", event.target.checked);
+    setCheckFbName(event.target.checked);
   };
 
   const handleSelectOne = (event, id) => {
@@ -697,6 +702,28 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                     >
                       <ul style={{ display: "flex", justifyContent: "space-between" }}>
                         <Checkbox
+                          checked={checkfbname === true ? true : false}
+                          color="primary"
+                          // indeterminate={
+                          //   selectedCustomerIds.length > 0 &&
+                          //   selectedCustomerIds.length < customers.length
+                          // }
+                          onChange={handleSelectFbName}
+                        />
+                        <TextField
+                          fullWidth
+                          label="Facebook Name"
+                          name="facebook_name"
+                          onChange={(e) => setFbName(e.target.value)}
+                          type="text"
+                          value={fb_name}
+                          variant="outlined"
+                          size="small"
+                          margin="dense"
+                        />
+                      </ul>
+                      <ul style={{ display: "flex", justifyContent: "space-between" }}>
+                        <Checkbox
                           checked={checkfbpassword === true ? true : false}
                           color="primary"
                           // indeterminate={
@@ -804,6 +831,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                 <TableRow>
                   <TableCell>ID</TableCell>
                   <TableCell>Email</TableCell>
+                  <TableCell>Facebook Name</TableCell>
                   <TableCell>Email Password</TableCell>
                   <TableCell>Facebook Password</TableCell>
                   <TableCell align="center">MANAGE</TableCell>
@@ -846,6 +874,9 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                         {/* )} */}
                       </Box>
                     </TableCell>
+                    <TableCell>
+                      {customer?.fb_name?.substring(0, window.innerWidth < 500 ? 15 : 250)}
+                    </TableCell>
                     {/* <TableCell>{customer.email}</TableCell> */}
                     <TableCell>
                       {customer.email_password.substring(0, window.innerWidth < 500 ? 15 : 250)}
@@ -856,14 +887,18 @@ export const CreateFacebookListResults = ({ ...rest }) => {
 
                     <TableCell align="center">
                       <Button
-                        style={{ background: "#10B981"}}
+                        style={{ background: "#10B981" }}
                         variant="contained"
                         onClick={() => handleBot(customer)}
                       >
                         Bot
                       </Button>
                       <Button
-                        style={{ background: "#121828", marginLeft: "0.1rem", marginRight: "0.1rem" }}
+                        style={{
+                          background: "#121828",
+                          marginLeft: "0.1rem",
+                          marginRight: "0.1rem",
+                        }}
                         variant="contained"
                         onClick={() => handleEdit(customer)}
                       >
@@ -871,7 +906,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                       </Button>
                       <Button
                         color="error"
-                        style={{ background: "rgba(255,0,0,0.02)"}}
+                        style={{ background: "rgba(255,0,0,0.02)" }}
                         // variant="contained"
                         onClick={() => {
                           handleDelete(customer);
