@@ -145,12 +145,13 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   };
 
   const handleConfirm = async () => {
-    if (execute_path === undefined && fb_password === undefined) {
+    if (execute_path === undefined && fb_password === undefined && fb_name === undefined) {
       alert("Please Select Checkbox");
       return;
     }
-    const data = await auth.editUser(customerEdit.id, fb_password, execute_path);
+    const data = await auth.editUser(customerEdit?.id, fb_name, fb_password, execute_path);
     setModal(false);
+    setFbName(undefined);
     setFbPassword(undefined);
     setExecutePath(undefined);
     setTimeout(() => {

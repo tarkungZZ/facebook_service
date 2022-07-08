@@ -27,9 +27,10 @@ export default {
       });
   },
 
-  editUser: async (id, fb_password, execute_path) => {
+  editUser: async (id, fb_name, fb_password, execute_path) => {
     const data = {
       id: id,
+      fb_name: fb_name,
       fb_password: fb_password,
       execute_path: execute_path,
     };
