@@ -11,7 +11,6 @@ const farmLike = require('./functions/like')
 const farmPost = require('./functions/post')
 const farmShare = require('./functions/share')
 const farmStory = require('./functions/story')
-const { ppid } = require('process')
 
 module.exports = async (data) => {
 
@@ -97,33 +96,16 @@ module.exports = async (data) => {
 
                     //console.log(`kill?`)
                     //console.log(pid)
-                    process.kill(pid)
+                    await browser.close()
 
                 } catch (err) { console.log(err) }
 
-            }, 300000)
+            }, 30000)
 
             let day = getDay()
             day = Number(day) - 1
             day += ''
             day = '0' + day
-
-            if (fs.existsSync(`./cookies_${obj.email}_${day}.json`)) {
-
-                await fs.readFile(`./cookies_${obj.email}_${day}.json`, async (err, data) => {
-
-                    if (err) {
-                        console.error(err)
-                    }
-
-                    console.log(`Reading yesterday cookies.`)
-
-                    const cookies = JSON.parse(data)
-                    await page.setCookie(...cookies)
-
-                })
-
-            }
 
             if (fs.existsSync(`./cookies_${obj.email}_${getDay()}.json`)) {
 
@@ -140,6 +122,21 @@ module.exports = async (data) => {
 
                 })
 
+            } else if (fs.existsSync(`./cookies_${obj.email}_${day}.json`)) {
+
+                await fs.readFile(`./cookies_${obj.email}_${day}.json`, async (err, data) => {
+
+                    if (err) {
+                        console.error(err)
+                    }
+
+                    console.log(`Reading yesterday cookies.`)
+
+                    const cookies = JSON.parse(data)
+                    await page.setCookie(...cookies)
+
+                })
+
             }
 
             //await page.goto(config.mfb_url, { waitUntil: 'networkidle2' })
@@ -147,17 +144,20 @@ module.exports = async (data) => {
 
             await page.waitForSelector('#email')
             await page.type('#email', obj.email)
+            console.log(`type email`)
             await delay(randomDelay)
             await page.type('#pass', obj.fb_password)
-
+            console.log(`type pass`)
             const page2 = await browser.newPage()
             await page2.goto(config.two_fa_url)
             await page2.type('#listToken', obj.two_fa)
+            console.log(`listToken`)
             await delay(randomDelay)
             await page2.click('#submit')
+            console.log(`submit`)
             await delay(randomDelay)
             await page2.click('#copy_btn', { clickCount: 2 })
-
+            console.log(`copy_btn`)
             const clipboardtext = await clipboardy.readSync()
             const two_fa_code = clipboardtext.slice(-6)
             await page2.close()
@@ -165,40 +165,49 @@ module.exports = async (data) => {
             await delay(randomDelay)
             const loginButton = await page.waitForSelector('button[type="submit"][name="login"]')
             await loginButton.click()
+            console.log(`login`)
 
             if (fs.existsSync(`./cookies_${obj.email}_${getDay()}.json`)) {
 
                 for (let i = 0; i < 5; i++) {
 
                     try {
+
                         await page.waitForSelector(`[aria-label="โหลดเพจอีกครั้ง"]`, { timeout: 3000 })
                         await page.click(`[aria-label="โหลดเพจอีกครั้ง"]`)
 
                         break
 
-                    } catch (err) { await delay(3000) }
+                    } catch (err) {
+
+                        console.log(err)
+                        await delay(3000)
+
+                    }
 
                 }
 
-            }
-
-            if (fs.existsSync(`./cookies_${obj.email}_${day}.json`)) {
+            } else if (fs.existsSync(`./cookies_${obj.email}_${day}.json`)) {
 
                 for (let i = 0; i < 5; i++) {
 
                     try {
+
                         await page.waitForSelector(`[aria-label="โหลดเพจอีกครั้ง"]`, { timeout: 3000 })
                         await page.click(`[aria-label="โหลดเพจอีกครั้ง"]`)
 
                         break
 
-                    } catch (err) { await delay(3000) }
+                    } catch (err) {
+
+                        console.log(err)
+                        await delay(3000)
+
+                    }
 
                 }
 
-            }
-
-            else {
+            } else {
 
                 await delay(8000)
                 await page.type('#approvals_code', two_fa_code)
@@ -222,6 +231,8 @@ module.exports = async (data) => {
 
                     } catch (err) {
 
+                        console.log(err)
+
                         if (err) { break }
 
                     }
@@ -230,7 +241,7 @@ module.exports = async (data) => {
 
             }
 
-            await delay(5000)
+            await delay(2000)
 
             for (let i = 0; i < 10; i++) {
 
@@ -241,8 +252,9 @@ module.exports = async (data) => {
 
                 } catch (err) {
                     if (err) {
+                        console.log(err)
                         console.log(`Not in the feed yet , wait for 15s.`)
-                        await delay(10000)
+                        await delay(5000)
                     }
                 }
 
@@ -271,12 +283,12 @@ module.exports = async (data) => {
 
             if (data.type === 'like') {
 
-                //console.log(`Start farming like for ${obj.email}.`)
+                console.log(`Start farming like for ${obj.email}.`)
 
                 setInterval(() => {
                     count++
                     farmLike(page, randomDelay, count)
-                }, 15000)
+                }, 10000)
 
             }
 
@@ -290,7 +302,7 @@ module.exports = async (data) => {
 
             if (data.type === 'post') {
 
-                //console.log(`Start farming post for ${obj.email}.`)
+                console.log(`Start farming post for ${obj.email}.`)
 
                 farmPost(page, randomDelay, data.postContent, timeout, pid)
 
@@ -307,7 +319,7 @@ module.exports = async (data) => {
 
         } catch (err) {
 
-            //console.log(err)
+            console.log(err)
 
         }
 
