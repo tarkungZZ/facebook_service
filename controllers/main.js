@@ -100,7 +100,7 @@ module.exports = async (data) => {
 
                 } catch (err) { console.log(err) }
 
-            }, 30000)
+            }, 120000)
 
             let day = getDay()
             day = Number(day) - 1
@@ -209,7 +209,7 @@ module.exports = async (data) => {
 
             } else {
 
-                await delay(8000)
+                await delay(5000)
                 await page.type('#approvals_code', two_fa_code)
 
                 for (let i = 0; i < 5; i++) {
