@@ -216,16 +216,12 @@ export const CreateFacebookListResults = ({ ...rest }) => {
       alert("Please Enter Two Factor");
       return;
     }
-    if (!execute_path) {
-      alert("Please Enter Execute Path");
-      return;
-    }
-    const data = await auth.createUser(email, fb_password, email_password, two_fa, execute_path);
+
+    const data = await auth.createUser(email, fb_password, email_password, two_fa);
     setEmail(undefined);
     setFbPassword(undefined);
     setEmailPassword(undefined);
     setTwoFa(undefined);
-    setExecutePath(undefined);
     setIsCreate(false);
     setTimeout(() => {
       alert("Create Success");
@@ -493,18 +489,6 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                       onChange={(e) => setTwoFa(e.target.value)}
                       type="text"
                       value={two_fa}
-                      variant="outlined"
-                      size="small"
-                      margin="dense"
-                    />
-
-                    <TextField
-                      fullWidth
-                      label="Execute Path"
-                      name="execute_path"
-                      onChange={(e) => setExecutePath(e.target.value)}
-                      type="text"
-                      value={execute_path}
                       variant="outlined"
                       size="small"
                       margin="dense"

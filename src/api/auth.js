@@ -60,13 +60,12 @@ export default {
       });
   },
 
-  createUser: async (email, fb_password, email_password, two_fa, execute_path) => {
+  createUser: async (email, fb_password, email_password, two_fa) => {
     const data = {
       email: email,
       fb_password: fb_password,
       email_password: email_password,
       two_fa: two_fa,
-      execute_path: execute_path,
     };
     // console.log("dataCreate, ", data);
     return await api.BACKEND_ENDPOINT.post(`${config.api}/user/create`, data)
