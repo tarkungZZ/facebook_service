@@ -100,7 +100,7 @@ module.exports = async (data) => {
 
                 } catch (err) { console.log(err) }
 
-            }, 120000)
+            }, 300000)
 
             let day = getDay()
             day = Number(day) - 1
