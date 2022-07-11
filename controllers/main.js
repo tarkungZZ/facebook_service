@@ -63,7 +63,7 @@ module.exports = async (data) => {
         try {
 
             const browser = await puppeteer.launch({
-                headless: false,
+                headless: true,
                 defaultViewport: null,
                 //executablePath: obj.execute_path,
                 slowMo: 10,
