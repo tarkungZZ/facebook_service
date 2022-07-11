@@ -63,7 +63,7 @@ module.exports = async (data) => {
         try {
 
             const browser = await puppeteer.launch({
-                headless: false,
+                headless: true,
                 defaultViewport: null,
                 //executablePath: obj.execute_path,
                 slowMo: 10,
@@ -302,7 +302,7 @@ module.exports = async (data) => {
                 setInterval(() => {
                     count++
                     farmLike(page, randomDelay, count)
-                }, 10000)
+                }, 15000)
 
             }
 
