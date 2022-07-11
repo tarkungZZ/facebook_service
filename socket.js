@@ -2,6 +2,7 @@ const app = require('express')()
 const http = require('http').createServer(app)
 const io = require('socket.io')(http)
 const { SOCKET_PORT } = require('./helpers/config')
+const updateStatus = require('./helpers/update_status')
 
 
 io.on('connection', (socket) => {
@@ -11,6 +12,11 @@ io.on('connection', (socket) => {
     socket.on('farming', (data) => {
         console.log(`Sending data`, data)
         io.emit('launching', data)
+    })
+
+    socket.on('status', (data) => {
+        console.log(`Update facebook working status.`)
+        updateStatus(data)
     })
 
     socket.on('disconnect', () => {

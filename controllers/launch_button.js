@@ -147,11 +147,13 @@ module.exports = async (req, res) => {
 
                 socket.emit('farming', data)
 
-                res.status(200).json({ message: 'Success' })
+                await pool(`UPDATE facebook_account SET status =? WHERE id =?`, ['working', id])
+
+                res.status(201).json({ message: 'Success' })
 
             } else {
 
-                res.status(404).json({ message: 'Account not found.' })
+                res.status(400).json({ message: 'Account not found.' })
 
             }
 

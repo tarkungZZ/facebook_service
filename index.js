@@ -9,6 +9,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 //no authorize
+app.get('/status', require('./controllers/get_status'))
+
 app.post('/login', require('./controllers/login'))
 
 //authorize
