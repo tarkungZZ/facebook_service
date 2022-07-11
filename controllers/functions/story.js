@@ -54,7 +54,7 @@ module.exports = async (page, randomDelay, pid, timeout, data) => {
 
                 }
 
-                await delay(Math.floor(Math.random() * (5000 - 2000) + 3000))
+                await delay(Math.floor(Math.random() * (5000 - 2000) + 1000))
 
                 try {
 
@@ -80,10 +80,19 @@ module.exports = async (page, randomDelay, pid, timeout, data) => {
 
                 }
 
-            } else {
+            }
 
-                await page.click(`#viewer_dialog > div > div > div > div.o36gj0jk.datstx6m.hybvsw6c > div > div > div > div > div > div.sxpk6l6v > div > div > div:nth-child(2) > div:nth-child(${i + 1}) > div > div > div`)
-                await delay(Math.floor(Math.random() * (5000 - 2000) + 3000))
+            if (i === 1) {
+
+                for (let i = 0; i < 5; i++) {
+
+                    await page.keyboard.press(`Tab`)
+
+                }
+
+                await page.keyboard.press(`Enter`)
+
+                await delay(Math.floor(Math.random() * (5000 - 2000) + 1000))
 
                 try {
 
@@ -97,7 +106,39 @@ module.exports = async (page, randomDelay, pid, timeout, data) => {
 
                 } catch (err) {
 
-                    if (err) { console.log('err', err) }
+                    page.keyboard.press(`F5`)
+
+                    console.log('err in', err)
+
+                    await delay(5000)
+
+                }
+
+            } else {
+
+                //await page.click(`#viewer_dialog > div > div > div > div.o36gj0jk.datstx6m.hybvsw6c > div > div > div > div > div > div.sxpk6l6v > div > div > div:nth-child(2) > div:nth-child(${i + 1}) > div > div > div`)
+                await page.keyboard.press(`Tab`)
+                await delay(randomDelay)
+                await page.keyboard.press(`Enter`)
+                await delay(Math.floor(Math.random() * (5000 - 2000) + 1000))
+
+                try {
+
+                    //console.log(`check if element appear`)
+
+                    await page.waitForSelector(randomEmote, { timeout: 3000 })
+                    //console.log(`found emote`)
+                    await page.click(randomEmote)
+                    const logEmote = randomEmote.match(/([ก-ฮ]).*/g)
+                    console.log(`sent emote`, logEmote[0].slice(0, -2))
+
+                } catch (err) {
+
+                    page.keyboard.press(`F5`)
+
+                    console.log('err in', err)
+
+                    await delay(5000)
 
                 }
 
