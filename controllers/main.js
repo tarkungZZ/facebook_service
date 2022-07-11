@@ -63,7 +63,7 @@ module.exports = async (data) => {
         try {
 
             const browser = await puppeteer.launch({
-                headless: false,
+                headless: true,
                 defaultViewport: null,
                 //executablePath: obj.execute_path,
                 slowMo: 10,
@@ -100,13 +100,13 @@ module.exports = async (data) => {
                     //console.log(`kill?`)
                     //console.log(pid)
 
-                    const data = {
+                    const obj = {
                         id: data.id,
                         email: data.email,
                         status: 'finish'
                     }
 
-                    await socket.emit(`status`, data)
+                    await socket.emit(`status`, obj)
                     await browser.close()
 
 
