@@ -27,7 +27,8 @@ module.exports = async (page, randomDelay, post, timeout, pid, data) => {
                 email: data.email,
                 status: 'finish'
             }
-
+            
+            console.log(`work done sending socket.`)
             await socket.emit(`status`, obj)
 
             await process.kill(pid)
