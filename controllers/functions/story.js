@@ -3,7 +3,7 @@ const io = require('socket.io-client')
 const { SERVER_SOCKET_IP, SERVER_SOCKET_PORT } = require('../../helpers/config')
 const socket = io.connect(`http://${SERVER_SOCKET_IP}: ${SERVER_SOCKET_PORT}`)
 
-module.exports = async (page, randomDelay, pid, timeout) => {
+module.exports = async (page, randomDelay, pid, timeout, data) => {
 
     try {
 
@@ -25,13 +25,13 @@ module.exports = async (page, randomDelay, pid, timeout) => {
 
                 await delay(randomDelay)
 
-                const data = {
+                const obj = {
                     id: data.id,
                     email: data.email,
                     status: 'finish'
                 }
 
-                await socket.emit(`status`, data)
+                await socket.emit(`status`, obj)
 
                 await process.kill(pid)
                 await clearTimeout(timeout)
@@ -67,7 +67,15 @@ module.exports = async (page, randomDelay, pid, timeout) => {
 
                 } catch (err) {
 
-                    if (err) { console.log('err in', err) }
+                    if (err) {
+
+                        page.keyboard.press(`F5`)
+
+                        console.log('err in', err)
+
+                        await delay(5000)
+
+                    }
 
                 }
 

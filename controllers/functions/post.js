@@ -3,7 +3,7 @@ const io = require('socket.io-client')
 const { SERVER_SOCKET_IP, SERVER_SOCKET_PORT } = require('../../helpers/config')
 const socket = io.connect(`http://${SERVER_SOCKET_IP}: ${SERVER_SOCKET_PORT}`)
 
-module.exports = async (page, randomDelay, post, timeout, pid) => {
+module.exports = async (page, randomDelay, post, timeout, pid, data) => {
 
     for (let i = 0; i < 6; i++) {
 
@@ -22,13 +22,13 @@ module.exports = async (page, randomDelay, post, timeout, pid) => {
 
             await delay(randomDelay)
 
-            const data = {
+            const obj = {
                 id: data.id,
                 email: data.email,
                 status: 'finish'
             }
 
-            await socket.emit(`status`, data)
+            await socket.emit(`status`, obj)
 
             await process.kill(pid)
 

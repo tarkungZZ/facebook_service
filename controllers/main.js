@@ -308,7 +308,7 @@ module.exports = async (data) => {
 
                 console.log(`Start farming story for ${obj.email}.`)
 
-                farmStory(page, randomDelay, pid, timeout)
+                farmStory(page, randomDelay, pid, timeout, data)
 
             }
 
@@ -316,7 +316,7 @@ module.exports = async (data) => {
 
                 console.log(`Start farming post for ${obj.email}.`)
 
-                farmPost(page, randomDelay, data.postContent, timeout, pid)
+                farmPost(page, randomDelay, data.postContent, timeout, pid, data)
 
             }
 
@@ -324,7 +324,7 @@ module.exports = async (data) => {
 
                 console.log(`Start farming share for ${obj.email}.`)
 
-                farmShare(page, randomDelay, data.link, timeout, pid)
+                farmShare(page, randomDelay, data.link, timeout, pid, data)
 
             }
 
