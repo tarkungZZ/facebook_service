@@ -2,6 +2,8 @@ const pool = require(`../helpers/mysql`)
 
 module.exports = async (data) => {
 
+    console.log(data)
+
     try {
 
         await pool(`UPDATE facebook_account SET status =? WHERE id =?`, [data.status, data.id])
