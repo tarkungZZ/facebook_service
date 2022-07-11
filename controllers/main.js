@@ -299,10 +299,7 @@ module.exports = async (data) => {
 
                 console.log(`Start farming like for ${obj.email}.`)
 
-                setInterval(() => {
-                    count++
-                    farmLike(page, randomDelay, count)
-                }, 15000)
+                farmLike(page, randomDelay, pid, timeout, data)
 
             }
 
