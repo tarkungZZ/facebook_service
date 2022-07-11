@@ -67,7 +67,7 @@ module.exports = async (page, randomDelay, pid, timeout) => {
 
                 } catch (err) {
 
-                    //if (err) { console.log('err in', err) }
+                    if (err) { console.log('err in', err) }
 
                 }
 
@@ -88,7 +88,7 @@ module.exports = async (page, randomDelay, pid, timeout) => {
 
                 } catch (err) {
 
-                    //if (err) { console.log('err', err) }
+                    if (err) { console.log('err', err) }
 
                 }
 
@@ -98,7 +98,7 @@ module.exports = async (page, randomDelay, pid, timeout) => {
 
     } catch (err) {
 
-        //console.log(`err out`, err)
+        console.log(`err out`, err)
 
     }
 
