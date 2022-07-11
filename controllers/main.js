@@ -3,6 +3,9 @@ const fs = require('fs')
 const puppeteer = require('puppeteer')
 // const stealth = require('puppeteer-extra-plugin-stealth')
 // puppeteer.use(stealth())
+const io = require('socket.io-client')
+const { SERVER_SOCKET_IP, SERVER_SOCKET_PORT } = require('../helpers/config')
+const socket = io.connect(`http://${SERVER_SOCKET_IP}: ${SERVER_SOCKET_PORT}`)
 
 const config = require('../helpers/config')
 const delay = require('../helpers/delay')
@@ -60,7 +63,7 @@ module.exports = async (data) => {
         try {
 
             const browser = await puppeteer.launch({
-                headless: false,
+                headless: true,
                 defaultViewport: null,
                 //executablePath: obj.execute_path,
                 slowMo: 10,
@@ -96,7 +99,16 @@ module.exports = async (data) => {
 
                     //console.log(`kill?`)
                     //console.log(pid)
+
+                    const data = {
+                        id: data.id,
+                        email: data.email,
+                        status: 'finish'
+                    }
+
+                    await socket.emit(`status`, data)
                     await browser.close()
+
 
                 } catch (err) { console.log(err) }
 
