@@ -9,15 +9,24 @@ module.exports = async (req, res) => {
             email_password: req.body.email_password,
             fb_password: req.body.fb_password,
             two_fa: req.body.two_fa,
+            users_id: req.body.users_id
         }
 
         console.log(body)
 
-        await pool(`INSERT IGNORE INTO facebook_account SET ?`, [body])
+        const checkUsers = await pool(`SELECT id FROM users WHERE id =?`, [body.users_id])
 
-        console.log(`Insert new facebook account successful.`)
+        if (!checkUsers[0]) { res.status(400).json({ message: `Invalid users id.` }) }
 
-        res.status(201).json({ message: `Success` })
+        if (checkUsers[0]) {
+
+            await pool(`INSERT IGNORE INTO facebook_account SET ?`, [body])
+
+            console.log(`Insert new facebook account successful.`)
+
+            res.status(201).json({ message: `Success` })
+
+        }
 
     } catch (err) {
 
