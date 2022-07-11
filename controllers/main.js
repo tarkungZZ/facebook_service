@@ -116,8 +116,10 @@ module.exports = async (data) => {
 
             let day = getDay()
             day = Number(day) - 1
-            day += ''
-            day = '0' + day
+            if (day < 10) {
+                day += ''
+                day = '0' + day
+            } else { day += '' }
 
             if (fs.existsSync(`./cookies_${obj.email}_${getDay()}.json`)) {
 
