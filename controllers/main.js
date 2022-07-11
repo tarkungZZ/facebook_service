@@ -306,7 +306,7 @@ module.exports = async (data) => {
 
             if (data.type === 'story') {
 
-                //console.log(`Start farming story for ${obj.email}.`)
+                console.log(`Start farming story for ${obj.email}.`)
 
                 farmStory(page, randomDelay, pid, timeout)
 
@@ -322,7 +322,7 @@ module.exports = async (data) => {
 
             if (data.type === 'share') {
 
-                //console.log(`Start farming share for ${obj.email}.`)
+                console.log(`Start farming share for ${obj.email}.`)
 
                 farmShare(page, randomDelay, data.link, timeout, pid)
 
