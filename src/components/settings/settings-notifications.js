@@ -8,126 +8,46 @@ import {
   Divider,
   FormControlLabel,
   Grid,
-  Typography
-} from '@mui/material';
+  Typography,
+} from "@mui/material";
 
 export const SettingsNotifications = (props) => (
   <form {...props}>
     <Card>
-      <CardHeader
-        subheader="Manage the notifications"
-        title="Notifications"
-      />
+      <CardHeader title="Language" subheader="Select Your Language" />
       <Divider />
       <CardContent>
-        <Grid
-          container
-          spacing={6}
-          wrap="wrap"
-        >
+        <Grid container spacing={6} wrap="wrap">
           <Grid
             item
             md={4}
             sm={6}
             sx={{
-              display: 'flex',
-              flexDirection: 'column'
+              display: "flex",
+              flexDirection: "column",
             }}
             xs={12}
           >
-            <Typography
-              color="textPrimary"
-              gutterBottom
-              variant="h6"
-            >
+            {/* <Typography color="textPrimary" gutterBottom variant="h6">
               Notifications
-            </Typography>
+            </Typography> */}
             <FormControlLabel
-              control={(
-                <Checkbox
-                  color="primary"
-                  defaultChecked
-                />
-              )}
-              label="Email"
+              control={<Checkbox color="primary" defaultChecked />}
+              label="English"
             />
-            <FormControlLabel
-              control={(
-                <Checkbox
-                  color="primary"
-                  defaultChecked
-                />
-              )}
-              label="Push Notifications"
-            />
-            <FormControlLabel
-              control={<Checkbox />}
-              label="Text Messages"
-            />
-            <FormControlLabel
-              control={(
-                <Checkbox
-                  color="primary"
-                  defaultChecked
-                />
-              )}
-              label="Phone calls"
-            />
-          </Grid>
-          <Grid
-            item
-            md={4}
-            sm={6}
-            sx={{
-              display: 'flex',
-              flexDirection: 'column'
-            }}
-            xs={12}
-          >
-            <Typography
-              color="textPrimary"
-              gutterBottom
-              variant="h6"
-            >
-              Messages
-            </Typography>
-            <FormControlLabel
-              control={(
-                <Checkbox
-                  color="primary"
-                  defaultChecked
-                />
-              )}
-              label="Email"
-            />
-            <FormControlLabel
-              control={<Checkbox />}
-              label="Push Notifications"
-            />
-            <FormControlLabel
-              control={(
-                <Checkbox
-                  color="primary"
-                  defaultChecked
-                />
-              )}
-              label="Phone calls"
-            />
+            <FormControlLabel control={<Checkbox color="primary" defaultChecked />} label="Thai" />
           </Grid>
         </Grid>
       </CardContent>
       <Divider />
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          p: 2
+          display: "flex",
+          justifyContent: "flex-end",
+          p: 2,
         }}
       >
-        <Button
-          color="primary"
-          variant="contained"
-        >
+        <Button color="primary" variant="contained">
           Save
         </Button>
       </Box>

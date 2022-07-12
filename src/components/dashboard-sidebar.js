@@ -42,11 +42,11 @@ const items = [
     icon: <UserIcon fontSize="small" />,
     title: "Manage Post",
   },
-  // {
-  //   href: "/settings",
-  //   icon: <CogIcon fontSize="small" />,
-  //   title: "Settings",
-  // },
+  {
+    href: "/settings",
+    icon: <CogIcon fontSize="small" />,
+    title: "Settings",
+  },
   // {
   //   href: "/login",
   //   icon: <LockIcon fontSize="small" />,
