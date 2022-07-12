@@ -56,6 +56,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   const [link, setLink] = useState(undefined);
   const [post, setPost] = useState(undefined);
   const [total, setTotal] = useState(0);
+  const [inprogress, setInprogress] = useState(false);
 
   useEffect(() => {
     getData();
@@ -829,18 +830,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                     key={customer.id}
                     selected={selectedCustomerIds.indexOf(customer.id) !== -1}
                   >
-                    {/* <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={selectedCustomerIds.indexOf(customer.id) !== -1}
-                        onChange={(event) => handleSelectOne(event, customer.id)}
-                        value="true"
-                      />
-                    </TableCell> */}
-                    {/* <TableCell>{customer.type}</TableCell> */}
-                    <TableCell>
-                      {customer.id}
-                      {/* {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`} */}
-                    </TableCell>
+                    <TableCell>{customer.id}</TableCell>
                     <TableCell>
                       <Box
                         sx={{
@@ -848,15 +838,9 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                           display: "flex",
                         }}
                       >
-                        {/* <Avatar src={customer.avatarUrl} sx={{ mr: 2 }}>
-                        {getInitials(customer.name)}
-                      </Avatar> */}
-                        {/* {window.innerWidth > 500 && ( */}
                         <Typography color="textPrimary">
                           {customer.email.substring(0, window.innerWidth < 500 ? 15 : 250)}
                         </Typography>
-
-                        {/* )} */}
                       </Box>
                     </TableCell>
                     <TableCell>
@@ -870,36 +854,48 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                       {customer.fb_password.substring(0, window.innerWidth < 500 ? 15 : 250)}
                     </TableCell>
 
-                    <TableCell align="center">
-                      <Button
-                        style={{ background: "#10B981" }}
-                        variant="contained"
-                        onClick={() => handleBot(customer)}
-                      >
-                        Bot
-                      </Button>
-                      <Button
-                        style={{
-                          background: "#121828",
-                          marginLeft: "0.1rem",
-                          marginRight: "0.1rem",
-                        }}
-                        variant="contained"
-                        onClick={() => handleEdit(customer)}
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        color="error"
-                        style={{ background: "rgba(255,0,0,0.02)" }}
-                        // variant="contained"
-                        onClick={() => {
-                          handleDelete(customer);
-                        }}
-                      >
-                        Delete
-                      </Button>
-                    </TableCell>
+                    {inprogress ? (
+                      <TableCell align="center">
+                        <Button
+                          style={{ background: "#10B981" }}
+                          variant="contained"
+                          onClick={() => handleBot(customer)}
+                        >
+                          Bot
+                        </Button>
+                        <Button
+                          style={{
+                            background: "#121828",
+                            marginLeft: "0.1rem",
+                            marginRight: "0.1rem",
+                          }}
+                          variant="contained"
+                          onClick={() => handleEdit(customer)}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          color="error"
+                          style={{ background: "rgba(255,0,0,0.02)" }}
+                          // variant="contained"
+                          onClick={() => {
+                            handleDelete(customer);
+                          }}
+                        >
+                          Delete
+                        </Button>
+                      </TableCell>
+                    ) : (
+                      <TableCell align="center">
+                        <Button
+                          style={{ background: "#10B981" }}
+                          variant="contained"
+                          onClick={() => handleBot(customer)}
+                        >
+                          Bot
+                        </Button>
+                      </TableCell>
+                    )}
 
                     {/* <TableCell>{format(customer.createdAt, "dd/MM/yyyy")}</TableCell> */}
                   </TableRow>
