@@ -5,4 +5,6 @@ export default {
   verison: "1.0.0",
   lang: "th",
   power_by: "CODEHOUSE",
+  Accept: "application/json",
+  Origin: "http://siteA.com"
 };

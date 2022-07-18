@@ -21,6 +21,12 @@ import {
 import { getInitials } from "../../utils/get-initials";
 import auth from "../../api/auth";
 import { Download as DownloadIcon } from "../../icons/download";
+//animations
+import Lottie from "react-lottie";
+import * as animationData from "../../assets/lotties/loading.json";
+//Socket
+import io from 'socket.io-client';
+
 
 export const CreateFacebookListResults = ({ ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
@@ -57,8 +63,19 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   const [post, setPost] = useState(undefined);
   const [total, setTotal] = useState(0);
   const [inprogress, setInprogress] = useState(false);
+  //Bot SelectAll
+  const [isC, setIsC] = useState(false);
+  //Socket
+  // const socket = io("159.223.53.175:5002");
 
   useEffect(() => {
+    // socket.on("connect", () => {
+    //   console.log("connect");
+    // });
+
+    // socket.on("disconnect", () => {
+    //   console.log("disconnect");
+    // });
     getData();
     // console.log("window.innerWidth", window.innerWidth);
     window.addEventListener("resize", () => {
@@ -66,6 +83,9 @@ export const CreateFacebookListResults = ({ ...rest }) => {
       setWidth(window.innerWidth);
     });
     return () => {
+      socket.off("connect");
+      socket.off("disconnect");
+      socket.off("pong");
       window.removeEventListener("resize", () => {
         // console.log("window.innerWidth", window.innerWidth);
         setWidth(window.innerWidth);
@@ -77,6 +97,15 @@ export const CreateFacebookListResults = ({ ...rest }) => {
 
   const optionsState = {
     options: type,
+  };
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
   };
 
   const handleSelectFbPass = (event) => {
@@ -94,7 +123,24 @@ export const CreateFacebookListResults = ({ ...rest }) => {
     setCheckFbName(event.target.checked);
   };
 
+  const handleSelectAll = (event) => {
+    console.log("handleSelectAll", event.target.checked);
+    let newSelectedCustomerIds;
+
+    if (event.target.checked) {
+      newSelectedCustomerIds = user.map((customer) => customer.id);
+      console.log("newSelectedCustomerIds", newSelectedCustomerIds);
+    } else {
+      newSelectedCustomerIds = [];
+      console.log("newSelectedCustomerIds", newSelectedCustomerIds);
+    }
+
+    setSelectedCustomerIds(newSelectedCustomerIds);
+    console.log("result ALL", newSelectedCustomerIds);
+  };
+
   const handleSelectOne = (event, id) => {
+    console.log("selectone ->", event.target.checked, id);
     const selectedIndex = selectedCustomerIds.indexOf(id);
     let newSelectedCustomerIds = [];
 
@@ -112,6 +158,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
     }
 
     setSelectedCustomerIds(newSelectedCustomerIds);
+    console.log("result ONE", newSelectedCustomerIds);
   };
 
   const handleLimitChange = (event) => {
@@ -182,6 +229,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
     setType(undefined);
     setLink(undefined);
     setPost(undefined);
+    setIsC(false);
   };
 
   const handleDelete = (customer) => {
@@ -249,6 +297,58 @@ export const CreateFacebookListResults = ({ ...rest }) => {
     getData();
     return data;
   };
+
+  const handleLaunchBotPlus = async () => {
+    if (isC) {
+      if (type === "share") {
+        if (!link) {
+          alert("Please Enter Link");
+          return;
+        }
+      }
+      selectedCustomerIds.map(async (id) => {
+        // console.log("id", id);
+        console.log("TimeOut2", id);
+        // await auth.launchBot(id, type, link, post);
+      });
+      console.log("Success");
+      // const data = await auth.launchBot(customerBot?.id, type, link, post);
+      // setIsBot(false);
+      // setType(undefined);
+      // setLink(undefined);
+      // setPost(undefined);
+      // setTimeout(() => {
+      //   alert(`Launch Bot ${selectedCustomerIds.length} Accounts Success`);
+      // }, 400);
+      // getData();
+      // return data;
+    }
+  };
+
+  const handleSelectBot = () => {
+    console.log("select bot", selectedCustomerIds);
+    setIsC(true);
+    setIsBot(true);
+  };
+
+  // const responseSocket = () => {
+  //   const socket = socketIOClient(endpoint, {
+  //     transports: ["websocket"],
+  //     reconnection: true,
+  //     reconnectionAttempts: "Infinity",
+  //     reconnectionDelay: 1000,
+  //     reconnectionDelayMax: 5000,
+  //     randomizationFactor: 0.5,
+  //     timeout: 10000,
+  //     autoConnect: true,
+  //   }, { headers: header });
+  //   console.log("responseSocket");
+  //   // const { endpoint, message } = socket.io.engine.generateId();
+  //   const socket = socketIOClient("159.223.53.175:5002");
+  //   socket.on("bot-status", (data) => {
+  //     console.log("dataSocket", data);
+  //   });
+  // };
 
   return (
     <div>
@@ -374,7 +474,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                       style={{ backgroundColor: "#121828", color: "#fff", marginTop: "5%" }}
                       fullWidth
                       size="large"
-                      onClick={handleLaunchBot}
+                      onClick={!isC ? handleLaunchBot : handleLaunchBotPlus}
                     >
                       Confirm
                     </Button>
@@ -807,6 +907,22 @@ export const CreateFacebookListResults = ({ ...rest }) => {
             </Box>
           </Box>
         </Box>
+        <Typography sx={{ m: 2, flexDirection: "row", display: "flex", alignItems: "center" }}>
+          {selectedCustomerIds.length > 0 && (
+            <>
+              <p style={{ fontSize: 13, fontWeight: "normal", marginRight: 10 }}>
+                Multi-Action ({selectedCustomerIds.length}) Accounts
+              </p>
+              <Button
+                style={{ background: "#10B981" }}
+                variant="contained"
+                onClick={() => handleSelectBot()}
+              >
+                Bot
+              </Button>
+            </>
+          )}
+        </Typography>
         <PerfectScrollbar
           options={{ suppressScrollY: true, displayScrollToTop: true }}
           onScrollY={(container) => console.log(`scrolled to: ${container.scrollTop}.`)}
@@ -815,6 +931,16 @@ export const CreateFacebookListResults = ({ ...rest }) => {
             <Table>
               <TableHead>
                 <TableRow>
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      checked={selectedCustomerIds.length === user?.length}
+                      color="primary"
+                      indeterminate={
+                        selectedCustomerIds.length > 0 && selectedCustomerIds.length < user?.length
+                      }
+                      onChange={handleSelectAll}
+                    />
+                  </TableCell>
                   <TableCell>ID</TableCell>
                   <TableCell>Email</TableCell>
                   <TableCell>Facebook Name</TableCell>
@@ -830,6 +956,13 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                     key={customer.id}
                     selected={selectedCustomerIds.indexOf(customer.id) !== -1}
                   >
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        checked={selectedCustomerIds.indexOf(customer.id) !== -1}
+                        onChange={(event) => handleSelectOne(event, customer.id)}
+                        value="true"
+                      />
+                    </TableCell>
                     <TableCell>{customer.id}</TableCell>
                     <TableCell>
                       <Box
@@ -854,7 +987,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                       {customer.fb_password.substring(0, window.innerWidth < 500 ? 15 : 250)}
                     </TableCell>
 
-                    {inprogress ? (
+                    {inprogress || index !== 0 ? (
                       <TableCell align="center">
                         <Button
                           style={{ background: "#10B981" }}
@@ -886,16 +1019,77 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                         </Button>
                       </TableCell>
                     ) : (
-                      <TableCell align="center">
+                      <TableCell
+                        align="center"
+                        style={{ display: "flex", justifyContent: "center" }}
+                      >
                         <Button
-                          style={{ background: "#10B981" }}
+                          style={{
+                            background: "rgba(247, 247, 247,1)",
+                            color: "#707070",
+                            flexDirection: "row",
+                            display: "flex",
+                            width: "85%",
+                            height: 50,
+                            alignSelf: "center",
+                          }}
                           variant="contained"
                           onClick={() => handleBot(customer)}
                         >
-                          Bot
+                          <ul
+                            style={{
+                              flexDirection: "row",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                            <TableCell style={{ marginLeft: 10, color: "#707070" }}>
+                              <Lottie
+                                options={defaultOptions}
+                                height={50}
+                                width={50}
+                                style={{ position: "absolute", left: 30, top: 0 }}
+                              />
+                              Inprogress
+                            </TableCell>
+                          </ul>
                         </Button>
                       </TableCell>
                     )}
+                    {/* {index === 0 && (
+                      <TableCell align="center">
+                        <Button
+                          style={{
+                            background: "rgba(247, 247, 247,1)",
+                            color: "#707070",
+                            flexDirection: "row",
+                            display: "flex",
+                          }}
+                          variant="contained"
+                          onClick={() => handleBot(customer)}
+                        >
+                          <ul
+                            style={{
+                              flexDirection: "row",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                            <TableCell style={{ marginLeft: 10, color: "#707070" }}>
+                              <Lottie
+                                options={defaultOptions}
+                                height={50}
+                                width={50}
+                                style={{ position: "absolute", left: 0, top: 10 }}
+                              />
+                              Inprogress
+                            </TableCell>
+                          </ul>
+                        </Button>
+                      </TableCell>
+                    )} */}
 
                     {/* <TableCell>{format(customer.createdAt, "dd/MM/yyyy")}</TableCell> */}
                   </TableRow>
