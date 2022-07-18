@@ -1,6 +1,12 @@
 const app = require('express')()
 const http = require('http').createServer(app)
-const io = require('socket.io')(http)
+const io = require('socket.io')(http, {
+    cors: {
+        origin: "http://159.223.53.175:3002",
+        methods: ["GET", "POST"],
+        credentials: false
+    }
+})
 const { SOCKET_PORT } = require('./helpers/config')
 const updateStatus = require('./helpers/update_status')
 
