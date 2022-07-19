@@ -5,10 +5,7 @@ const bodyParser = require('body-parser')
 const authorize = require('./middlewares/authorize')
 const { PORT } = require('./helpers/config')
 
-app.use(cors({
-    origin: 'http://localhost:3001',
-    credentials: true,
-}))
+app.use(cors())
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
