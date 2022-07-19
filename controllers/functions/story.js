@@ -108,7 +108,7 @@ module.exports = async (page, randomDelay, pid, timeout, data) => {
 
                     page.keyboard.press(`F5`)
 
-                    console.log('err in', err)
+                    //console.log('err in', err)
 
                     await delay(5000)
 
