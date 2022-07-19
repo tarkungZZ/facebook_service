@@ -383,21 +383,27 @@ export const CreateFacebookListResults = ({ ...rest }) => {
           return;
         }
       }
+      if (!type) {
+        if (!link) {
+          alert("Please Select Type");
+          return;
+        }
+      }
       selectedCustomerIds.map(async (id) => {
         // console.log("id", id);
         console.log("TimeOut2", id);
-        // await auth.launchBot(id, type, link, post);
+        await auth.launchBot(id, type, link, post);
       });
       console.log("Success");
       // const data = await auth.launchBot(customerBot?.id, type, link, post);
-      // setIsBot(false);
-      // setType(undefined);
-      // setLink(undefined);
-      // setPost(undefined);
-      // setTimeout(() => {
-      //   alert(`Launch Bot ${selectedCustomerIds.length} Accounts Success`);
-      // }, 400);
-      // getData();
+      setIsBot(false);
+      setType(undefined);
+      setLink(undefined);
+      setPost(undefined);
+      setTimeout(() => {
+        alert(`Launch Bot ${selectedCustomerIds.length} Accounts Success`);
+      }, 400);
+      getData();
       // return data;
     }
   };
@@ -445,12 +451,9 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   // };
 
   const TestC = (data) => {
-    console.log("TestC", data);
-    console.log("checkId", checkId);
     const Check = checkId.map((c) => parseInt(c.id) === data);
     const isSuccess = Check.filter((c) => c === true);
     // const Fail = Check.filter((c) => c === false);
-    console.log("Success", isSuccess);
 
     // console.log("Fail", Fail);
     // if (Success.length > 0) {
@@ -1007,14 +1010,6 @@ export const CreateFacebookListResults = ({ ...rest }) => {
             <Typography sx={{ m: 1 }} variant="h4">
               Create Facebook {localss}
             </Typography>
-            <Button
-              style={{ backgroundColor: "#121828", color: "#fff", marginTop: "5%" }}
-              // fullWidth
-              size="large"
-              onClick={handlecheckBot}
-            >
-              test
-            </Button>
             <Box sx={{ m: 1 }}>
               <Button
                 startIcon={<DownloadIcon fontSize="small" />}
