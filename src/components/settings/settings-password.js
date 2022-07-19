@@ -16,7 +16,7 @@ export const SettingsPassword = (props) => {
 
   return (
     <form {...props}>
-      <Card>
+      {/* <Card>
         <CardHeader subheader="Update password" title="Password" />
         <Divider />
         <CardContent>
@@ -53,7 +53,7 @@ export const SettingsPassword = (props) => {
             Update
           </Button>
         </Box>
-      </Card>
+      </Card> */}
     </form>
   );
 };

@@ -20,6 +20,7 @@ import { Box, Button, Container, Grid, Link, TextField, Typography } from "@mui/
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Facebook as FacebookIcon } from "../icons/facebook";
 import { Google as GoogleIcon } from "../icons/google";
+import "../i18next";
 
 import Login from "./login";
 import Dashboard from "./dashboard";
@@ -32,6 +33,7 @@ export default function App() {
   const [accessToken, setAccessToken] = useState(undefined);
 
   useEffect(() => {
+    localStorage.setItem("lng", "en");
     if (isLoading) {
       verifyAccessToken();
     }
