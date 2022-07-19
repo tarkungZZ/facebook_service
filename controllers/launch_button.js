@@ -16,38 +16,38 @@ module.exports = async (req, res) => {
 
         if (!id) {
 
-            const getData = await pool(`SELECT email, fb_password, two_fa , execute_path FROM facebook_account ORDER BY created_at DESC LIMIT ?`, [limit])
+            // const getData = await pool(`SELECT email, fb_password, two_fa , execute_path FROM facebook_account ORDER BY created_at DESC LIMIT ?`, [limit])
 
-            if (type === 'like' || type === 'story') {
+            // if (type === 'like' || type === 'story') {
 
-                data = {
-                    type,
-                    id: null,
-                    getData,
-                    delay_min: getConfig[0].delay_min * 1000,
-                    delay_max: getConfig[0].delay_max * 1000,
-                }
+            //     data = {
+            //         type,
+            //         id: null,
+            //         getData,
+            //         delay_min: getConfig[0].delay_min * 1000,
+            //         delay_max: getConfig[0].delay_max * 1000,
+            //     }
 
-            }
+            // }
 
-            if (type === 'share') {
+            // if (type === 'share') {
 
-                data = {
-                    type,
-                    id: null,
-                    getData,
-                    delay_min: getConfig[0].delay_min * 1000,
-                    delay_max: getConfig[0].delay_max * 1000,
-                    link
-                }
+            //     data = {
+            //         type,
+            //         id: null,
+            //         getData,
+            //         delay_min: getConfig[0].delay_min * 1000,
+            //         delay_max: getConfig[0].delay_max * 1000,
+            //         link
+            //     }
 
-            }
+            // }
 
-            console.log('Sending farm data to socket', data)
+            // console.log('Sending farm data to socket', data)
 
-            socket.emit('farming', data)
+            // socket.emit('farming', data)
 
-            res.status(200).json({ message: 'Success' })
+            res.status(400).json({ message: 'Invalid facebook id.' })
 
         }
 
