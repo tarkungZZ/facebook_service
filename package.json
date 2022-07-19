@@ -3,9 +3,17 @@
   "author": "Devias IO",
   "licence": "MIT",
   "version": "2.0.0",
+  "extends": [
+    "next/babel",
+    "next/core-web-vitals"
+  ],
+  "proxy": {
+    "enabled": true,
+    "host": "http://159.223.53.175:5002"
+  },
   "private": false,
   "scripts": {
-    "dev": "next -p 3001",
+    "dev": "next",
     "build": "next build",
     "start": "next start -p 3001",
     "export": "next export",
@@ -28,6 +36,7 @@
     "date-fns": "^2.25.0",
     "formik": "^2.1.5",
     "history": "^5.0.0",
+    "http-proxy-middleware": "^2.0.6",
     "i18next": "^21.8.13",
     "next": "^11",
     "nprogress": "^0.2.0",

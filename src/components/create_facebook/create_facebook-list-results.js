@@ -25,8 +25,7 @@ import { Download as DownloadIcon } from "../../icons/download";
 import Lottie from "react-lottie";
 import * as animationData from "../../assets/lotties/loading.json";
 //Socket
-import io from 'socket.io-client';
-
+import io from "socket.io-client";
 
 export const CreateFacebookListResults = ({ ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
@@ -66,16 +65,27 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   //Bot SelectAll
   const [isC, setIsC] = useState(false);
   //Socket
-  // const socket = io("159.223.53.175:5002");
+  const socket = io("http://159.223.53.175:5002");
+  const [isConnected, setIsConnected] = useState(socket.connected);
 
   useEffect(() => {
-    // socket.on("connect", () => {
-    //   console.log("connect");
-    // });
+    socket.on("connect", (id) => {
+      setIsConnected(true);
+      console.log("connect", id);
+    });
 
-    // socket.on("disconnect", () => {
-    //   console.log("disconnect");
-    // });
+    socket.on("disconnect", (id) => {
+      setIsConnected(false);
+      console.log("disconnect", id);
+    });
+
+    socket.on("bot-status", (id) => {
+      console.log("bot-status", id);
+    });
+
+    socket.on("status", (id) => {
+      console.log("status", id);
+    });
     getData();
     // console.log("window.innerWidth", window.innerWidth);
     window.addEventListener("resize", () => {
@@ -85,7 +95,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
     return () => {
       socket.off("connect");
       socket.off("disconnect");
-      socket.off("pong");
+      socket.off("bot-status");
       window.removeEventListener("resize", () => {
         // console.log("window.innerWidth", window.innerWidth);
         setWidth(window.innerWidth);

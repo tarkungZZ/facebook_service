@@ -1,30 +1,43 @@
-import React, { useState, useEffect } from "react";
-import io from "socket.io-client";
+import Head from 'next/head';
+import { Box, Container, Typography } from '@mui/material';
+import { DashboardLayout } from '../components/dashboard-layout';
+import { SettingsNotifications } from '../components/settings/settings-notifications';
+import { SettingsPassword } from '../components/settings/settings-password';
 
-const ENDPOINT = "http://159.223.53.175:5002";
+const Settings = () => (
+  <>
+    <Head>
+      <title>
+        Settings | Material Kit
+      </title>
+    </Head>
+    <Box
+      component="main"
+      sx={{
+        flexGrow: 1,
+        py: 8
+      }}
+    >
+      <Container maxWidth="lg">
+        <Typography
+          sx={{ mb: 3 }}
+          variant="h4"
+        >
+          Settings
+        </Typography>
+        <SettingsNotifications />
+        <Box sx={{ pt: 3 }}>
+          <SettingsPassword />
+        </Box>
+      </Container>
+    </Box>
+  </>
+);
 
-function App() {
-  const [lastPong, setLastPong] = useState(null);
+Settings.getLayout = (page) => (
+  <DashboardLayout>
+    {page}
+  </DashboardLayout>
+);
 
-  useEffect(() => {
-    const socket = io(ENDPOINT);
-    socket.on("connect", () => {
-      console.log("connected");
-      // setIsConnected(true);
-    });
-
-    socket.on("disconnect", () => {
-      console.log("disconnect");
-      // setIsConnected(false);
-    });
-
-    socket.on("bot-status", (data) => {
-      console.log("data ===> ", data);
-      // setLastPong(new Date().toISOString());
-    });
-  }, []);
-
-  return <div></div>;
-}
-
-export default App;
+export default Settings;
