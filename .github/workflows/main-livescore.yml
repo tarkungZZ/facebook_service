@@ -24,6 +24,7 @@ jobs:
             git checkout main
             git checkout -- .
             git pull
+            npm i
             pm2 restart api
             pm2 restart socket
             pm2 save
