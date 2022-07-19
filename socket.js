@@ -21,7 +21,7 @@ io.on('connection', (socket) => {
     socket.on('status', (data) => {
         console.log(`Update facebook working status.`)
         updateStatus(data)
-        socket.emit('bot-status', data)
+        io.emit('bot-status', data)
     })
 
     socket.on('disconnect', () => {
