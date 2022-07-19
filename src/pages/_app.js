@@ -12,6 +12,11 @@ import Login from "./login";
 
 const clientSideEmotionCache = createEmotionCache();
 
+const headers = {
+  "Content-Type": "application/json",
+  Accept: "application/json",
+};
+
 const App = (props) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
@@ -21,6 +26,7 @@ const App = (props) => {
   const [accessToken, setAccessToken] = useState(undefined);
 
   useEffect(() => {
+    headers;
     if (isLoading) {
       verifyAccessToken();
     }

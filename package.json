@@ -3,9 +3,17 @@
   "author": "Devias IO",
   "licence": "MIT",
   "version": "2.0.0",
+  "extends": [
+    "next/babel",
+    "next/core-web-vitals"
+  ],
+  "proxy": {
+    "enabled": true,
+    "host": "http://159.223.53.175:5002"
+  },
   "private": false,
   "scripts": {
-    "dev": "next -p 3001",
+    "dev": "next",
     "build": "next build",
     "start": "next start -p 3001",
     "export": "next export",
@@ -24,9 +32,11 @@
     "asyncstorage": "^1.5.0",
     "axios": "^0.27.2",
     "chart.js": "^3.5.1",
+    "cors": "^2.8.5",
     "date-fns": "^2.25.0",
     "formik": "^2.1.5",
     "history": "^5.0.0",
+    "http-proxy-middleware": "^2.0.6",
     "i18next": "^21.8.13",
     "i18next-browser-languagedetector": "^6.1.4",
     "i18next-http-backend": "^1.4.1",
@@ -38,7 +48,10 @@
     "react-chartjs-2": "^3.0.4",
     "react-dom": "^17.0.2",
     "react-i18next": "^11.18.0",
+    "react-lottie": "^1.2.3",
     "react-perfect-scrollbar": "^1.5.8",
+    "socket.io": "^4.5.1",
+    "socket.io-client": "^4.5.1",
     "uuid": "^8.3.0",
     "yup": "^0.32.9"
   },

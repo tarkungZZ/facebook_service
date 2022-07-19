@@ -4,4 +4,6 @@ export default {
   accessToken: "",
   verison: "1.0.0",
   power_by: "CODEHOUSE",
+  Accept: "application/json",
+  Origin: "http://siteA.com",
 };
