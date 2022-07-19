@@ -175,4 +175,17 @@ export default {
         return err;
       });
   },
+  statusBot: async (id) => {
+    const data = {
+      id: id, 
+    };
+    return await api.BACKEND_ENDPOINT.post(`${config.api}/facebook/status`, data)
+      .then(async (res) => {
+        return res;
+      })
+      .catch((err) => {
+        console.log("err, ", err);
+        return err;
+      });
+  },
 };

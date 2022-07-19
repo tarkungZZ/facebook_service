@@ -17,6 +17,7 @@ import {
   Button,
   Container,
   TextField,
+  getFormLabelUtilityClasses,
 } from "@mui/material";
 import { getInitials } from "../../utils/get-initials";
 import auth from "../../api/auth";
@@ -67,8 +68,31 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   //Socket
   const socket = io("http://159.223.53.175:5002");
   const [isConnected, setIsConnected] = useState(socket.connected);
+  const [checkBot, setCheckBot] = useState("");
+  const [localss, setLocalss] = useState([]);
+  const [success, setSuccess] = useState(false);
+  const [checkId, setCheckId] = useState([
+    {
+      id: "2",
+    },
+    {
+      id: "5",
+    },
+    {
+      id: "6",
+    },
+    {
+      id: "7",
+    },
+  ]);
+
+  const [botResult, setBotResult] = useState([]);
 
   useEffect(() => {
+    handlecheckBot();
+
+    console.log("checkBot -->", checkBot);
+
     socket.on("connect", (id) => {
       setIsConnected(true);
       console.log("connect", id);
@@ -79,31 +103,46 @@ export const CreateFacebookListResults = ({ ...rest }) => {
       console.log("disconnect", id);
     });
 
-    socket.on("bot-status", (id) => {
-      console.log("bot-status", id);
+    socket.on("bot-status", (data) => {
+      setCheckBot(data.id);
+      handleBotStatus(data.id);
+      // setCheckBot((event) => [...event, data.id]);
+      console.log("bot-status", data);
     });
 
     socket.on("status", (id) => {
+      // setCheckBot((event) => [...event, { ...id }]);
       console.log("status", id);
     });
+
     getData();
-    // console.log("window.innerWidth", window.innerWidth);
     window.addEventListener("resize", () => {
-      // console.log("window.innerWidth", window.innerWidth);
       setWidth(window.innerWidth);
     });
     return () => {
       socket.off("connect");
       socket.off("disconnect");
       socket.off("bot-status");
+      socket.off("status");
       window.removeEventListener("resize", () => {
-        // console.log("window.innerWidth", window.innerWidth);
         setWidth(window.innerWidth);
       });
     };
-  }, [limit, page]);
+  }, [limit, page, checkBot]);
+  // }, [limit, page, isConnected]);
 
   // localStorage.getItem("create")
+
+  const handleBotStatus = async (item) => {
+    const data = await auth.statusBot(item);
+    getData();
+    return data;
+  };
+
+  const Storage = async () => {
+    console.log("Storage", await localStorage.getItem("customerBot"));
+    setLocalss(await localStorage.getItem("customerBot"));
+  };
 
   const optionsState = {
     options: type,
@@ -290,13 +329,26 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   };
 
   const handleLaunchBot = async () => {
+    console.log("customerBot", customerBot?.id);
     if (type === "share") {
       if (!link) {
         alert("Please Enter Link");
         return;
       }
     }
+    if (!type) {
+      if (!link) {
+        alert("Please Select Type");
+        return;
+      }
+    }
+    //------------------- Run Bot API -------------------
+    console.log("customerBot", customerBot?.id);
+    console.log("type", type);
+    console.log("link", link);
+    console.log("post", post);
     const data = await auth.launchBot(customerBot?.id, type, link, post);
+    //---------------------------------------------------
     setIsBot(false);
     setType(undefined);
     setLink(undefined);
@@ -304,9 +356,24 @@ export const CreateFacebookListResults = ({ ...rest }) => {
     setTimeout(() => {
       alert("Launch Bot Success");
     }, 400);
+
+    // setBotResult((item) => [...item, customerBot.id]);
+    // let uniqueChars = [];
+    // botResult.forEach((c) => {
+    //   if (!uniqueChars.includes(c)) {
+    //     uniqueChars.push(c);
+    //   }
+    // });
+
+    // await localStorage.setItem("customerBot", uniqueChars);
+    // setLocalss(uniqueChars);
     getData();
     return data;
   };
+
+  // console.log("user", user);
+
+  // console.log("locass Outside", localss);
 
   const handleLaunchBotPlus = async () => {
     if (isC) {
@@ -359,6 +426,42 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   //     console.log("dataSocket", data);
   //   });
   // };
+
+  // const handlecheckBot = () => {
+  //   const userR = user.map((u) => {
+  //     return parseInt(u.id);
+  //   });
+
+  //   const checkR = checkId.map((c) => {
+  //     return parseInt(c.id);
+  //   });
+
+  //   console.log("userR", userR);
+  //   console.log("checkR", checkR);
+
+  //   const result = userR.filter((n) => !checkR.includes(n));
+  //   setBotResult(result);
+  //   console.log("result", result);
+  // };
+
+  const TestC = (data) => {
+    console.log("TestC", data);
+    console.log("checkId", checkId);
+    const Check = checkId.map((c) => parseInt(c.id) === data);
+    const isSuccess = Check.filter((c) => c === true);
+    // const Fail = Check.filter((c) => c === false);
+    console.log("Success", isSuccess);
+
+    // console.log("Fail", Fail);
+    // if (Success.length > 0) {
+    //   setSuccess(true);
+    //   console.log("isSuccess");
+    // }
+  };
+
+  const handlecheckBot = () => {
+    console.log("CheckBot", checkBot);
+  };
 
   return (
     <div>
@@ -534,6 +637,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                   >
                     <ul style={{ display: "flex", justifyContent: "space-between" }}>
                       <div>Create Facebook Account</div>
+
                       <Box
                         sx={{
                           color: "error.main",
@@ -901,8 +1005,16 @@ export const CreateFacebookListResults = ({ ...rest }) => {
             }}
           >
             <Typography sx={{ m: 1 }} variant="h4">
-              Create Facebook
+              Create Facebook {localss}
             </Typography>
+            <Button
+              style={{ backgroundColor: "#121828", color: "#fff", marginTop: "5%" }}
+              // fullWidth
+              size="large"
+              onClick={handlecheckBot}
+            >
+              test
+            </Button>
             <Box sx={{ m: 1 }}>
               <Button
                 startIcon={<DownloadIcon fontSize="small" />}
@@ -997,7 +1109,10 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                       {customer.fb_password.substring(0, window.innerWidth < 500 ? 15 : 250)}
                     </TableCell>
 
-                    {inprogress || index !== 0 ? (
+                    {/* {TestC(customer.id)} */}
+                    {/* {TestC === true ? "1" : "0"} */}
+
+                    {customer.status === "finish" ? (
                       <TableCell align="center">
                         <Button
                           style={{ background: "#10B981" }}
@@ -1034,6 +1149,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                         style={{ display: "flex", justifyContent: "center" }}
                       >
                         <Button
+                          disabled
                           style={{
                             background: "rgba(247, 247, 247,1)",
                             color: "#707070",
@@ -1044,7 +1160,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                             alignSelf: "center",
                           }}
                           variant="contained"
-                          onClick={() => handleBot(customer)}
+                          // onClick={() => handleBot(customer)}
                         >
                           <ul
                             style={{
@@ -1067,6 +1183,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                         </Button>
                       </TableCell>
                     )}
+
                     {/* {index === 0 && (
                       <TableCell align="center">
                         <Button
@@ -1099,7 +1216,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                           </ul>
                         </Button>
                       </TableCell>
-                    )} */}
+                    )}
 
                     {/* <TableCell>{format(customer.createdAt, "dd/MM/yyyy")}</TableCell> */}
                   </TableRow>

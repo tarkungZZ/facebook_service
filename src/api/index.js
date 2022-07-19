@@ -8,9 +8,6 @@ import config from "../config/env";
 const BACKEND_ENDPOINT = axios.create({
   baseURL: config.api,
   timeout: 10000,
-  headers: {
-    "Content-Type": "text/event-stream",
-  },
 });
 
 // Step-2: Create request, response & error handlers
@@ -19,8 +16,6 @@ const requestHandler = (request) => {
   // fetch the new token before making the call
   const value = localStorage.getItem("token");
   request.headers.Authorization = `Bearer ${value}`;
-  // request.headers.Accept = "application/json";
-  // request.headers.mode = "no-cors";
   return request;
 };
 
