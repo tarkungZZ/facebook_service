@@ -7,5 +7,6 @@ app
     .post('/add', require('../controllers/fb_accounts/account_add'))
     .post('/edit', require('../controllers/fb_accounts/account_edit'))
     .post('/delete', require('../controllers/fb_accounts/account_delete'))
+    .post('/status', require('../controllers/fb_accounts/account_status'))
 
 module.exports = app
