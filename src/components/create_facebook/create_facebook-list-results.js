@@ -18,6 +18,7 @@ import {
   Container,
   TextField,
   getFormLabelUtilityClasses,
+  Alert,
 } from "@mui/material";
 import { getInitials } from "../../utils/get-initials";
 import auth from "../../api/auth";
@@ -71,6 +72,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   const [checkBot, setCheckBot] = useState("");
   const [localss, setLocalss] = useState([]);
   const [success, setSuccess] = useState(false);
+  const [isCheck, setIsCheck] = useState(false);
   const [checkId, setCheckId] = useState([
     {
       id: "2",
@@ -173,19 +175,24 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   };
 
   const handleSelectAll = (event) => {
-    console.log("handleSelectAll", event.target.checked);
+    console.log("handleSelectAll Check Target", event.target.checked);
     let newSelectedCustomerIds;
+    console.log("newSelectedCustomerIds", newSelectedCustomerIds);
 
     if (event.target.checked) {
-      newSelectedCustomerIds = user.map((customer) => customer.id);
-      console.log("newSelectedCustomerIds", newSelectedCustomerIds);
+      setIsCheck(true);
+      newSelectedCustomerIds = user?.map((customer) =>
+        customer.status === "finish" ? customer.id : null
+      );
+      newSelectedCustomerIds = newSelectedCustomerIds.filter((item) => item !== null);
+      console.log("if --> newSelectedCustomerIds", newSelectedCustomerIds);
     } else {
+      setIsCheck(false);
       newSelectedCustomerIds = [];
-      console.log("newSelectedCustomerIds", newSelectedCustomerIds);
+      console.log("else --> newSelectedCustomerIds", newSelectedCustomerIds);
     }
 
     setSelectedCustomerIds(newSelectedCustomerIds);
-    console.log("result ALL", newSelectedCustomerIds);
   };
 
   const handleSelectOne = (event, id) => {
@@ -343,10 +350,6 @@ export const CreateFacebookListResults = ({ ...rest }) => {
       }
     }
     //------------------- Run Bot API -------------------
-    console.log("customerBot", customerBot?.id);
-    console.log("type", type);
-    console.log("link", link);
-    console.log("post", post);
     const data = await auth.launchBot(customerBot?.id, type, link, post);
     //---------------------------------------------------
     setIsBot(false);
@@ -356,24 +359,9 @@ export const CreateFacebookListResults = ({ ...rest }) => {
     setTimeout(() => {
       alert("Launch Bot Success");
     }, 400);
-
-    // setBotResult((item) => [...item, customerBot.id]);
-    // let uniqueChars = [];
-    // botResult.forEach((c) => {
-    //   if (!uniqueChars.includes(c)) {
-    //     uniqueChars.push(c);
-    //   }
-    // });
-
-    // await localStorage.setItem("customerBot", uniqueChars);
-    // setLocalss(uniqueChars);
     getData();
     return data;
   };
-
-  // console.log("user", user);
-
-  // console.log("locass Outside", localss);
 
   const handleLaunchBotPlus = async () => {
     if (isC) {
@@ -389,12 +377,13 @@ export const CreateFacebookListResults = ({ ...rest }) => {
           return;
         }
       }
-      selectedCustomerIds.map(async (id) => {
-        // console.log("id", id);
-        console.log("TimeOut2", id);
-        await auth.launchBot(id, type, link, post);
+
+      selectedCustomerIds.forEach(async (id, i) => {
+        setTimeout(async () => {
+          console.log("Bot Delay --->", id);
+          await auth.launchBot(id, type, link, post);
+        }, i * 2000);
       });
-      console.log("Success");
       // const data = await auth.launchBot(customerBot?.id, type, link, post);
       setIsBot(false);
       setType(undefined);
@@ -414,56 +403,17 @@ export const CreateFacebookListResults = ({ ...rest }) => {
     setIsBot(true);
   };
 
-  // const responseSocket = () => {
-  //   const socket = socketIOClient(endpoint, {
-  //     transports: ["websocket"],
-  //     reconnection: true,
-  //     reconnectionAttempts: "Infinity",
-  //     reconnectionDelay: 1000,
-  //     reconnectionDelayMax: 5000,
-  //     randomizationFactor: 0.5,
-  //     timeout: 10000,
-  //     autoConnect: true,
-  //   }, { headers: header });
-  //   console.log("responseSocket");
-  //   // const { endpoint, message } = socket.io.engine.generateId();
-  //   const socket = socketIOClient("159.223.53.175:5002");
-  //   socket.on("bot-status", (data) => {
-  //     console.log("dataSocket", data);
-  //   });
-  // };
-
-  // const handlecheckBot = () => {
-  //   const userR = user.map((u) => {
-  //     return parseInt(u.id);
-  //   });
-
-  //   const checkR = checkId.map((c) => {
-  //     return parseInt(c.id);
-  //   });
-
-  //   console.log("userR", userR);
-  //   console.log("checkR", checkR);
-
-  //   const result = userR.filter((n) => !checkR.includes(n));
-  //   setBotResult(result);
-  //   console.log("result", result);
-  // };
-
-  const TestC = (data) => {
-    const Check = checkId.map((c) => parseInt(c.id) === data);
-    const isSuccess = Check.filter((c) => c === true);
-    // const Fail = Check.filter((c) => c === false);
-
-    // console.log("Fail", Fail);
-    // if (Success.length > 0) {
-    //   setSuccess(true);
-    //   console.log("isSuccess");
-    // }
-  };
-
   const handlecheckBot = () => {
     console.log("CheckBot", checkBot);
+  };
+
+  const handleResetBot = async (bot) => {
+    //------------------- Run Bot API -------------------
+    const data = await auth.resetBot(bot);
+    //---------------------------------------------------
+    alert(`Reset Bot Success [ ${bot} ]`);
+    getData();
+    return data;
   };
 
   return (
@@ -1008,7 +958,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
             }}
           >
             <Typography sx={{ m: 1 }} variant="h4">
-              Create Facebook {localss}
+              Facebook Accounts
             </Typography>
             <Box sx={{ m: 1 }}>
               <Button
@@ -1050,10 +1000,10 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                 <TableRow>
                   <TableCell padding="checkbox">
                     <Checkbox
-                      checked={selectedCustomerIds.length === user?.length}
+                      checked={selectedCustomerIds?.length === user?.length || isCheck}
                       color="primary"
                       indeterminate={
-                        selectedCustomerIds.length > 0 && selectedCustomerIds.length < user?.length
+                        selectedCustomerIds.length > 0 && selectedCustomerIds?.length < user?.length
                       }
                       onChange={handleSelectAll}
                     />
@@ -1064,6 +1014,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                   <TableCell>Email Password</TableCell>
                   <TableCell>Facebook Password</TableCell>
                   <TableCell align="center">MANAGE</TableCell>
+                  <TableCell align="center">Reset</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -1071,12 +1022,27 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                   <TableRow
                     hover
                     key={customer.id}
-                    selected={selectedCustomerIds.indexOf(customer.id) !== -1}
+                    selected={
+                      selectedCustomerIds.indexOf(
+                        customer.status === "working" ? customer.id : null
+                      ) !== -1
+                    }
                   >
                     <TableCell padding="checkbox">
                       <Checkbox
-                        checked={selectedCustomerIds.indexOf(customer.id) !== -1}
-                        onChange={(event) => handleSelectOne(event, customer.id)}
+                        disabled={customer.status === "working"}
+                        checked={
+                          customer.status === "working"
+                            ? false
+                            : selectedCustomerIds.indexOf(customer.id) !== -1
+                        }
+                        onChange={(event) =>
+                          handleSelectOne(
+                            event,
+                            customer.id
+                            // customer.status === "finished" ? customer.id : null
+                          )
+                        }
                         value="true"
                       />
                     </TableCell>
@@ -1150,7 +1116,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                             color: "#707070",
                             flexDirection: "row",
                             display: "flex",
-                            width: "85%",
+                            width: "95%",
                             height: 50,
                             alignSelf: "center",
                           }}
@@ -1165,12 +1131,20 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                               alignItems: "center",
                             }}
                           >
-                            <TableCell style={{ marginLeft: 10, color: "#707070" }}>
+                            <TableCell
+                              style={{
+                                // marginLeft: 10,
+                                color: "#707070",
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "center",
+                              }}
+                            >
                               <Lottie
                                 options={defaultOptions}
                                 height={50}
                                 width={50}
-                                style={{ position: "absolute", left: 30, top: 0 }}
+                                // style={{ position: "absolute", left: 30, top: 0 }}
                               />
                               Inprogress
                             </TableCell>
@@ -1178,6 +1152,15 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                         </Button>
                       </TableCell>
                     )}
+                    <TableCell align="center">
+                      <i
+                        className="fa fa-refresh"
+                        style={{ color: customer.status === "working" ? "#000" : "gray" }}
+                        onClick={() =>
+                          customer.status === "working" ? handleResetBot(customer.id) : null
+                        }
+                      />
+                    </TableCell>
 
                     {/* {index === 0 && (
                       <TableCell align="center">
