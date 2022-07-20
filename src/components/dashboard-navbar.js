@@ -1,47 +1,55 @@
-import PropTypes from 'prop-types';
-import styled from '@emotion/styled';
-import { AppBar, Avatar, Badge, Box, IconButton, Toolbar, Tooltip } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
-import { Bell as BellIcon } from '../icons/bell';
-import { UserCircle as UserCircleIcon } from '../icons/user-circle';
-import { Users as UsersIcon } from '../icons/users';
+import PropTypes from "prop-types";
+import styled from "@emotion/styled";
+import { AppBar, Avatar, Badge, Box, IconButton, Toolbar, Tooltip, Button } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import SearchIcon from "@mui/icons-material/Search";
+import { Bell as BellIcon } from "../icons/bell";
+import { UserCircle as UserCircleIcon } from "../icons/user-circle";
+import { Users as UsersIcon } from "../icons/users";
+import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
-  boxShadow: theme.shadows[3]
+  boxShadow: theme.shadows[3],
 }));
 
 export const DashboardNavbar = (props) => {
-  const { onSidebarOpen, ...other  } = props;
+  const { onSidebarOpen, ...other } = props;
+  const { t, i18n } = useTranslation();
+
+  useEffect(() => {
+    i18n.changeLanguage(localStorage.getItem("language"));
+  }, []);
 
   return (
     <>
       <DashboardNavbarRoot
         sx={{
           left: {
-            lg: 280
+            lg: 280,
           },
           width: {
-            lg: 'calc(100% - 280px)'
-          }
+            lg: "calc(100% - 280px)",
+          },
         }}
-        {...other}>
+        {...other}
+      >
         <Toolbar
           disableGutters
           sx={{
             minHeight: 64,
             left: 0,
-            px: 2
+            px: 2,
           }}
         >
           <IconButton
             onClick={onSidebarOpen}
             sx={{
               display: {
-                xs: 'inline-flex',
-                lg: 'none'
-              }
+                xs: "inline-flex",
+                lg: "none",
+              },
             }}
           >
             <MenuIcon fontSize="small" />
@@ -51,7 +59,80 @@ export const DashboardNavbar = (props) => {
               <SearchIcon fontSize="small" />
             </IconButton>
           </Tooltip> */}
+
           <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Button
+              onClick={() => {
+                localStorage.setItem("language", "en");
+                i18n.changeLanguage("en");
+              }}
+              style={{
+                backgroundColor:
+                  localStorage.getItem("language") === "en" ? "rgba(80, 72, 229,0.2)" : null,
+              }}
+            >
+              <Avatar
+                sx={{
+                  height: 20,
+                  width: 20,
+                  ml: 1,
+                  marginRight: "0.2rem",
+                }}
+                src="/static/images/avatars/eng.png"
+              >
+                <UserCircleIcon fontSize="small" />
+              </Avatar>
+              <p
+                style={{
+                  color: localStorage.getItem("language") === "en" ? "#5048E5" : "rgba(0,0,0,0.2)",
+                }}
+              >
+                EN
+              </p>
+            </Button>
+            {/* <p style={{ color: "#5048E5" }}>|</p>{" "} */}
+            <Button
+              onClick={() => {
+                localStorage.setItem("language", "th");
+                i18n.changeLanguage("th");
+              }}
+              style={{
+                backgroundColor:
+                  localStorage.getItem("language") === "th" ? "rgba(80, 72, 229,0.2)" : null,
+              }}
+            >
+              <Avatar
+                sx={{
+                  height: 20,
+                  width: 20,
+                  ml: 1,
+                  marginRight: "0.2rem",
+                }}
+                src="/static/images/avatars/thai.png"
+              ></Avatar>
+              <p
+                style={{
+                  color: localStorage.getItem("language") === "th" ? "#5048E5" : "rgba(0,0,0,0.2)",
+                }}
+              >
+                TH
+              </p>
+            </Button>
+          </Box>
+          {/* <Avatar
+            sx={{
+              height: 40,
+              width: 40,
+              ml: 1,
+            }}
+            src="/static/images/avatars/avatar_1.png"
+          >
+            <UserCircleIcon fontSize="small" />
+          </Avatar> */}
+          {/* <Tooltip title="Notifications"> */}
+          {/* <Button>EN</Button> <p>|</p> <Button>TH</Button> */}
+          {/* </Tooltip> */}
           {/* <Tooltip title="Contacts">
             <IconButton sx={{ ml: 1 }}>
               <UsersIcon fontSize="small" />
@@ -67,8 +148,8 @@ export const DashboardNavbar = (props) => {
                 <BellIcon fontSize="small" />
               </Badge>
             </IconButton>
-          </Tooltip> */}
-          <Avatar
+          </Tooltip> 
+          {/* <Avatar
             sx={{
               height: 40,
               width: 40,
@@ -77,7 +158,7 @@ export const DashboardNavbar = (props) => {
             src="/static/images/avatars/avatar_1.png"
           >
             <UserCircleIcon fontSize="small" />
-          </Avatar>
+          </Avatar> */}
         </Toolbar>
       </DashboardNavbarRoot>
     </>
@@ -85,5 +166,5 @@ export const DashboardNavbar = (props) => {
 };
 
 DashboardNavbar.propTypes = {
-  onSidebarOpen: PropTypes.func
+  onSidebarOpen: PropTypes.func,
 };

@@ -53,11 +53,11 @@ export const DashboardSidebar = (props) => {
       icon: <UserIcon fontSize="small" />,
       title: t("manage_post"),
     },
-    {
-      href: "/settings",
-      icon: <CogIcon fontSize="small" />,
-      title: t("settings"),
-    },
+    // {
+    //   href: "/settings",
+    //   icon: <CogIcon fontSize="small" />,
+    //   title: t("settings"),
+    // },
     // {
     //   href: "/login",
     //   icon: <LockIcon fontSize="small" />,
