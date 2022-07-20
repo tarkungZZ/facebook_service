@@ -174,8 +174,10 @@ module.exports = async (data) => {
             await delay(randomDelay)
             await page2.click('#copy_btn', { clickCount: 2 })
             console.log(`copy_btn`)
+            await delay(randomDelay)
             const clipboardtext = await clipboardy.readSync()
             const two_fa_code = clipboardtext.slice(-6)
+            await delay(randomDelay)
             await page2.close()
             //console.log(two_fa_text)
             await delay(randomDelay)
@@ -196,7 +198,7 @@ module.exports = async (data) => {
 
                     } catch (err) {
 
-                        console.log(err)
+                        //console.log(err)
                         await delay(3000)
 
                     }
@@ -216,7 +218,7 @@ module.exports = async (data) => {
 
                     } catch (err) {
 
-                        console.log(err)
+                        //console.log(err)
                         await delay(3000)
 
                     }
@@ -225,7 +227,7 @@ module.exports = async (data) => {
 
             } else {
 
-                await delay(5000)
+                await delay(10000)
                 await page.type('#approvals_code', two_fa_code)
 
                 for (let i = 0; i < 5; i++) {
@@ -247,7 +249,7 @@ module.exports = async (data) => {
 
                     } catch (err) {
 
-                        console.log(err)
+                        //console.log(err)
 
                         if (err) { break }
 
@@ -268,7 +270,7 @@ module.exports = async (data) => {
 
                 } catch (err) {
                     if (err) {
-                        console.log(err)
+                        //console.log(err)
                         console.log(`Not in the feed yet , wait for 15s.`)
                         await delay(5000)
                     }
