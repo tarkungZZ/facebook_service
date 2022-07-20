@@ -23,11 +23,9 @@ export const SettingsNotifications = (props) => {
   useEffect(async () => {
     i18n.locale = await localStorage.getItem("language");
     setLang(i18n.locale);
-    console.log("i18n.locale ::::", lang);
   }, []);
 
   const handleChangeLng = async (lng) => {
-    console.log("ing::::::::", lng);
     if (lng === "th") {
       i18n.locale = "th";
       localStorage.setItem("language", "th");
@@ -37,13 +35,11 @@ export const SettingsNotifications = (props) => {
       localStorage.setItem("language", "en");
     }
     const language = await localStorage.getItem("language");
-    console.log("language ::::", language);
     i18n.changeLanguage(lng);
     localStorage.setItem("language", lng);
   };
 
   i18n.translations = { EN, TH };
-  console.log(i18n);
 
   return (
     <form {...props}>
@@ -62,16 +58,12 @@ export const SettingsNotifications = (props) => {
               }}
               xs={12}
             >
-              {/* <Typography color="textPrimary" gutterBottom variant="h6">
-              Notifications
-            </Typography> */}
-              {/* <FormControlLabel control={<Checkbox color="primary" />} label="English" />
-              <FormControlLabel
-                control={<Checkbox color="primary" defaultChecked />}
-                label="ภาษาไทย"
-              /> */}
               <Button
                 color="primary"
+                style={{
+                  color: localStorage.getItem("language") === "en" ? "white" : "#5048E5",
+                  backgroundColor: localStorage.getItem("language") === "en" ? "#5048E5" : "rgba(0,0,0,0.1)",
+                }}
                 onClick={() => handleChangeLng("en")}
                 fullWidth
                 sx={{ mt: 2 }}
@@ -81,6 +73,10 @@ export const SettingsNotifications = (props) => {
               </Button>
               <Button
                 color="primary"
+                style={{
+                  color: localStorage.getItem("language") === "th" ? "white" : "#5048E5",
+                  backgroundColor: localStorage.getItem("language") === "th" ? "#5048E5" : "rgba(0,0,0,0.1)",
+                }}
                 onClick={() => handleChangeLng("th")}
                 fullWidth
                 sx={{ mt: 2 }}
@@ -99,7 +95,7 @@ export const SettingsNotifications = (props) => {
             p: 2,
           }}
         >
-          <Button color="primary" variant="contained">
+          <Button color="primary" variant="contained" onClick={() => alert(t("change langue"))} >
             {t("save")}
           </Button>
         </Box>

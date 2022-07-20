@@ -15,56 +15,11 @@ import { Users as UsersIcon } from "../icons/users";
 import { XCircle as XCircleIcon } from "../icons/x-circle";
 import { Logo } from "./logo";
 import { NavItem } from "./nav-item";
-
-const items = [
-  // {
-  //   href: "/",
-  //   icon: <ChartBarIcon fontSize="small" />,
-  //   title: "Dashboard",
-  // },
-  // {
-  //   href: "/customers",
-  //   icon: <UserAddIcon fontSize="small" />,
-  //   title: "Launch Bot",
-  // },
-  {
-    href: "/",
-    icon: <UsersIcon fontSize="small" />,
-    title: "Manage Facebook",
-  },
-  {
-    href: "/config",
-    icon: <ShoppingBagIcon fontSize="small" />,
-    title: "Edit Config",
-  },
-  {
-    href: "/post",
-    icon: <UserIcon fontSize="small" />,
-    title: "Manage Post",
-  },
-  {
-    href: "/settings",
-    icon: <CogIcon fontSize="small" />,
-    title: "Settings",
-  },
-  // {
-  //   href: "/login",
-  //   icon: <LockIcon fontSize="small" />,
-  //   title: "Login",
-  // },
-  // {
-  //   href: "/register",
-  //   icon: <UserAddIcon fontSize="small" />,
-  //   title: "Register",
-  // },
-  // {
-  //   href: "/404",
-  //   icon: <XCircleIcon fontSize="small" />,
-  //   title: "Error",
-  // },
-];
+//Language
+import { useTranslation } from "react-i18next";
 
 export const DashboardSidebar = (props) => {
+  const { t, i18n } = useTranslation();
   const { open, onClose, logout } = props;
   const router = useRouter();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"), {
@@ -72,8 +27,57 @@ export const DashboardSidebar = (props) => {
     noSsr: false,
   });
 
+  const items = [
+    // {
+    //   href: "/",
+    //   icon: <ChartBarIcon fontSize="small" />,
+    //   title: "Dashboard",
+    // },
+    // {
+    //   href: "/customers",
+    //   icon: <UserAddIcon fontSize="small" />,
+    //   title: "Launch Bot",
+    // },
+    {
+      href: "/",
+      icon: <UsersIcon fontSize="small" />,
+      title: t("manage_facebook"),
+    },
+    {
+      href: "/config",
+      icon: <ShoppingBagIcon fontSize="small" />,
+      title: t("edit_config"),
+    },
+    {
+      href: "/post",
+      icon: <UserIcon fontSize="small" />,
+      title: t("manage_post"),
+    },
+    {
+      href: "/settings",
+      icon: <CogIcon fontSize="small" />,
+      title: t("settings"),
+    },
+    // {
+    //   href: "/login",
+    //   icon: <LockIcon fontSize="small" />,
+    //   title: "Login",
+    // },
+    // {
+    //   href: "/register",
+    //   icon: <UserAddIcon fontSize="small" />,
+    //   title: "Register",
+    // },
+    // {
+    //   href: "/404",
+    //   icon: <XCircleIcon fontSize="small" />,
+    //   title: "Error",
+    // },
+  ];
+
   useEffect(
     () => {
+      i18n.changeLanguage(localStorage.getItem("language"));
       if (!router.isReady) {
         return;
       }
@@ -126,7 +130,7 @@ export const DashboardSidebar = (props) => {
                   FarmFace
                 </Typography>
                 <Typography color="neutral.400" variant="body2">
-                  user : {localStorage?.getItem("user")}
+                  {t("user")} : {localStorage?.getItem("user")}
                 </Typography>
               </div>
               <SelectorIcon
@@ -169,7 +173,7 @@ export const DashboardSidebar = (props) => {
             variant="contained"
             href="/"
           >
-            Logout
+            {t("logout")}
           </Button>
           {/* </NextLink> */}
         </Box>
