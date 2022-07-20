@@ -21,6 +21,7 @@ import {
 import { getInitials } from "../../utils/get-initials";
 import auth from "../../api/auth";
 import { Download as DownloadIcon } from "../../icons/download";
+import { useTranslation } from "react-i18next";
 
 export const CreatePostListResults = ({ ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
@@ -49,6 +50,11 @@ export const CreatePostListResults = ({ ...rest }) => {
   const [width, setWidth] = useState(0);
   const [post, setPost] = useState(undefined);
   const [total, setTotal] = useState(0);
+  const { t, i18n } = useTranslation();
+
+  useEffect(() => {
+    i18n.changeLanguage(localStorage.getItem("language"));
+  }, []);
 
   useEffect(() => {
     getData();
@@ -227,7 +233,7 @@ export const CreatePostListResults = ({ ...rest }) => {
                     }}
                   >
                     <ul style={{ display: "flex", justifyContent: "space-between" }}>
-                      <div>Create Post</div>
+                      <div>{t("create_post")}</div>
                       <Box
                         sx={{
                           color: "error.main",
@@ -254,7 +260,7 @@ export const CreatePostListResults = ({ ...rest }) => {
                     <TextField
                       multiline={true}
                       fullWidth
-                      label="Message"
+                      label={t("message")}
                       name="message"
                       onChange={(e) => setPost(e.target.value)}
                       type="text"
@@ -276,7 +282,7 @@ export const CreatePostListResults = ({ ...rest }) => {
                       size="large"
                       onClick={handleCreate}
                     >
-                      Confirm
+                      {t("confirm")}
                     </Button>
                   </Box>
                 </Box>
@@ -323,7 +329,9 @@ export const CreatePostListResults = ({ ...rest }) => {
                     }}
                   >
                     <ul style={{ display: "flex", justifyContent: "space-between" }}>
-                      <div>Delete Account [ {customerDelete?.id} ]</div>
+                      <div>
+                        {t("delete_account")}[ {customerDelete?.id} ]
+                      </div>
                       {/* <Box
                       sx={{
                         color: "error.main",
@@ -351,7 +359,7 @@ export const CreatePostListResults = ({ ...rest }) => {
                       paddingLeft: 3,
                     }}
                   >
-                    <div>Do you want to delete this account?</div>
+                    <div>{t("do_you_want_to_delete_this_account")}</div>
                     <ul style={{ display: "flex", justifyContent: "space-between" }}>
                       <Button
                         style={{
@@ -364,7 +372,7 @@ export const CreatePostListResults = ({ ...rest }) => {
                         size="large"
                         onClick={() => setIsDelete(false)}
                       >
-                        Cancel
+                        {t("cancel")}
                       </Button>
                       <Button
                         style={{
@@ -377,7 +385,7 @@ export const CreatePostListResults = ({ ...rest }) => {
                         size="large"
                         onClick={handleConfirmDelete}
                       >
-                        Confirm
+                        {t("confirm")}
                       </Button>
                     </ul>
                   </Box>
@@ -538,7 +546,7 @@ export const CreatePostListResults = ({ ...rest }) => {
             }}
           >
             <Typography sx={{ m: 1 }} variant="h4">
-              Create Post
+              {t("create_post")}
             </Typography>
             <Box sx={{ m: 1 }}>
               <Button
@@ -549,7 +557,7 @@ export const CreatePostListResults = ({ ...rest }) => {
                   setIsCreate(true);
                 }}
               >
-                Add Post
+                {t("add_post")}
               </Button>
             </Box>
           </Box>
@@ -571,9 +579,9 @@ export const CreatePostListResults = ({ ...rest }) => {
                     />
                   </TableCell> */}
                   {/* <TableCell>Role</TableCell> */}
-                  <TableCell>ID</TableCell>
-                  <TableCell>POST</TableCell>
-                  <TableCell align="center">MANAGE</TableCell>
+                  <TableCell>{t("id")}</TableCell>
+                  <TableCell>{t("post")}</TableCell>
+                  <TableCell align="center">{t("manage")}</TableCell>
                   {/* <TableCell>Registration date</TableCell> */}
                 </TableRow>
               </TableHead>
@@ -623,7 +631,7 @@ export const CreatePostListResults = ({ ...rest }) => {
                           handleDelete(customer);
                         }}
                       >
-                        Delete
+                        {t("delete")}
                       </Button>
                     </TableCell>
 

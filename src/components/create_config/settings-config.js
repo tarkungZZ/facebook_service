@@ -48,7 +48,7 @@ export const SettingConfig = (props) => {
   return (
     <form {...props}>
       <Card>
-        <CardHeader subheader="Manage Delay System" title="Delay" />
+        <CardHeader subheader={t("manage_delay_system")} title={t("delay")} />
         <Divider />
         <CardContent>
           <Grid container spacing={6} wrap="wrap">

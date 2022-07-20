@@ -461,7 +461,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                     }}
                   >
                     <ul style={{ display: "flex", justifyContent: "space-between" }}>
-                      <div>Manage Bot</div>
+                      <div>{t("manage_bot")}</div>
                       <Box
                         sx={{
                           color: "error.main",
@@ -495,11 +495,11 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                         borderColor: "rgba(0,0,0,0.2)",
                       }}
                     >
-                      <option value="">Select Type</option>
-                      <option value="like">Like</option>
-                      <option value="story">Story</option>
-                      <option value="post">Post</option>
-                      <option value="share">Share</option>
+                      <option value="">{t("select_type")}</option>
+                      <option value="like">{t("like")}</option>
+                      <option value="story">{t("story")}</option>
+                      <option value="post">{t("post")}</option>
+                      <option value="share">{t("share")}</option>
                       {/* <option value={option.value} selected={optionsState == option.value}>
                       {option.label}
                     </option> */}
@@ -545,7 +545,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                       size="large"
                       onClick={!isC ? handleLaunchBot : handleLaunchBotPlus}
                     >
-                      Confirm
+                      {t("confirm")}
                     </Button>
                   </Box>
                 </Box>
@@ -592,7 +592,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                     }}
                   >
                     <ul style={{ display: "flex", justifyContent: "space-between" }}>
-                      <div>Create Facebook Account</div>
+                      <div>{t("create_facebook_account")}</div>
 
                       <Box
                         sx={{
@@ -619,7 +619,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                   >
                     <TextField
                       fullWidth
-                      label="Email"
+                      label={t("email")}
                       name="email"
                       onChange={(e) => setEmail(e.target.value)}
                       type="email"
@@ -631,7 +631,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
 
                     <TextField
                       fullWidth
-                      label="FacebookPasswod"
+                      label={t("facebook_password")}
                       name="facebookpassword"
                       onChange={(e) => setFbPassword(e.target.value)}
                       type="text"
@@ -643,7 +643,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
 
                     <TextField
                       fullWidth
-                      label="Email Password"
+                      label={t("email_password")}
                       name="email_password"
                       onChange={(e) => setEmailPassword(e.target.value)}
                       type="text"
@@ -655,7 +655,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
 
                     <TextField
                       fullWidth
-                      label="TwoFactor"
+                      label={t("twofactor")}
                       name="two_fa"
                       onChange={(e) => setTwoFa(e.target.value)}
                       type="text"
@@ -677,7 +677,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                       size="large"
                       onClick={handleCreate}
                     >
-                      Confirm
+                      {t("confirm")}
                     </Button>
                   </Box>
                 </Box>
@@ -724,7 +724,9 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                     }}
                   >
                     <ul style={{ display: "flex", justifyContent: "space-between" }}>
-                      <div>Delete Account [ {customerDelete?.id} ]</div>
+                      <div>
+                        {t("delete_account")} [ {customerDelete?.id} ]
+                      </div>
                       {/* <Box
                       sx={{
                         color: "error.main",
@@ -752,7 +754,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                       paddingLeft: 3,
                     }}
                   >
-                    <div>Do you want to delete this account?</div>
+                    <div>{t("do_you_want_to_delete_this_account")}</div>
                     <ul style={{ display: "flex", justifyContent: "space-between" }}>
                       <Button
                         style={{
@@ -765,7 +767,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                         size="large"
                         onClick={() => setIsDelete(false)}
                       >
-                        Cancel
+                        {t("cancel")}
                       </Button>
                       <Button
                         style={{
@@ -778,7 +780,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                         size="large"
                         onClick={handleConfirmDelete}
                       >
-                        Confirm
+                        {t("confirm")}
                       </Button>
                     </ul>
                   </Box>
@@ -831,7 +833,9 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                       }}
                     >
                       <ul style={{ display: "flex", justifyContent: "space-between" }}>
-                        <div>Edit Account [ {customerEdit?.id} ]</div>
+                        <div>
+                          {t("edit_account")} [ {customerEdit?.id} ]
+                        </div>
                         <Box
                           sx={{
                             color: "error.main",
@@ -868,7 +872,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                         />
                         <TextField
                           fullWidth
-                          label="Facebook Name"
+                          label={t("facebook_name")}
                           name="facebook_name"
                           onChange={(e) => setFbName(e.target.value)}
                           type="text"
@@ -890,7 +894,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                         />
                         <TextField
                           fullWidth
-                          label="Facebook Password"
+                          label={t("facebook_password")}
                           name="facebook_password"
                           onChange={(e) => setFbPassword(e.target.value)}
                           type="text"
@@ -935,7 +939,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                         size="large"
                         onClick={handleConfirm}
                       >
-                        Confirm
+                        {t("confirm")}
                       </Button>
                     </Box>
                   </Box>
@@ -1011,13 +1015,13 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                       onChange={handleSelectAll}
                     />
                   </TableCell>
-                  <TableCell>ID</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Facebook Name</TableCell>
-                  <TableCell>Email Password</TableCell>
-                  <TableCell>Facebook Password</TableCell>
-                  <TableCell align="center">MANAGE</TableCell>
-                  <TableCell align="center">Reset</TableCell>
+                  <TableCell>{t("id")}</TableCell>
+                  <TableCell>{t("email")}</TableCell>
+                  <TableCell>{t("facebook_name")}</TableCell>
+                  <TableCell>{t("email_password")}</TableCell>
+                  <TableCell>{t("facebook_password")}</TableCell>
+                  <TableCell align="center">{t("manage")}</TableCell>
+                  <TableCell align="center">{t("reset")}</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -1083,7 +1087,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                           variant="contained"
                           onClick={() => handleBot(customer)}
                         >
-                          Bot
+                          {t("bot")}
                         </Button>
                         <Button
                           style={{
@@ -1094,7 +1098,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                           variant="contained"
                           onClick={() => handleEdit(customer)}
                         >
-                          Edit
+                          {t("edit")}
                         </Button>
                         <Button
                           color="error"
@@ -1104,7 +1108,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                             handleDelete(customer);
                           }}
                         >
-                          Delete
+                          {t("delete")}
                         </Button>
                       </TableCell>
                     ) : (
