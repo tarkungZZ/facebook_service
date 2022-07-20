@@ -38,7 +38,7 @@ module.exports = async (page, randomDelay, pid, timeout, data) => {
 
             //console.log(`found like`)
 
-            if ((Math.random() < 0.4) === true) {
+            if ((Math.random() < 0.35) === true) {
                 await delay(randomDelay)
                 console.log(`Like.`)
                 await likeButton.click()

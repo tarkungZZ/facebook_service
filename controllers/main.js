@@ -196,7 +196,7 @@ module.exports = async (data) => {
 
                     } catch (err) {
 
-                        console.log(err)
+                        //console.log(err)
                         await delay(3000)
 
                     }
@@ -216,7 +216,7 @@ module.exports = async (data) => {
 
                     } catch (err) {
 
-                        console.log(err)
+                        //console.log(err)
                         await delay(3000)
 
                     }
@@ -247,7 +247,7 @@ module.exports = async (data) => {
 
                     } catch (err) {
 
-                        console.log(err)
+                        //console.log(err)
 
                         if (err) { break }
 
@@ -268,7 +268,7 @@ module.exports = async (data) => {
 
                 } catch (err) {
                     if (err) {
-                        console.log(err)
+                        //console.log(err)
                         console.log(`Not in the feed yet , wait for 15s.`)
                         await delay(5000)
                     }

@@ -39,7 +39,7 @@ module.exports = async (page, randomDelay, link, timeout, pid, data) => {
 
         } catch (err) {
 
-            console.log(err)
+            //console.log(err)
 
         }
 
