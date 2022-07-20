@@ -4,9 +4,13 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const authorize = require('./middlewares/authorize')
 const { PORT } = require('./helpers/config')
+const auto_reset_status = require('./helpers/auto_reset_status')
+
+auto_reset_status()
+
+setInterval(auto_reset_status, 3000)
 
 app.use(cors())
-
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 

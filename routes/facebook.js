@@ -8,5 +8,6 @@ app
     .post('/edit', require('../controllers/fb_accounts/account_edit'))
     .post('/delete', require('../controllers/fb_accounts/account_delete'))
     .post('/status', require('../controllers/fb_accounts/account_status'))
+    .post('/reset', require('../controllers/fb_accounts/reset_button'))
 
 module.exports = app
