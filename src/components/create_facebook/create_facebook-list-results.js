@@ -20,7 +20,6 @@ import {
   getFormLabelUtilityClasses,
   Alert,
 } from "@mui/material";
-import { getInitials } from "../../utils/get-initials";
 import auth from "../../api/auth";
 import { Download as DownloadIcon } from "../../icons/download";
 //animations
@@ -39,7 +38,6 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   const [user, setUser] = useState(undefined);
   const [modal, setModal] = useState(false);
   const [customerEdit, setCustomerEdit] = useState(undefined);
-  const [rowsPerPage, setRowsPerPage] = useState(1000);
   //Edit
   const [type, setType] = useState(undefined);
   const [password, setPassword] = useState(undefined);
@@ -66,7 +64,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   const [link, setLink] = useState(undefined);
   const [post, setPost] = useState(undefined);
   const [total, setTotal] = useState(0);
-  const [inprogress, setInprogress] = useState(false);
+  const [isreset, setIsReset] = useState(false);
   //Bot SelectAll
   const [isC, setIsC] = useState(false);
   //Socket
@@ -74,50 +72,27 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [checkBot, setCheckBot] = useState("");
   const [localss, setLocalss] = useState([]);
-  const [success, setSuccess] = useState(false);
   const [isCheck, setIsCheck] = useState(false);
-  const [checkId, setCheckId] = useState([
-    {
-      id: "2",
-    },
-    {
-      id: "5",
-    },
-    {
-      id: "6",
-    },
-    {
-      id: "7",
-    },
-  ]);
 
   const [botResult, setBotResult] = useState([]);
 
   useEffect(() => {
-    handlecheckBot();
-
-    console.log("checkBot -->", checkBot);
-
     socket.on("connect", (id) => {
       setIsConnected(true);
-      console.log("connect", id);
     });
 
     socket.on("disconnect", (id) => {
       setIsConnected(false);
-      console.log("disconnect", id);
     });
 
     socket.on("bot-status", (data) => {
       setCheckBot(data.id);
       handleBotStatus(data.id);
       // setCheckBot((event) => [...event, data.id]);
-      console.log("bot-status", data);
     });
 
     socket.on("status", (id) => {
       // setCheckBot((event) => [...event, { ...id }]);
-      console.log("status", id);
     });
 
     getData();
@@ -145,7 +120,6 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   };
 
   const Storage = async () => {
-    console.log("Storage", await localStorage.getItem("customerBot"));
     setLocalss(await localStorage.getItem("customerBot"));
   };
 
@@ -178,9 +152,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   };
 
   const handleSelectAll = (event) => {
-    console.log("handleSelectAll Check Target", event.target.checked);
     let newSelectedCustomerIds;
-    console.log("newSelectedCustomerIds", newSelectedCustomerIds);
 
     if (event.target.checked) {
       setIsCheck(true);
@@ -188,18 +160,15 @@ export const CreateFacebookListResults = ({ ...rest }) => {
         customer.status === "finish" ? customer.id : null
       );
       newSelectedCustomerIds = newSelectedCustomerIds.filter((item) => item !== null);
-      console.log("if --> newSelectedCustomerIds", newSelectedCustomerIds);
     } else {
       setIsCheck(false);
       newSelectedCustomerIds = [];
-      console.log("else --> newSelectedCustomerIds", newSelectedCustomerIds);
     }
 
     setSelectedCustomerIds(newSelectedCustomerIds);
   };
 
   const handleSelectOne = (event, id) => {
-    console.log("selectone ->", event.target.checked, id);
     const selectedIndex = selectedCustomerIds.indexOf(id);
     let newSelectedCustomerIds = [];
 
@@ -217,7 +186,6 @@ export const CreateFacebookListResults = ({ ...rest }) => {
     }
 
     setSelectedCustomerIds(newSelectedCustomerIds);
-    console.log("result ONE", newSelectedCustomerIds);
   };
 
   const handleLimitChange = (event) => {
@@ -274,6 +242,11 @@ export const CreateFacebookListResults = ({ ...rest }) => {
     setExecutePath(undefined);
   };
 
+  const handleCloseReset = () => {
+    setIsReset(false);
+    setCustomerDelete(undefined);
+  };
+
   const handleCloseCreate = () => {
     setIsCreate(false);
     setEmail(undefined);
@@ -303,6 +276,17 @@ export const CreateFacebookListResults = ({ ...rest }) => {
     setTimeout(() => {
       alert("Delete Success");
     }, 400);
+    getData();
+    return data;
+  };
+
+  const handleConfirmReset = async () => {
+    const data = await auth.resetBot(customerDelete);
+    setIsReset(false);
+    setTimeout(() => {
+      alert("Reset Bot Success");
+    }, 400);
+    setCustomerDelete(undefined);
     getData();
     return data;
   };
@@ -339,7 +323,6 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   };
 
   const handleLaunchBot = async () => {
-    console.log("customerBot", customerBot?.id);
     if (type === "share") {
       if (!link) {
         alert("Please Enter Link");
@@ -383,7 +366,6 @@ export const CreateFacebookListResults = ({ ...rest }) => {
 
       selectedCustomerIds.forEach(async (id, i) => {
         setTimeout(async () => {
-          console.log("Bot Delay --->", id);
           await auth.launchBot(id, type, link, post);
         }, i * 2000);
       });
@@ -401,22 +383,13 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   };
 
   const handleSelectBot = () => {
-    console.log("select bot", selectedCustomerIds);
     setIsC(true);
     setIsBot(true);
   };
 
-  const handlecheckBot = () => {
-    console.log("CheckBot", checkBot);
-  };
-
   const handleResetBot = async (bot) => {
-    //------------------- Run Bot API -------------------
-    const data = await auth.resetBot(bot);
-    //---------------------------------------------------
-    alert(`Reset Bot Success [ ${bot} ]`);
-    getData();
-    return data;
+    setIsReset(true);
+    setCustomerDelete(bot);
   };
 
   return (
@@ -789,6 +762,110 @@ export const CreateFacebookListResults = ({ ...rest }) => {
             </Box>
           </Box>
         )}
+        {isreset === true && (
+          <Box
+            maxWidth="sm"
+            component="main"
+            sx={{
+              height: "100%",
+              position: "absolute",
+              flex: 1,
+              zIndex: 99,
+              marginLeft: "auto",
+              marginRight: "auto",
+              left: 0,
+              right: 0,
+              top: "40%",
+            }}
+          >
+            <Box>
+              <Container>
+                <Box
+                  sx={{
+                    mt: 3,
+                    backgroundColor: "#fff",
+                    borderRadius: 1,
+                    borderColor: "rgba(0,0,0,0.4)",
+                    borderStyle: "solid",
+                    borderWidth: 1,
+                    paddingBottom: "10%",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      mt: 3,
+                      paddingLeft: 3,
+                      flexDirection: "row",
+                      justifyContent: "space-around",
+                      paddingRight: 3,
+                    }}
+                  >
+                    <ul style={{ display: "flex", justifyContent: "space-between" }}>
+                      <div>
+                        {t("reset_account")} [ {customerDelete} ]
+                      </div>
+                      {/* <Box
+                      sx={{
+                        color: "error.main",
+                        fontSize: "1.7rem",
+                      }}
+                    >
+                      <i className="fa fa-times" onClick={handleCloseDelete} />
+                    </Box> */}
+                    </ul>
+                  </Box>
+
+                  <Box
+                    sx={{
+                      mt: 3,
+                      // backgroundColor: "red",
+                      borderLeftWidth: 2,
+                      borderTopLeftRadius: 10,
+                      borderRightWidth: 2,
+                      borderTopRightRadius: 10,
+                      // width: "90%",
+                      // paddingLeft: 5.5,
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      paddingRight: 3,
+                      paddingLeft: 3,
+                    }}
+                  >
+                    <div>{t("do_you_want_to_reset_this_account")}</div>
+                    <ul style={{ display: "flex", justifyContent: "space-between" }}>
+                      <Button
+                        style={{
+                          // backgroundColor: "#121828",
+                          color: "#000",
+                          marginTop: "5%",
+                          flex: 0.4,
+                        }}
+                        fullWidth
+                        size="large"
+                        onClick={() => handleCloseReset()}
+                      >
+                        {t("cancel")}
+                      </Button>
+                      <Button
+                        style={{
+                          backgroundColor: "#121828",
+                          color: "#fff",
+                          marginTop: "5%",
+                          flex: 0.4,
+                        }}
+                        fullWidth
+                        size="large"
+                        onClick={handleConfirmReset}
+                      >
+                        {t("confirm")}
+                      </Button>
+                    </ul>
+                  </Box>
+                </Box>
+              </Container>
+            </Box>
+          </Box>
+        )}
         {modal && (
           <>
             <Box
@@ -999,7 +1076,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
         </Typography>
         <PerfectScrollbar
           options={{ suppressScrollY: true, displayScrollToTop: true }}
-          onScrollY={(container) => console.log(`scrolled to: ${container.scrollTop}.`)}
+          // onScrollY={(container) => console.log(`scrolled to: ${container.scrollTop}.`)}
         >
           <Box style={{ overflow: "scroll" }}>
             <Table>
@@ -1153,7 +1230,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                                 width={50}
                                 // style={{ position: "absolute", left: 30, top: 0 }}
                               />
-                              Inprogress
+                              {t("Inprogress")}
                             </TableCell>
                           </ul>
                         </Button>
