@@ -28,8 +28,11 @@ import Lottie from "react-lottie";
 import * as animationData from "../../assets/lotties/loading.json";
 //Socket
 import io from "socket.io-client";
+//Language
+import { useTranslation } from "react-i18next";
 
 export const CreateFacebookListResults = ({ ...rest }) => {
+  const { t, i18n } = useTranslation();
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -958,7 +961,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
             }}
           >
             <Typography sx={{ m: 1 }} variant="h4">
-              Facebook Accounts
+              {t("Facebook Accounts")}
             </Typography>
             <Box sx={{ m: 1 }}>
               <Button
@@ -969,7 +972,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                   setIsCreate(true);
                 }}
               >
-                Add Facebook
+                {t("Add Facebook")}
               </Button>
             </Box>
           </Box>

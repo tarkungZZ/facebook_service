@@ -22,8 +22,12 @@
     "manage": "จัดการ",
     "settings": "ตั้งค่า",
     "select your language": "เลือกภาษา",
-    "languages":"ภาษา",
+    "languages": "ภาษา",
     "logout": "ออกจากระบบ",
-    "save":"บันทึก",
-    "Hello World": "สวัสดีชาวโลก"
+    "save": "บันทึก",
+    "Hello World": "สวัสดีชาวโลก",
+    "Add Facebook": "เพิ่ม Facebook",
+    "Multi-Action": "ทำการเลือกทั้งหมด",
+    "Facebook Accounts": "บัญชี Facebook",
+    "Seconds": "วินาที"
 }

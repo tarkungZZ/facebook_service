@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 import auth from "../../../src/api/auth.js";
 import { useTranslation } from "react-i18next";
-import i18next from "i18next";
 
 export const SettingConfig = (props) => {
   const [delay_min, setMin] = useState(undefined);
@@ -24,12 +23,6 @@ export const SettingConfig = (props) => {
 
   useEffect(() => {
     i18n.changeLanguage(localStorage.getItem("language"));
-    console.log("i18n.language ===> ", i18n.language);
-    if (localStorage.getItem("language")) {
-      // i18next.changeLanguage("th");
-      i18n.changeLanguage(localStorage.getItem("language"));
-      // setLang(localStorage.getItem("language"));
-    }
     getData();
   }, []);
 
@@ -70,7 +63,7 @@ export const SettingConfig = (props) => {
               xs={12}
             >
               <Typography color="textPrimary" gutterBottom variant="h6">
-                {t("min_delay")} (Seconds)
+                {t("min_delay")} ({t("Seconds")})
               </Typography>
               <TextField
                 fullWidth
@@ -94,7 +87,7 @@ export const SettingConfig = (props) => {
               xs={12}
             >
               <Typography color="textPrimary" gutterBottom variant="h6">
-                {t("max_delay")} (Seconds)
+                {t("max_delay")} ({t("Seconds")})
               </Typography>
               <TextField
                 fullWidth
@@ -118,7 +111,7 @@ export const SettingConfig = (props) => {
           }}
         >
           <Button color="primary" variant="contained" onClick={handleDelay}>
-            Save
+            {t("save")}
           </Button>
         </Box>
       </Card>

@@ -23,7 +23,11 @@
     "settings": "Settings",
     "select your language": "Select Your Language",
     "logout": "Logout",
-    "languages":"Languages",
-    "save":"Save",
-    "Hello World":"John Doe"
+    "languages": "Languages",
+    "save": "Save",
+    "Hello World": "John Doe",
+    "Add Facebook": "Add Facebook",
+    "Multi-Action": "Multi-Action",
+    "Facebook Accounts": "Facebook Accounts",
+    "Seconds": "Seconds"
 }
