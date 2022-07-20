@@ -9,6 +9,8 @@ import { theme } from "../theme";
 import { useEffect, useState } from "react";
 // import Login from  '../components/login';
 import Login from "./login";
+import { Suspense } from "react";
+import '../i18next'
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -42,17 +44,18 @@ const App = (props) => {
 
   return (
     <CacheProvider value={emotionCache}>
-      <Head>
-        <title>Material Kit Pro</title>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
-      </Head>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          {!accessToken && !isLoading ? <Login /> : getLayout(<Component {...pageProps} />)}
-          {/* {getLayout(<Component {...pageProps} />)} */}
-        </ThemeProvider>
-      </LocalizationProvider>
+      <Suspense fallback={null}>
+        <Head>
+          <title>Material Kit Pro</title>
+          <meta name="viewport" content="initial-scale=1, width=device-width" />
+        </Head>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            {!accessToken && !isLoading ? <Login /> : getLayout(<Component {...pageProps} />)}
+          </ThemeProvider>
+        </LocalizationProvider>
+      </Suspense>
     </CacheProvider>
   );
 };

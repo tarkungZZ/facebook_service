@@ -13,13 +13,23 @@ import {
   TextField,
 } from "@mui/material";
 import auth from "../../../src/api/auth.js";
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
 
 export const SettingConfig = (props) => {
   const [delay_min, setMin] = useState(undefined);
   const [delay_max, setMax] = useState(undefined);
   const [all, setAll] = useState(undefined);
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
+    i18n.changeLanguage(localStorage.getItem("language"));
+    console.log("i18n.language ===> ", i18n.language);
+    if (localStorage.getItem("language")) {
+      // i18next.changeLanguage("th");
+      i18n.changeLanguage(localStorage.getItem("language"));
+      // setLang(localStorage.getItem("language"));
+    }
     getData();
   }, []);
 
@@ -60,7 +70,7 @@ export const SettingConfig = (props) => {
               xs={12}
             >
               <Typography color="textPrimary" gutterBottom variant="h6">
-                MinDelay (Seconds)
+                {t("min_delay")} (Seconds)
               </Typography>
               <TextField
                 fullWidth
@@ -84,7 +94,7 @@ export const SettingConfig = (props) => {
               xs={12}
             >
               <Typography color="textPrimary" gutterBottom variant="h6">
-                MaxDelay (Seconds)
+                {t("max_delay")} (Seconds)
               </Typography>
               <TextField
                 fullWidth
