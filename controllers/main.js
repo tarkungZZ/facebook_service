@@ -348,7 +348,7 @@ module.exports = async (data) => {
 
         } catch (err) {
 
-            console.log(err)
+            //console.log(err)
 
         }
 
