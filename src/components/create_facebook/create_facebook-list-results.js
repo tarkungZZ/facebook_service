@@ -369,7 +369,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
           await auth.launchBot(id, type, link, post);
         }, i * 2000);
       });
-      // const data = await auth.launchBot(customerBot?.id, type, link, post);
+      const data = await auth.launchBot(customerBot?.id, type, link, post);
       setIsBot(false);
       setType(undefined);
       setLink(undefined);
