@@ -174,9 +174,23 @@ module.exports = async (data) => {
             await delay(randomDelay)
             await page2.click('#copy_btn', { clickCount: 2 })
             console.log(`copy_btn`)
-            await delay(randomDelay)
-            const clipboardtext = await clipboardy.readSync()
-            const two_fa_code = clipboardtext.slice(-6)
+
+            let two_fa_code = undefined
+
+            for (let i = 0; i < 5; i++) {
+
+                try {
+
+                    await delay(randomDelay)
+                    const clipboardtext = await clipboardy.readSync()
+                    two_fa_code = clipboardtext.slice(-6)
+
+                    break
+
+                } catch (err) { if (err) continue }
+
+            }
+
             await delay(randomDelay)
             await page2.close()
             //console.log(two_fa_text)
