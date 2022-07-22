@@ -200,7 +200,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   };
 
   const getData = async () => {
-    const data = await auth.getUser(limit, page);
+    const data = await auth.getUser(limit, page, localStorage?.getItem("userId"));
     setTotal(data?.data?.total);
     setUser(data?.data?.result);
     // console.log('data post', data)
@@ -309,7 +309,14 @@ export const CreateFacebookListResults = ({ ...rest }) => {
       return;
     }
 
-    const data = await auth.createUser(email, fb_password, email_password, two_fa);
+    const data = await auth.createUser(
+      email,
+      fb_password,
+      email_password,
+      two_fa,
+      localStorage?.getItem("userId")
+    );
+    console.log("data", data);
     setEmail(undefined);
     setFbPassword(undefined);
     setEmailPassword(undefined);

@@ -15,9 +15,11 @@ export default {
     return await api.BACKEND_ENDPOINT.post(`${config.api}/login`, data)
       // return await api.BACKEND_ENDPOINT.post("/login", data)
       .then(async (res) => {
+        console.log("logined, ", res.data.user);
         location.href = "/";
         await localStorage.setItem("token", res.data.token);
         await localStorage.setItem("user", res.data.user.username);
+        await localStorage.setItem("userId", res.data.user.user_id);
         return res;
       })
       .catch((err) => {
@@ -60,15 +62,17 @@ export default {
       });
   },
 
-  createUser: async (email, fb_password, email_password, two_fa) => {
+  createUser: async (email, fb_password, email_password, two_fa, users_id) => {
     const data = {
       email: email,
       fb_password: fb_password,
       email_password: email_password,
       two_fa: two_fa,
+      users_id: users_id,
     };
+    console.log("data =============>>>>> ", data);
     // console.log("dataCreate, ", data);
-    return await api.BACKEND_ENDPOINT.post(`${config.api}/user/create`, data)
+    return await api.BACKEND_ENDPOINT.post(`${config.api}/facebook/add`, data)
       // return await api.BACKEND_ENDPOINT.post("/login", data)
       .then(async (res) => {
         return res;
@@ -79,8 +83,11 @@ export default {
       });
   },
   //GET
-  getUser: async (limit, page) => {
-    return await api.BACKEND_ENDPOINT.get(`${config.api}/facebook/list?limit=${limit}&page=${page}`)
+  getUser: async (limit, page, user_id) => {
+    console.log("user_id, ", user_id);
+    return await api.BACKEND_ENDPOINT.get(
+      `${config.api}/facebook/list?limit=${limit}&page=${page}&users_id=${user_id}`
+    )
       // return await api.BACKEND_ENDPOINT.post("/login", data)
       .then(async (res) => {
         return res;
