@@ -285,7 +285,7 @@ module.exports = async (data) => {
                 } catch (err) {
                     if (err) {
                         //console.log(err)
-                        console.log(`Not in the feed yet , wait for 15s.`)
+                        //console.log(`Not in the feed yet , wait for 5s.`)
                         await delay(5000)
                     }
                 }
