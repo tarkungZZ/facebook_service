@@ -10,9 +10,13 @@ module.exports = async (data) => {
 
         if (checkFacebook[0]) {
 
-            await pool(`UPDATE facebook_account SET status =? WHERE id =?`, [data.status, data.id])
+            // await pool(`UPDATE facebook_account SET status =? WHERE id =?`, [data.status, data.id])
 
-            console.log(`Update status for ${data.email} successful.`)
+            // console.log(`Update status for ${data.email} successful.`)
+
+            await pool(`UPDATE bots SET work =? WHERE id =?`, [0, data.bot_id])
+
+            console.log(`Update bots ${data.bot_name} successful.`)
 
         }
 

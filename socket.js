@@ -7,19 +7,21 @@ const io = require('socket.io')(http, {
 })
 
 const { SOCKET_PORT } = require('./helpers/config')
+const updateStatus = require('./helpers/update_status')
 
 io.on('connection', (socket) => {
 
     socket.emit('client-connection', 'Connected.')
 
     socket.on('farming', (data) => {
-        console.log(`Sending data`, data)
+        //console.log(`Sending data`, data)
         io.emit('launching', data)
     })
 
     socket.on('status', (data) => {
         console.log(data)
         io.emit('bot-status', data)
+        updateStatus(data)
     })
 
     socket.on('disconnect', () => {
