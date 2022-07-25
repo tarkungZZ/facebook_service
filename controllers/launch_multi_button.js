@@ -5,12 +5,12 @@ module.exports = async (req, res) => {
 
     try {
 
-        const { id, type, post = '', link = '' } = req.body
+        const { users_id, type, post = '', link = '' } = req.body
 
         let data = {}
         let postContent = []
 
-        const getAccounts = await pool(`SELECT id , email , fb_password , email_password , two_fa , execute_path , status FROM facebook_account WHERE users_id =?`, [id])
+        const getAccounts = await pool(`SELECT id , email , fb_password , email_password , two_fa , execute_path , status FROM facebook_account WHERE users_id =?`, [users_id])
 
         if (!getAccounts[0]) { res.status(400).json({ message: 'Invalid users id.' }) }
 
@@ -93,7 +93,7 @@ module.exports = async (req, res) => {
 
                     //console.log(data)
 
-                    await pool(`UPDATE facebook_account SET ? WHERE status = 'finish' AND users_id =?`, [obj, id])
+                    await pool(`UPDATE facebook_account SET ? WHERE status = 'finish' AND users_id =?`, [obj, users_id])
 
                     await pool(`INSERT INTO queues SET ?`, [data])
 
