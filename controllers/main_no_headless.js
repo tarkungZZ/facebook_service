@@ -105,7 +105,9 @@ module.exports = async (data) => {
                     const obj = {
                         id: data.id,
                         email: data.email,
-                        status: 'finish'
+                        status: 'finish',
+                        bot_id: data.bot_id,
+                        bot_name: data.bot_name
                     }
 
                     await socket.emit(`status`, obj)
@@ -114,7 +116,7 @@ module.exports = async (data) => {
 
                 } catch (err) { console.log(err) }
 
-            }, 300000)
+            }, 180000)
 
             let day = getDay()
             day = Number(day) - 1

@@ -16,7 +16,9 @@ module.exports = async (page, randomDelay, pid, timeout, data) => {
                 const obj = {
                     id: data.id,
                     email: data.email,
-                    status: 'finish'
+                    status: 'finish',
+                    bot_id: data.bot_id,
+                    bot_name: data.bot_name
                 }
 
                 console.log(`work done sending socket.`)
