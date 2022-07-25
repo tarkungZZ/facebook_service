@@ -42,8 +42,8 @@ module.exports = async () => {
 
             if (workDateTime < compareTime) {
 
-                await pool(`UPDATE bots SET work =? WHERE id =?`, [0, getBots.id])
-                console.log(`Auto reset bots id ${getBots.id}`)
+                await pool(`UPDATE bots SET work =? WHERE id =?`, [0, getBots[0].id])
+                console.log(`Auto reset bots id ${getBots[0].id}`)
 
             }
 
