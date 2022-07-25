@@ -34,7 +34,7 @@ module.exports = async () => {
             const get_workYear = work_time.getFullYear()
             let get_workHour = work_time.getHours()
             get_workHour < 10 ? get_workHour = '0' + get_workHour : get_workHour
-            let get_workMinute = work_time.getMinutes() + 7
+            let get_workMinute = work_time.getMinutes() + 5
             get_workMinute < 10 ? get_workMinute = '0' + get_workMinute : get_workMinute
 
             const workDateTime = String(get_workYear) + '/' + get_workMonth + '/' + get_workDay + ' ' + get_workHour + ':' + get_workMinute

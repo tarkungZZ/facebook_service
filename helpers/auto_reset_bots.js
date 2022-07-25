@@ -25,7 +25,7 @@ module.exports = async () => {
             const compareTime = String(getYear) + '/' + getMonth + '/' + getDay + ' ' + getHour + ':' + getMinute
             //console.log('moment time', compareTime)
 
-            const work_time = new Date(getFacebook[0].work_at)
+            const work_time = new Date(getBots.work_at)
             let get_workDay = work_time.getDate()
             get_workDay < 10 ? get_workDay = '0' + get_workDay : get_workDay
             let get_workMonth = work_time.getMonth()
@@ -34,7 +34,7 @@ module.exports = async () => {
             const get_workYear = work_time.getFullYear()
             let get_workHour = work_time.getHours()
             get_workHour < 10 ? get_workHour = '0' + get_workHour : get_workHour
-            let get_workMinute = work_time.getMinutes() + 7
+            let get_workMinute = work_time.getMinutes() + 5
             get_workMinute < 10 ? get_workMinute = '0' + get_workMinute : get_workMinute
 
             const workDateTime = String(get_workYear) + '/' + get_workMonth + '/' + get_workDay + ' ' + get_workHour + ':' + get_workMinute
