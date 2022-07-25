@@ -28,11 +28,11 @@ module.exports = async (req, res) => {
 
                         data = {
                             type,
-                            id: getAccounts[0].id,
-                            email: getAccounts[0].email,
-                            fb_password: getAccounts[0].fb_password,
-                            two_fa: getAccounts[0].two_fa,
-                            execute_path: getAccounts[0].execute_path,
+                            id: getAccounts[i].id,
+                            email: getAccounts[i].email,
+                            fb_password: getAccounts[i].fb_password,
+                            two_fa: getAccounts[i].two_fa,
+                            execute_path: getAccounts[i].execute_path,
                             delay_min: getConfig[0].delay_min * 1000,
                             delay_max: getConfig[0].delay_max * 1000,
                         }
@@ -53,11 +53,11 @@ module.exports = async (req, res) => {
 
                         data = {
                             type,
-                            id: getAccounts[0].id,
-                            email: getAccounts[0].email,
-                            fb_password: getAccounts[0].fb_password,
-                            two_fa: getAccounts[0].two_fa,
-                            execute_path: getAccounts[0].execute_path,
+                            id: getAccounts[i].id,
+                            email: getAccounts[i].email,
+                            fb_password: getAccounts[i].fb_password,
+                            two_fa: getAccounts[i].two_fa,
+                            execute_path: getAccounts[i].execute_path,
                             delay_min: getConfig[0].delay_min * 1000,
                             delay_max: getConfig[0].delay_max * 1000,
                             postContent
@@ -69,11 +69,11 @@ module.exports = async (req, res) => {
 
                         data = {
                             type,
-                            id: getAccounts[0].id,
-                            email: getAccounts[0].email,
-                            fb_password: getAccounts[0].fb_password,
-                            two_fa: getAccounts[0].two_fa,
-                            execute_path: getAccounts[0].execute_path,
+                            id: getAccounts[i].id,
+                            email: getAccounts[i].email,
+                            fb_password: getAccounts[i].fb_password,
+                            two_fa: getAccounts[i].two_fa,
+                            execute_path: getAccounts[i].execute_path,
                             delay_min: getConfig[0].delay_min * 1000,
                             delay_max: getConfig[0].delay_max * 1000,
                             link
