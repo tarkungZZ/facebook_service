@@ -27,5 +27,6 @@ app.use('/config', authorize, require('./routes/config'))
 app.use('/post', authorize, require('./routes/post'))
 
 app.post('/launch', authorize, require('./controllers/launch_button'))
+app.post('/multi-launch', authorize, require('./controllers/launch_multi_button'))
 
 app.listen(PORT, () => { console.log(`Server listening on port ${PORT}`) })
