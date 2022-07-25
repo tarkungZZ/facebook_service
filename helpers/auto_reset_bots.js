@@ -4,7 +4,7 @@ module.exports = async () => {
 
     try {
 
-        const getBots = await pool(`SELECT id , work FROM bots WHERE work =? ORDER BY work_at ASC LIMIT 1`, [1])
+        const getBots = await pool(`SELECT id , work_at FROM bots WHERE work =? ORDER BY work_at ASC LIMIT 1`, [1])
 
         //if (!getFacebook[0]) { console.log(`No working facebook.`) }
 
@@ -25,7 +25,7 @@ module.exports = async () => {
             const compareTime = String(getYear) + '/' + getMonth + '/' + getDay + ' ' + getHour + ':' + getMinute
             //console.log('moment time', compareTime)
 
-            const work_time = new Date(getBots.work_at)
+            const work_time = new Date(getBots[0].work_at)
             let get_workDay = work_time.getDate()
             get_workDay < 10 ? get_workDay = '0' + get_workDay : get_workDay
             let get_workMonth = work_time.getMonth()
