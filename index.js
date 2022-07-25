@@ -5,9 +5,11 @@ const bodyParser = require('body-parser')
 const authorize = require('./middlewares/authorize')
 const { PORT } = require('./helpers/config')
 const auto_reset_status = require('./helpers/auto_reset_status')
+const auto_reset_bots = require('./helpers/auto_reset_bots')
 const queues = require('./helpers/queues')
 
 setInterval(auto_reset_status, 3000)
+setInterval(auto_reset_bots, 3000)
 setInterval(queues, 3000)
 
 app.use(cors())
