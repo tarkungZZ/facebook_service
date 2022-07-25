@@ -265,7 +265,6 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   };
 
   const handleDelete = (customer) => {
-    // console.log("customercustomercustomercustomer", customer);
     setCustomerDelete(customer);
     setIsDelete(true);
   };
@@ -316,7 +315,6 @@ export const CreateFacebookListResults = ({ ...rest }) => {
       two_fa,
       localStorage?.getItem("userId")
     );
-    console.log("data", data);
     setEmail(undefined);
     setFbPassword(undefined);
     setEmailPassword(undefined);
@@ -385,7 +383,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
         alert(`Launch Bot ${selectedCustomerIds.length} Accounts Success`);
       }, 400);
       getData();
-      // return data;
+      return data;
     }
   };
 
