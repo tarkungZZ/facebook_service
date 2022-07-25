@@ -8,7 +8,7 @@ module.exports = async (req, res) => {
 
     try {
 
-        const { id, type, post = '', link = '', limit = 5 } = req.body
+        const { id, type, post = '', link = '' } = req.body
 
         const getConfig = await pool(`SELECT delay_min , delay_max FROM config WHERE id =?`, [1])
 
@@ -164,7 +164,7 @@ module.exports = async (req, res) => {
 
                 await pool(`UPDATE facebook_account SET ? WHERE id =?`, [obj, id])
 
-                await pool(`INSERT INTO queues SET ?`,[data])
+                await pool(`INSERT INTO queues SET ?`, [data])
 
                 res.status(201).json({ message: 'Success' })
 
