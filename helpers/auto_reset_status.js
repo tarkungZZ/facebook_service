@@ -6,7 +6,7 @@ module.exports = async () => {
 
         const getFacebook = await pool(`SELECT id , work_at FROM facebook_account WHERE status =? ORDER BY work_at ASC LIMIT 1`, ['working'])
 
-        if (!getFacebook[0]) { console.log(`No working facebook.`) }
+        //if (!getFacebook[0]) { console.log(`No working facebook.`) }
 
         if (getFacebook[0]) {
 

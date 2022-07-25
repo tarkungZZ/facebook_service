@@ -7,7 +7,6 @@ const io = require('socket.io')(http, {
 })
 
 const { SOCKET_PORT } = require('./helpers/config')
-const updateStatus = require('./helpers/update_status')
 
 io.on('connection', (socket) => {
 

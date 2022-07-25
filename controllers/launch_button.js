@@ -1,7 +1,7 @@
 const pool = require('../helpers/mysql')
 const { SOCKET_IP, SOCKET_PORT } = require('../helpers/config')
 const io = require('socket.io-client')
-const socket = io.connect(`http://${SOCKET_IP}:${SOCKET_PORT}`)
+//const socket = io.connect(`http://${SOCKET_IP}:${SOCKET_PORT}`)
 const moment = require('moment')
 
 module.exports = async (req, res) => {
@@ -146,9 +146,9 @@ module.exports = async (req, res) => {
 
                 // }
 
-                console.log('Sending farm data to socket', data)
+                //console.log('Sending farm data to socket', data)
 
-                socket.emit('farming', data)
+                //socket.emit('farming', data)
 
                 const obj = {
 
@@ -157,7 +157,14 @@ module.exports = async (req, res) => {
 
                 }
 
+                data.send = 0
+                data.send_at = moment().format('YYYY/MM/DD HH:mm:ss')
+
+                //console.log(data)
+
                 await pool(`UPDATE facebook_account SET ? WHERE id =?`, [obj, id])
+
+                await pool(`INSERT INTO queues SET ?`,[data])
 
                 res.status(201).json({ message: 'Success' })
 
