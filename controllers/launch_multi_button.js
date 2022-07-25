@@ -3,105 +3,115 @@ const moment = require('moment')
 
 module.exports = async (req, res) => {
 
-    const { id, type, post = '', link = '' } = req.body
+    try {
 
-    let data = {}
-    let postContent = []
+        const { id, type, post = '', link = '' } = req.body
 
-    const getAccounts = await pool(`SELECT id , email , fb_password , email_password , two_fa , execute_path , status FROM facebook_account WHERE users_id =?`, [id])
+        let data = {}
+        let postContent = []
 
-    if (!getAccounts[0]) { res.status(400).json({ message: 'Invalid users id.' }) }
+        const getAccounts = await pool(`SELECT id , email , fb_password , email_password , two_fa , execute_path , status FROM facebook_account WHERE users_id =?`, [id])
 
-    if (getAccounts[0]) {
+        if (!getAccounts[0]) { res.status(400).json({ message: 'Invalid users id.' }) }
 
-        //console.log(getAccounts)
+        if (getAccounts[0]) {
 
-        const getConfig = await pool(`SELECT delay_min , delay_max FROM config WHERE id =?`, [1])
+            //console.log(getAccounts)
 
-        for (let i = 0; i < getAccounts.length; i++) {
+            const getConfig = await pool(`SELECT delay_min , delay_max FROM config WHERE id =?`, [1])
 
-            if (getAccounts[i].status !== 'working') {
+            for (let i = 0; i < getAccounts.length; i++) {
 
-                if (type === 'like' || type === 'story') {
+                if (getAccounts[i].status !== 'working') {
 
-                    data = {
-                        type,
-                        id: getAccounts[0].id,
-                        email: getAccounts[0].email,
-                        fb_password: getAccounts[0].fb_password,
-                        two_fa: getAccounts[0].two_fa,
-                        execute_path: getAccounts[0].execute_path,
-                        delay_min: getConfig[0].delay_min * 1000,
-                        delay_max: getConfig[0].delay_max * 1000,
+                    if (type === 'like' || type === 'story') {
+
+                        data = {
+                            type,
+                            id: getAccounts[0].id,
+                            email: getAccounts[0].email,
+                            fb_password: getAccounts[0].fb_password,
+                            two_fa: getAccounts[0].two_fa,
+                            execute_path: getAccounts[0].execute_path,
+                            delay_min: getConfig[0].delay_min * 1000,
+                            delay_max: getConfig[0].delay_max * 1000,
+                        }
+
                     }
 
-                }
+                    if (type === 'post') {
 
-                if (type === 'post') {
+                        if (!post) {
 
-                    if (!post) {
+                            const getPost = await pool(`SELECT post FROM facebook_post ORDER BY RAND() LIMIT 1`)
 
-                        const getPost = await pool(`SELECT post FROM facebook_post ORDER BY RAND() LIMIT 1`)
+                            postContent.push(Object.values(getPost[0]))
 
-                        postContent.push(Object.values(getPost[0]))
+                            postContent = postContent.toString()
 
-                        postContent = postContent.toString()
+                        } else { postContent = post }
 
-                    } else { postContent = post }
+                        data = {
+                            type,
+                            id: getAccounts[0].id,
+                            email: getAccounts[0].email,
+                            fb_password: getAccounts[0].fb_password,
+                            two_fa: getAccounts[0].two_fa,
+                            execute_path: getAccounts[0].execute_path,
+                            delay_min: getConfig[0].delay_min * 1000,
+                            delay_max: getConfig[0].delay_max * 1000,
+                            postContent
+                        }
 
-                    data = {
-                        type,
-                        id: getAccounts[0].id,
-                        email: getAccounts[0].email,
-                        fb_password: getAccounts[0].fb_password,
-                        two_fa: getAccounts[0].two_fa,
-                        execute_path: getAccounts[0].execute_path,
-                        delay_min: getConfig[0].delay_min * 1000,
-                        delay_max: getConfig[0].delay_max * 1000,
-                        postContent
                     }
 
-                }
+                    if (type === 'share') {
 
-                if (type === 'share') {
+                        data = {
+                            type,
+                            id: getAccounts[0].id,
+                            email: getAccounts[0].email,
+                            fb_password: getAccounts[0].fb_password,
+                            two_fa: getAccounts[0].two_fa,
+                            execute_path: getAccounts[0].execute_path,
+                            delay_min: getConfig[0].delay_min * 1000,
+                            delay_max: getConfig[0].delay_max * 1000,
+                            link
+                        }
 
-                    data = {
-                        type,
-                        id: getAccounts[0].id,
-                        email: getAccounts[0].email,
-                        fb_password: getAccounts[0].fb_password,
-                        two_fa: getAccounts[0].two_fa,
-                        execute_path: getAccounts[0].execute_path,
-                        delay_min: getConfig[0].delay_min * 1000,
-                        delay_max: getConfig[0].delay_max * 1000,
-                        link
                     }
 
+                    const obj = {
+
+                        work_at: moment().format('YYYY/MM/DD HH:mm:ss'),
+                        status: 'working'
+
+                    }
+
+                    data.send = 0
+                    data.send_at = moment().format('YYYY/MM/DD HH:mm:ss')
+
+                    //console.log(data)
+
+                    await pool(`UPDATE facebook_account SET ? WHERE status = 'finish' AND users_id =?`, [obj, id])
+
+                    await pool(`INSERT INTO queues SET ?`, [data])
+
+                    console.log(`Add new queues.`)
+
                 }
-
-                const obj = {
-
-                    work_at: moment().format('YYYY/MM/DD HH:mm:ss'),
-                    status: 'working'
-
-                }
-
-                data.send = 0
-                data.send_at = moment().format('YYYY/MM/DD HH:mm:ss')
-
-                //console.log(data)
-
-                await pool(`UPDATE facebook_account SET ? WHERE status = 'finish' AND users_id =?`, [obj, id])
-
-                await pool(`INSERT INTO queues SET ?`, [data])
-
-                console.log(`Add new queues.`)
 
             }
 
+            res.status(201).json({ message: 'Success' })
+
         }
 
-        res.status(201).json({ message: 'Success' })
+    } catch (err) {
+
+        console.log(err)
+
+        res.status(400).json(err)
 
     }
 
