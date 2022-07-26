@@ -1,3 +1,3 @@
 @echo off
 
-start node socket_no_headless.js
+start node socket_debug.js
