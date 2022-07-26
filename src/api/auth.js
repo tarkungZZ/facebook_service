@@ -190,6 +190,7 @@ export default {
     };
     return await api.BACKEND_ENDPOINT.post(`${config.api}/multi-launch`, data)
       .then(async (res) => {
+        console.log("res, ", res);
         return res;
       })
       .catch((err) => {

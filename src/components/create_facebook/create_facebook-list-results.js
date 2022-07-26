@@ -74,8 +74,8 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   const [checkBot, setCheckBot] = useState("");
   const [localss, setLocalss] = useState([]);
   const [isCheck, setIsCheck] = useState(false);
-
-  const [botResult, setBotResult] = useState([]);
+  //Refresh
+  const [isRefresh, setIsRefresh] = useState(false);
 
   useEffect(() => {
     socket.on("connect", (id) => {
@@ -332,6 +332,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
       alert("Create Success");
     }, 400);
     getData();
+    location.reload();
     return data;
   };
 
@@ -357,8 +358,9 @@ export const CreateFacebookListResults = ({ ...rest }) => {
     setPost(undefined);
     setTimeout(() => {
       alert("Launch Bot Success");
+      getData();
+      // location.reload();
     }, 400);
-    getData();
     return data;
   };
 
@@ -396,13 +398,15 @@ export const CreateFacebookListResults = ({ ...rest }) => {
       setPost(undefined);
       setTimeout(() => {
         alert(`Launch Bot ${selectedCustomerIds.length} Accounts Success`);
-      }, 400);
+        getData();
+        // location.reload();
+      }, 600);
       getData();
       // return data;
     }
   };
 
-  const handleLaunchBotAll = async () => {
+  const handleLaunchBotAll = () => {
     if (type === "share") {
       if (!link) {
         alert("Please Enter Link");
@@ -416,18 +420,26 @@ export const CreateFacebookListResults = ({ ...rest }) => {
       }
     }
     //------------------- Run Bot API -------------------
-    const data = auth.launchBotAll(localStorage?.getItem("userId"), type, link, post);
+    const data = auth.launchBotAll(localStorage.getItem("userId"), type, link, post);
     //---------------------------------------------------
     setIsBotAll(false);
     setType(undefined);
+    setLink(undefined);
+    setPost(undefined);
     setTimeout(() => {
       alert(`Launch Bot All Accounts Success`);
-    }, 400);
+      getData();
+      // location.reload();
+    }, 600);
     getData();
+    // setTimeout(() => {
+    //   location.reload();
+    // }, 600);
     return data;
   };
 
   const handleSelectBotAll = () => {
+    console.log("modal botall");
     setIsBotAll(true);
   };
 
@@ -565,7 +577,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                       style={{ backgroundColor: "#121828", color: "#fff", marginTop: "5%" }}
                       fullWidth
                       size="large"
-                      onClick={handleLaunchBotAll}
+                      onClick={() => handleLaunchBotAll()}
                     >
                       {t("confirm")}
                     </Button>
@@ -1230,7 +1242,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                   style={{ backgroundColor: "#10B981", color: "#fff" }}
                   // fullWidth
                   size="large"
-                  onClick={handleSelectBotAll}
+                  onClick={() => handleSelectBotAll()}
                 >
                   {t("Bot All")}
                 </Button>
