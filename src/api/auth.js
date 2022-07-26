@@ -84,7 +84,6 @@ export default {
   },
   //GET
   getUser: async (limit, page, user_id) => {
-    console.log("user_id, ", user_id);
     return await api.BACKEND_ENDPOINT.get(
       `${config.api}/facebook/list?limit=${limit}&page=${page}&users_id=${user_id}`
     )
@@ -174,6 +173,22 @@ export default {
       post: post,
     };
     return await api.BACKEND_ENDPOINT.post(`${config.api}/launch`, data)
+      .then(async (res) => {
+        return res;
+      })
+      .catch((err) => {
+        console.log("err, ", err);
+        return err;
+      });
+  },
+  launchBotAll: async (users_id, type, Link, post) => {
+    const data = {
+      users_id: users_id,
+      type: type,
+      link: Link,
+      post: post,
+    };
+    return await api.BACKEND_ENDPOINT.post(`${config.api}/multi-launch`, data)
       .then(async (res) => {
         return res;
       })

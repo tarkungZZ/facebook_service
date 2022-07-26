@@ -60,6 +60,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   const [width, setWidth] = useState(0);
   //Bot
   const [isbot, setIsBot] = useState(false);
+  const [isbotall, setIsBotAll] = useState(false);
   const [customerBot, setCustomerBot] = useState(undefined);
   const [link, setLink] = useState(undefined);
   const [post, setPost] = useState(undefined);
@@ -264,6 +265,13 @@ export const CreateFacebookListResults = ({ ...rest }) => {
     setIsC(false);
   };
 
+  const handleCloseBotAll = () => {
+    setIsBotAll(false);
+    setType(undefined);
+    setLink(undefined);
+    setPost(undefined);
+  };
+
   const handleDelete = (customer) => {
     setCustomerDelete(customer);
     setIsDelete(true);
@@ -369,12 +377,19 @@ export const CreateFacebookListResults = ({ ...rest }) => {
         }
       }
 
-      selectedCustomerIds.forEach(async (id, i) => {
-        setTimeout(async () => {
-          await auth.launchBot(id, type, link, post);
-        }, i * 2000);
+      selectedCustomerIds.map((id) => {
+        //------------------- Run Bot API -------------------
+        const data = auth.launchBot(id, type, link, post);
+        //---------------------------------------------------
+        return data;
       });
-      const data = await auth.launchBot(customerBot?.id, type, link, post);
+
+      // selectedCustomerIds.forEach(async (id, i) => {
+      //   setTimeout(async () => {
+      //     await auth.launchBot(id, type, link, post);
+      //   }, i * 2000);
+      // });
+      // const data = await auth.launchBot(customerBot?.id, type, link, post);
       setIsBot(false);
       setType(undefined);
       setLink(undefined);
@@ -383,8 +398,37 @@ export const CreateFacebookListResults = ({ ...rest }) => {
         alert(`Launch Bot ${selectedCustomerIds.length} Accounts Success`);
       }, 400);
       getData();
-      return data;
+      // return data;
     }
+  };
+
+  const handleLaunchBotAll = async () => {
+    if (type === "share") {
+      if (!link) {
+        alert("Please Enter Link");
+        return;
+      }
+    }
+    if (!type) {
+      if (!link) {
+        alert("Please Select Type");
+        return;
+      }
+    }
+    //------------------- Run Bot API -------------------
+    const data = auth.launchBotAll(localStorage?.getItem("userId"), type, link, post);
+    //---------------------------------------------------
+    setIsBotAll(false);
+    setType(undefined);
+    setTimeout(() => {
+      alert(`Launch Bot All Accounts Success`);
+    }, 400);
+    getData();
+    return data;
+  };
+
+  const handleSelectBotAll = () => {
+    setIsBotAll(true);
   };
 
   const handleSelectBot = () => {
@@ -400,6 +444,137 @@ export const CreateFacebookListResults = ({ ...rest }) => {
   return (
     <div>
       <Box>
+        {isbotall && (
+          <Box
+            maxWidth="sm"
+            component="main"
+            sx={{
+              height: "100%",
+              position: "absolute",
+              flex: 1,
+              zIndex: 99,
+              marginLeft: "auto",
+              marginRight: "auto",
+              left: 0,
+              right: 0,
+              top: "40%",
+            }}
+          >
+            <Box>
+              <Container>
+                <Box
+                  sx={{
+                    mt: 3,
+                    backgroundColor: "#fff",
+                    borderRadius: 1,
+                    borderColor: "rgba(0,0,0,0.4)",
+                    borderStyle: "solid",
+                    borderWidth: 1,
+                    paddingBottom: "10%",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      mt: 3,
+                      paddingLeft: 3,
+                      flexDirection: "row",
+                      justifyContent: "space-around",
+                      paddingRight: 3,
+                    }}
+                  >
+                    <ul style={{ display: "flex", justifyContent: "space-between" }}>
+                      <div>{t("manage_bot")}</div>
+                      <Box
+                        sx={{
+                          color: "error.main",
+                          fontSize: "1.7rem",
+                        }}
+                      >
+                        <i className="fa fa-times" onClick={() => handleCloseBotAll()} />
+                      </Box>
+                    </ul>
+                  </Box>
+
+                  <Box
+                    sx={{
+                      mt: 3,
+                      backgroundColor: "#fff",
+                      borderLeftWidth: 2,
+                      borderTopLeftRadius: 10,
+                      borderRightWidth: 2,
+                      borderTopRightRadius: 10,
+                      width: "90%",
+                      paddingLeft: 5.5,
+                    }}
+                  >
+                    <select
+                      value={type}
+                      onChange={(e) => setType(e.target.value)}
+                      style={{
+                        width: "100%",
+                        height: 40,
+                        borderRadius: 5,
+                        borderColor: "rgba(0,0,0,0.2)",
+                      }}
+                    >
+                      <option value="">{t("select_type")}</option>
+                      <option value="like">{t("like")}</option>
+                      <option value="story">{t("story")}</option>
+                      <option value="post">{t("post")}</option>
+                      <option value="share">{t("share")}</option>
+                      {/* <option value={option.value} selected={optionsState == option.value}>
+                      {option.label}
+                    </option> */}
+                    </select>
+
+                    {type === "share" && (
+                      <TextField
+                        fullWidth
+                        label="Link"
+                        name="link"
+                        onChange={(e) => setLink(e.target.value)}
+                        type="text"
+                        value={link}
+                        variant="outlined"
+                        size="small"
+                        margin="dense"
+                      />
+                    )}
+
+                    {type === "post" && (
+                      <TextField
+                        fullWidth
+                        label="Post"
+                        name="post"
+                        onChange={(e) => setPost(e.target.value)}
+                        type="text"
+                        value={post}
+                        variant="outlined"
+                        size="small"
+                        margin="dense"
+                      />
+                    )}
+
+                    <h6 style={{ color: "#D14343" }}>{type === "share" ? "**Required" : ""}</h6>
+
+                    {/* <h6 style={{ color: "#D14343" }}>
+                      {type === "post" ? "**Not Require, the bot will automatically post randomly from the database." : ""}
+                    </h6> */}
+
+                    <Button
+                      style={{ backgroundColor: "#121828", color: "#fff", marginTop: "5%" }}
+                      fullWidth
+                      size="large"
+                      onClick={handleLaunchBotAll}
+                    >
+                      {t("confirm")}
+                    </Button>
+                  </Box>
+                </Box>
+              </Container>
+            </Box>
+          </Box>
+        )}
         {isbot && (
           <Box
             maxWidth="sm"
@@ -1047,7 +1222,19 @@ export const CreateFacebookListResults = ({ ...rest }) => {
             }}
           >
             <Typography sx={{ m: 1 }} variant="h4">
-              {t("Facebook Accounts")}
+              <p style={{ display: "flex", flexDirection: "row", width: "100%" }}>
+                <Typography sx={{ m: 1 }} variant="h4">
+                  {t("Facebook Accounts")}
+                </Typography>
+                <Button
+                  style={{ backgroundColor: "#10B981", color: "#fff" }}
+                  // fullWidth
+                  size="large"
+                  onClick={handleSelectBotAll}
+                >
+                  {t("Bot All")}
+                </Button>
+              </p>
             </Typography>
             <Box sx={{ m: 1 }}>
               <Button
