@@ -540,31 +540,46 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                     </select>
 
                     {type === "share" && (
-                      <TextField
-                        fullWidth
-                        label="Link"
-                        name="link"
-                        onChange={(e) => setLink(e.target.value)}
-                        type="text"
-                        value={link}
-                        variant="outlined"
-                        size="small"
-                        margin="dense"
-                      />
+                      <>
+                        <TextField
+                          fullWidth
+                          label="Link"
+                          name="link"
+                          onChange={(e) => setLink(e.target.value)}
+                          type="text"
+                          value={link}
+                          variant="outlined"
+                          size="small"
+                          margin="dense"
+                        />
+                        <TextField
+                          fullWidth
+                          label="Post"
+                          name="post"
+                          onChange={(e) => setPost(e.target.value)}
+                          type="text"
+                          value={post}
+                          variant="outlined"
+                          size="small"
+                          margin="dense"
+                        />
+                      </>
                     )}
 
                     {type === "post" && (
-                      <TextField
-                        fullWidth
-                        label="Post"
-                        name="post"
-                        onChange={(e) => setPost(e.target.value)}
-                        type="text"
-                        value={post}
-                        variant="outlined"
-                        size="small"
-                        margin="dense"
-                      />
+                      <>
+                        <TextField
+                          fullWidth
+                          label="Post"
+                          name="post"
+                          onChange={(e) => setPost(e.target.value)}
+                          type="text"
+                          value={post}
+                          variant="outlined"
+                          size="small"
+                          margin="dense"
+                        />
+                      </>
                     )}
 
                     <h6 style={{ color: "#D14343" }}>{type === "share" ? "**Required" : ""}</h6>
@@ -671,17 +686,30 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                     </select>
 
                     {type === "share" && (
-                      <TextField
-                        fullWidth
-                        label="Link"
-                        name="link"
-                        onChange={(e) => setLink(e.target.value)}
-                        type="text"
-                        value={link}
-                        variant="outlined"
-                        size="small"
-                        margin="dense"
-                      />
+                      <>
+                        <TextField
+                          fullWidth
+                          label="Link"
+                          name="link"
+                          onChange={(e) => setLink(e.target.value)}
+                          type="text"
+                          value={link}
+                          variant="outlined"
+                          size="small"
+                          margin="dense"
+                        />
+                        <TextField
+                          fullWidth
+                          label="Post"
+                          name="post"
+                          onChange={(e) => setPost(e.target.value)}
+                          type="text"
+                          value={post}
+                          variant="outlined"
+                          size="small"
+                          margin="dense"
+                        />
+                      </>
                     )}
 
                     {type === "post" && (
