@@ -112,7 +112,8 @@ module.exports = async (req, res) => {
                         execute_path: getData[0].execute_path,
                         delay_min: getConfig[0].delay_min * 1000,
                         delay_max: getConfig[0].delay_max * 1000,
-                        link
+                        link,
+                        post
                     }
 
                 }
