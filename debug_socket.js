@@ -5,4 +5,7 @@ const main = require('./controllers/main_debug')
 
 socket.on('client-connection', (msg) => { console.log(msg) })
 
-socket.on('launching', (data) => { main(data) })
+socket.on('launching', (data) => { 
+    //console.log(data)
+    main(data) 
+})

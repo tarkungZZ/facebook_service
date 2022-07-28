@@ -1,3 +1,3 @@
 @echo off
 
-start node socket_debug.js
+start node debug_socket.js

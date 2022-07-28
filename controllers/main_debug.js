@@ -343,7 +343,7 @@ module.exports = async (data) => {
 
                 console.log(`Start farming share for ${obj.email}.`)
 
-                farmShare(page, randomDelay, data.link, timeout, pid, data)
+                farmShare(page, randomDelay, data.link, data.post, timeout, pid, data)
 
             }
 
