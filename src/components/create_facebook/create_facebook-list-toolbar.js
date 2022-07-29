@@ -24,7 +24,7 @@ export const CreateFacebookListToolbar = (props) => (
       }}
     >
       <Typography sx={{ m: 1 }} variant="h4">
-        Create Accounts
+        Create User
       </Typography>
       <Box sx={{ m: 1 }}>
         <Button
@@ -32,7 +32,7 @@ export const CreateFacebookListToolbar = (props) => (
           color="primary"
           variant="contained"
           onClick={() => {
-            localStorage.setItem("create", "click"), console.log("localStorage", localStorage.getItem("create"));
+            localStorage.setItem("create", "click");
           }}
         >
           Add Account

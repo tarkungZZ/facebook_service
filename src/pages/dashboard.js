@@ -11,7 +11,7 @@ export default function Dashboard({ logout }) {
     <div>
       <DashboardLayout logout={logout}>
         <Head>
-          <title>FarmFace | Create Accounts</title>
+          <title>FarmFace | User Accounts</title>
         </Head>
 
         <Box

@@ -234,7 +234,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                     }}
                   >
                     <ul style={{ display: "flex", justifyContent: "space-between" }}>
-                      <div>Create Account</div>
+                      <div>Create User</div>
                       <Box
                         sx={{
                           color: "error.main",
@@ -601,7 +601,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
             }}
           >
             <Typography sx={{ m: 1 }} variant="h4">
-              Create Accounts
+              User Accounts
             </Typography>
             <Box sx={{ m: 1 }}>
               <Button
@@ -612,7 +612,7 @@ export const CreateFacebookListResults = ({ ...rest }) => {
                   setIsCreate(true);
                 }}
               >
-                Add Account
+                Add User
               </Button>
             </Box>
           </Box>
