@@ -14,14 +14,23 @@ module.exports = async (page, randomDelay, link, post, timeout, pid, data) => {
             await page.goto(link)
             await page.waitForSelector(`[aria-label="ส่งลิงก์นี้ให้เพื่อนหรือโพสต์ลงในไทม์ไลน์ของคุณ"]`, { timeout: 10000 })
             await page.click(`[aria-label="ส่งลิงก์นี้ให้เพื่อนหรือโพสต์ลงในไทม์ไลน์ของคุณ"]`)
-            console.log(`click share on feeds`)
             await delay(randomDelay)
 
-            //แชร์ทันที
+            if (i === 5) {
 
-            //await page.click(`div > div:nth-child(1) > div > div.rq0escxv.l9j0dhe7.du4w35lb > div > div > div > div:nth-child(2) > div > div > div.j34wkznp.qp9yad78.pmk7jnqg.kr520xx4 > div.iqfcb0g7.tojvnm2t.a6sixzi8.k5wvi7nf.q3lfd5jv.pk4s997a.bipmatt0.cebpdrjk.qowsmv63.owwhemhu.dp1hu0rb.dhp61c6y.l9j0dhe7.iyyx5f41.a8s20v7p > div > div > div.rq0escxv.cwj9ozl2.nwpbqux9.io0zqebd.m5lcvass.fbipl8qg.nwvqtn77.ni8dbmo4.stjgntxs > div > div > div.rq0escxv.du4w35lb.ms05siws.pnx7fd3z.b7h9ocf4.pmk7jnqg.j9ispegn.kr520xx4.pedkr2u6.oqq733wu.k4urcfbm > div > div:nth-child(1) > div > div.ow4ym5g4.auili1gw.rq0escxv.j83agx80.buofh1pr.g5gj957u.i1fnvgqd.oygrvhab.cxmmr5t8.hcukyx3x.kvgmc6g5.tgvbjcpo.hpfvmrgz.qt6c0cv9.jb3vyjys.l9j0dhe7.du4w35lb.bp9cbjyn.btwxx1t3.dflh9lhu.scb9dxdr`)
+                //แชร์ทันที
+
+                console.log(`Can't find share on feed , share without word instead.`)
+
+                await page.click(`div > div:nth-child(1) > div > div.rq0escxv.l9j0dhe7.du4w35lb > div > div > div > div:nth-child(2) > div > div > div.j34wkznp.qp9yad78.pmk7jnqg.kr520xx4 > div.iqfcb0g7.tojvnm2t.a6sixzi8.k5wvi7nf.q3lfd5jv.pk4s997a.bipmatt0.cebpdrjk.qowsmv63.owwhemhu.dp1hu0rb.dhp61c6y.l9j0dhe7.iyyx5f41.a8s20v7p > div > div > div.rq0escxv.cwj9ozl2.nwpbqux9.io0zqebd.m5lcvass.fbipl8qg.nwvqtn77.ni8dbmo4.stjgntxs > div > div > div.rq0escxv.du4w35lb.ms05siws.pnx7fd3z.b7h9ocf4.pmk7jnqg.j9ispegn.kr520xx4.pedkr2u6.oqq733wu.k4urcfbm > div > div:nth-child(1) > div > div.goun2846.mk2mc5f4.ccm00jje.s44p3ltw.rt8b4zig.sk4xxmp2.n8ej3o3l.agehan2d.rq0escxv.j83agx80.buofh1pr.g5gj957u.i1fnvgqd.kvgmc6g5.cxmmr5t8.oygrvhab.hcukyx3x.tgvbjcpo.hpfvmrgz.jb3vyjys.qt6c0cv9.l9j0dhe7.du4w35lb.bp9cbjyn.btwxx1t3.dflh9lhu.scb9dxdr`)
+
+                break
+
+            }
 
             //แชร์ไปยังฟีด
+
+            console.log(`click share on feeds`)
 
             await page.click(`div > div:nth-child(1) > div > div.rq0escxv.l9j0dhe7.du4w35lb > div > div > div > div:nth-child(2) > div > div > div.j34wkznp.qp9yad78.pmk7jnqg.kr520xx4 > div.iqfcb0g7.tojvnm2t.a6sixzi8.k5wvi7nf.q3lfd5jv.pk4s997a.bipmatt0.cebpdrjk.qowsmv63.owwhemhu.dp1hu0rb.dhp61c6y.l9j0dhe7.iyyx5f41.a8s20v7p > div > div > div.rq0escxv.cwj9ozl2.nwpbqux9.io0zqebd.m5lcvass.fbipl8qg.nwvqtn77.ni8dbmo4.stjgntxs > div > div > div.rq0escxv.du4w35lb.ms05siws.pnx7fd3z.b7h9ocf4.pmk7jnqg.j9ispegn.kr520xx4.pedkr2u6.oqq733wu.k4urcfbm > div > div:nth-child(2) > div`)
             await delay(randomDelay)
@@ -33,33 +42,30 @@ module.exports = async (page, randomDelay, link, post, timeout, pid, data) => {
             await delay(randomDelay)
             await page.click(`[aria-label="โพสต์"]`)
 
-            console.log(`Share`, link, `successful.`)
-
-            await delay(randomDelay)
-
-            const obj = {
-                id: data.id,
-                email: data.email,
-                status: 'finish',
-                bot_id: data.bot_id,
-                bot_name: data.bot_name
-            }
-
-            console.log(`work done sending socket.\n`)
-            await socket.emit(`status`, obj)
-
-            await process.kill(pid)
-
-            await clearTimeout(timeout)
-
             break
 
-        } catch (err) {
-
-            //console.log(err)
-
-        }
+        } catch (err) { continue }
 
     }
+
+    console.log(`Share`, link, `successful.`)
+
+    await delay(randomDelay)
+
+    const obj = {
+        id: data.id,
+        email: data.email,
+        status: 'finish',
+        bot_id: data.bot_id,
+        bot_name: data.bot_name
+    }
+
+    console.log(`work done sending socket.\n`)
+    await socket.emit(`status`, obj)
+
+    await process.kill(pid)
+
+    await clearTimeout(timeout)
+
 
 }
