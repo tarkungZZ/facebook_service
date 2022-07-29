@@ -48,5 +48,7 @@
     "add_post": "เพิ่มโพสต์",
     "Inprogress": "กำลังดำเนินการ",
     "Bot All": "บอททั้งหมด",
+    "delete_post": "ลบโพสต์",
+    "do_you_want_to_delete_this_post": "ต้องการลบโพสต์นี้หรือไม่?",
     "message": "ข้อความ"
 }

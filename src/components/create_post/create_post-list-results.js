@@ -330,7 +330,7 @@ export const CreatePostListResults = ({ ...rest }) => {
                   >
                     <ul style={{ display: "flex", justifyContent: "space-between" }}>
                       <div>
-                        {t("delete_account")}[ {customerDelete?.id} ]
+                        {t("delete_post")} [ {customerDelete?.id} ]
                       </div>
                       {/* <Box
                       sx={{
@@ -359,7 +359,7 @@ export const CreatePostListResults = ({ ...rest }) => {
                       paddingLeft: 3,
                     }}
                   >
-                    <div>{t("do_you_want_to_delete_this_account")}</div>
+                    <div>{t("do_you_want_to_delete_this_post")}</div>
                     <ul style={{ display: "flex", justifyContent: "space-between" }}>
                       <Button
                         style={{
