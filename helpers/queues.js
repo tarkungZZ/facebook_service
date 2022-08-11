@@ -14,7 +14,7 @@ module.exports = async () => {
 
         //console.log(checkBots[0].bot_name)
 
-        const checkQueues = await pool(`SELECT queues_id , type , link , post , id , email , fb_password , two_fa , execute_path , delay_min , delay_max FROM queues WHERE send =? ORDER BY created_at ASC LIMIT 1`, [0])
+        const checkQueues = await pool(`SELECT queues_id , type , link , post , users_id , id , email , fb_password , two_fa , execute_path , delay_min , delay_max FROM queues WHERE send =? ORDER BY created_at ASC LIMIT 1`, [0])
 
         if (checkQueues[0]) {
 

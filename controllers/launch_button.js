@@ -1,7 +1,4 @@
 const pool = require('../helpers/mysql')
-const { SOCKET_IP, SOCKET_PORT } = require('../helpers/config')
-const io = require('socket.io-client')
-//const socket = io.connect(`http://${SOCKET_IP}:${SOCKET_PORT}`)
 const moment = require('moment')
 
 module.exports = async (req, res) => {
@@ -15,46 +12,11 @@ module.exports = async (req, res) => {
         let data = {}
         let postContent = []
 
-        if (!id) {
-
-            // const getData = await pool(`SELECT email, fb_password, two_fa , execute_path FROM facebook_account ORDER BY created_at DESC LIMIT ?`, [limit])
-
-            // if (type === 'like' || type === 'story') {
-
-            //     data = {
-            //         type,
-            //         id: null,
-            //         getData,
-            //         delay_min: getConfig[0].delay_min * 1000,
-            //         delay_max: getConfig[0].delay_max * 1000,
-            //     }
-
-            // }
-
-            // if (type === 'share') {
-
-            //     data = {
-            //         type,
-            //         id: null,
-            //         getData,
-            //         delay_min: getConfig[0].delay_min * 1000,
-            //         delay_max: getConfig[0].delay_max * 1000,
-            //         link
-            //     }
-
-            // }
-
-            // console.log('Sending farm data to socket', data)
-
-            // socket.emit('farming', data)
-
-            res.status(400).json({ message: 'Invalid facebook id.' })
-
-        }
+        if (!id) { res.status(400).json({ message: 'Invalid facebook id.' }) }
 
         if (id) {
 
-            const getData = await pool(`SELECT id , email, fb_password, two_fa , execute_path , status FROM facebook_account WHERE id =? `, [id])
+            const getData = await pool(`SELECT id , users_id , email, fb_password, two_fa , execute_path , status FROM facebook_account WHERE id =? `, [id])
 
             if (getData[0] && getData[0].status === 'working') { res.status(400).json({ message: `This facebook is still working.` }) }
 
@@ -64,6 +26,7 @@ module.exports = async (req, res) => {
 
                     data = {
                         type,
+                        users_id: getData[0].users_id,
                         id: getData[0].id,
                         email: getData[0].email,
                         fb_password: getData[0].fb_password,
@@ -89,6 +52,7 @@ module.exports = async (req, res) => {
 
                     data = {
                         type,
+                        users_id: getData[0].users_id,
                         id: getData[0].id,
                         email: getData[0].email,
                         fb_password: getData[0].fb_password,
@@ -105,6 +69,7 @@ module.exports = async (req, res) => {
 
                     data = {
                         type,
+                        users_id: getData[0].users_id,
                         id: getData[0].id,
                         email: getData[0].email,
                         fb_password: getData[0].fb_password,

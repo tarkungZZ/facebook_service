@@ -15,7 +15,7 @@ io.on('connection', (socket) => {
 
     socket.on('farming', (data) => {
         //console.log(`Sending data`, data)
-        io.emit('launching', data)
+        io.emit(`launching-${data.users_id}`, data)
     })
 
     socket.on('status', (data) => {
