@@ -10,6 +10,7 @@ app.use(bodyParser.json())
 
 //no authorize
 app.use('/login', require('./controllers/login'))
+app.get('/user/list', require('./controllers/list'))
 
 //authorize
 app.use('/user', authorize, require('./routes/user'))
